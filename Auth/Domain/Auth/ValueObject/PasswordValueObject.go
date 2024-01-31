@@ -4,10 +4,10 @@ type PasswordValueObject struct {
 	value string
 }
 
-func (obj *EmailValueObject) SetPassword(password string) {
+func (obj *PasswordValueObject) SetPassword(password string) {
 	obj.value = password
 }
 
-func (obj *EmailValueObject) GetPassword() string {
+func (obj *PasswordValueObject) ToString() string {
 	return obj.value
 }

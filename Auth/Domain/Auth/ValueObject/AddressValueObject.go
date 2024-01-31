@@ -1,13 +1,23 @@
 package ValueObject
 
+import "fmt"
+
 type AddressValueObject struct {
-	value string
+	country string
+	city    string
+	street  string
+	house   int
+	flat    int
 }
 
-func (obj *AddressValueObject) SetAddress(address string) {
-	obj.value = address
+func (obj *AddressValueObject) New(country string, city string, street string, house int, flat int) {
+	obj.country = country
+	obj.city = city
+	obj.street = street
+	obj.house = house
+	obj.flat = flat
 }
 
-func (obj *AddressValueObject) GetAddress() string {
-	return obj.value
+func (obj *AddressValueObject) ToString() string {
+	return fmt.Sprintf("%s, %s, %s, %d, %d.", obj.country, obj.city, obj.street, obj.house, obj.flat)
 }

@@ -8,6 +8,6 @@ func (obj *EmailValueObject) SetEmail(email string) {
 	obj.value = email
 }
 
-func (obj *EmailValueObject) GetEmail() string {
+func (obj *EmailValueObject) ToString() string {
 	return obj.value
 }
