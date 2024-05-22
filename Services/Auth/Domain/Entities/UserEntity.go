@@ -1,6 +1,10 @@
 package Entities
 
-import "delivery/Auth/Domain/ValueObject"
+import (
+	"delivery/Auth/Domain/ValueObject"
+
+	"gorm.io/gorm"
+)
 
 type USerEntity interface {
 	GetUserName() string
@@ -17,6 +21,7 @@ type USerEntity interface {
 }
 
 type UserModel struct {
+	gorm.Model
 	username string                          `json:user_name`
 	fullname string                          `json:full_name`
 	email    ValueObject.EmailValueObject    `json:email`
