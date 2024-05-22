@@ -10,7 +10,8 @@ type AddressValueObject struct {
 	flat    int
 }
 
-func (obj *AddressValueObject) New(country string,
+func (obj *AddressValueObject) New(
+	country string,
 	city string,
 	street string,
 	house int,
