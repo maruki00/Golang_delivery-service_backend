@@ -5,11 +5,11 @@ type LoginDTO struct {
 	password string `json: password`
 }
 
-func (obj *LoginDTO) getLogin() string {
+func (obj LoginDTO) getLogin() string {
 	return obj.login
 }
 
-func (obj *LoginDTO) getPassword() string {
+func (obj LoginDTO) getPassword() string {
 	return obj.password
 }
 

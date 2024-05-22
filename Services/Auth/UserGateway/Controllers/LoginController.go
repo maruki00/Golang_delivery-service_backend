@@ -12,8 +12,8 @@ type Authcontroller struct {
 }
 
 func (obj *Authcontroller) Login(ctx *gin.Context) {
-	var data *DTOs.LoginDTO
-	SharedUtils.ParseBody(ctx.Request, data)
-	result := Authusecases.LoginuserCase(data.getLogin(), data.getPassword())
-	SharedUtils.Success(ctx, data, 200)
+	var dto *DTOs.LoginDTO
+	SharedUtils.ParseBody(ctx.Request, dto)
+	Authusecases.LoginuserCase(dto)
+	SharedUtils.Success(ctx, dto, 200)
 }
