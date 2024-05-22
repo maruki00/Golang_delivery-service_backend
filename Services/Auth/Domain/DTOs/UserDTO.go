@@ -13,65 +13,64 @@ type UserDTO struct {
 	Flat     int
 }
 
-
-func (obj *UserDTO)  setId(setId int){
+func (obj *UserDTO) SetId(Id int) {
 	obj.Id = Id
 }
-func (obj *UserDTO)  setUserName(setUserName string){
+func (obj *UserDTO) SetUserName(UserName string) {
 	obj.UserName = UserName
 }
-func (obj *UserDTO)  setFullName(setFullName string){
+func (obj *UserDTO) SetFullName(FullName string) {
 	obj.FullName = FullName
 }
-func (obj *UserDTO)  setEmail(setEmail string){
+func (obj *UserDTO) SetEmail(Email string) {
 	obj.Email = Email
 }
-func (obj *UserDTO)  setPassword(setPassword string){
+func (obj *UserDTO) SetPassword(Password string) {
 	obj.Password = Password
 }
-func (obj *UserDTO)  setCountry(setCountry string){
+func (obj *UserDTO) SetCountry(Country string) {
 	obj.Country = Country
 }
-func (obj *UserDTO)  setCity(setCity string){
+func (obj *UserDTO) SetCity(City string) {
 	obj.City = City
 }
-func (obj *UserDTO)  setStreet(setStreet string){
+func (obj *UserDTO) SetStreet(Street string) {
 	obj.Street = Street
 }
-func (obj *UserDTO)  setHouse(setHouse int){
+func (obj *UserDTO) SetHouse(House int) {
 	obj.House = House
 }
-func (obj *UserDTO)  setFlat(setFlat int){
+func (obj *UserDTO) SetFlat(Flat int) {
 	obj.Flat = Flat
 }
 
-func (obj *UserDTO) getId()  int{
+func (obj *UserDTO) GetId() int {
 	return obj.Id
 }
-func (obj *UserDTO) getUserName()  string{
+func (obj *UserDTO) GetUserName() string {
 	return obj.UserName
 }
-func (obj *UserDTO) getFullName()  string{
+func (obj *UserDTO) GetFullName() string {
 	return obj.FullName
 }
-func (obj *UserDTO) getEmail()  string{
+func (obj *UserDTO) GetEmail() string {
 	return obj.Email
 }
-func (obj *UserDTO) getPassword() string{
+func (obj *UserDTO) GetPassword() string {
 	return obj.Password
 }
-func (obj *UserDTO) getCountry() string{
+func (obj *UserDTO) GetCountry() string {
 	return obj.Country
 }
-func (obj *UserDTO) getCity():  string{
+func (obj *UserDTO) GetCity() string {
 	return obj.City
 }
-func (obj *UserDTO) getStreet()  string{
+func (obj *UserDTO) GetStreet() string {
 	return obj.Street
 }
-func (obj *UserDTO) getHouse() int{
+func (obj *UserDTO) GetHouse() int {
 	return obj.House
 }
-func (obj *UserDTO) getFlat()int{
+func (obj *UserDTO) GetFlat() int {
 	return obj.Flat
 }

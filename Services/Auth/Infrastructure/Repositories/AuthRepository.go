@@ -9,7 +9,7 @@ type AuthRepository struct {
 	shareddb.DBHandler
 }
 
-func (obj AuthRepository) login(login string, password string) error {
+func (obj AuthRepository) Login(login string, password string) error {
 	data := []any{login, password}
 	err := obj.Query("select * from users where username=? and password=?", data)
 	if err != nil {

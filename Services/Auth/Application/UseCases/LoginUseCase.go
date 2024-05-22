@@ -2,18 +2,19 @@ package Authusecases
 
 import (
 	"delivery/Services/Auth/Domain/DTOs"
-	shareddb "delivery/Services/Sahared/Infrastructure/DB"
+	user_repositories "delivery/Services/Auth/Infrastructure/Repositories"
 )
 
 type LoginuserCase struct {
-	db *shareddb.DBHandler
+	repo *user_repositories.AuthRepository
 }
 
-func (obj *LoginuserCase) Login(dto *DTOs.LoginDTO) string {
-	data := []any{dto.getLogin(), dto.getPassword()}
-	err := obj.db.Query("select * from users where username=? and password=?", data)
+func (obj *LoginuserCase) Login(dto DTOs.LoginDTO) string {
+
+	err := obj.repo.Login(dto.GetLogin(), dto.GetPassword())
+
 	if err != nil {
-		return "Could not Login...."
+		return "invalid credentials"
 	}
-	return "Success"
+	return "success"
 }

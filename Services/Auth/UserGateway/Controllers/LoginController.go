@@ -11,9 +11,14 @@ import (
 type Authcontroller struct {
 }
 
+var (
+	userCase = &Authusecases.LoginuserCase{}
+)
+
 func (obj *Authcontroller) Login(ctx *gin.Context) {
-	var dto *DTOs.LoginDTO
+
+	var dto DTOs.LoginDTO
 	SharedUtils.ParseBody(ctx.Request, dto)
-	Authusecases.LoginuserCase(dto)
-	SharedUtils.Success(ctx, dto, 200)
+	res := userCase.Login(dto)
+	SharedUtils.Success(ctx, res, 200)
 }
