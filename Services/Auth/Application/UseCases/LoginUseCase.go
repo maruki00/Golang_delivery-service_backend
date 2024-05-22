@@ -10,11 +10,9 @@ type LoginuserCase struct {
 }
 
 func (obj *LoginuserCase) Login(dto DTOs.LoginDTO) string {
-
-	err := obj.repo.Login(dto.GetLogin(), dto.GetPassword())
-
+	err := obj.repo.Loginn(dto.GetLogin(), dto.GetPassword())
 	if err != nil {
-		return "invalid credentials"
+		return err.Error()
 	}
 	return "success"
 }

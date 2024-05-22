@@ -2,18 +2,15 @@ package user_repositories
 
 import (
 	shareddb "delivery/Services/Sahared/Infrastructure/DB"
-	"errors"
 )
 
 type AuthRepository struct {
-	shareddb.DBHandler
 }
 
-func (obj AuthRepository) Login(login string, password string) error {
-	data := []any{login, password}
-	err := obj.Query("select * from users where username=? and password=?", data)
-	if err != nil {
-		return errors.New("invalid operation")
-	}
+func (obj *AuthRepository) Loginn(login string, password string) error {
+	db := shareddb.NewDB()
+	// data := []any{login, password}
+	// db.Query("INSERT INTO users VALUES(1, 'sfda','asdf','asdf','asdf')")
+	db.Exec("INSERT INTO users VALUES(10, 'sfda','asdf','asdf','asdf')", nil)
 	return nil
 }

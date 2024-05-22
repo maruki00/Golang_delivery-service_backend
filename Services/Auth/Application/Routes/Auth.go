@@ -7,6 +7,5 @@ import (
 )
 
 var AuthRouter = func(router *gin.Engine) {
-	controller := &Authcontrollers.Authcontroller{}
-	_ = router.GET("/", controller.Login)
+	_ = router.GET("/", Authcontrollers.Login)
 }

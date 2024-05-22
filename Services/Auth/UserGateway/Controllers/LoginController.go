@@ -15,10 +15,11 @@ var (
 	userCase = &Authusecases.LoginuserCase{}
 )
 
-func (obj *Authcontroller) Login(ctx *gin.Context) {
+func Login(ctx *gin.Context) {
 
 	var dto DTOs.LoginDTO
 	SharedUtils.ParseBody(ctx.Request, dto)
+
 	res := userCase.Login(dto)
 	SharedUtils.Success(ctx, res, 200)
 }

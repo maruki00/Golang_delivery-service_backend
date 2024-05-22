@@ -14,6 +14,7 @@ func Success(c *gin.Context, data any, statusCode int) {
 		"data":        data,
 	}
 	c.JSON(statusCode, respose)
+
 }
 
 func Error(c *gin.Context, data any, statusCode int) {
