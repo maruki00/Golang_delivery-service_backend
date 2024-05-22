@@ -1,4 +1,4 @@
-package ValueObject
+package SharedValueObject
 
 import "fmt"
 
@@ -10,7 +10,11 @@ type AddressValueObject struct {
 	flat    int
 }
 
-func (obj *AddressValueObject) New(country string, city string, street string, house int, flat int) {
+func (obj *AddressValueObject) New(country string,
+	city string,
+	street string,
+	house int,
+	flat int) {
 	obj.country = country
 	obj.city = city
 	obj.street = street

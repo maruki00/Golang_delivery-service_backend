@@ -11,3 +11,7 @@ func (obj *PasswordValueObject) SetPassword(password string) {
 func (obj *PasswordValueObject) ToString() string {
 	return obj.value
 }
+
+func (obj *PasswordValueObject) toString() string {
+	return obj.value
+}
