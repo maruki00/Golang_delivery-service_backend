@@ -8,14 +8,12 @@ import (
 )
 
 func NewDB() *sql.DB {
-	db, err := sql.Open("mysql", "user:P@ssW0rd@tcp(localhost:3306)/delivery")
-
+	db, err := sql.Open("mysql", "user:user@/delivery")
 	if err != nil {
 		panic(err.Error())
 	}
-	db.SetConnMaxLifetime(time.Minute * 3)
+	db.SetConnMaxLifetime(time.Second * 3)
 	db.SetMaxOpenConns(10)
 	db.SetMaxIdleConns(10)
-
 	return db
 }

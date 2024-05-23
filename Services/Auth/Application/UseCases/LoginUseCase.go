@@ -3,6 +3,7 @@ package Authusecases
 import (
 	"delivery/Services/Auth/Domain/DTOs"
 	user_repositories "delivery/Services/Auth/Infrastructure/Repositories"
+	"fmt"
 )
 
 type LoginuserCase struct {
@@ -10,9 +11,12 @@ type LoginuserCase struct {
 }
 
 func (obj *LoginuserCase) Login(dto DTOs.LoginDTO) string {
-	err := obj.repo.Loginn(dto.GetLogin(), dto.GetPassword())
+
+	fmt.Println("hello : ", dto)
+	err := obj.repo.Login(dto.GetLogin(), dto.GetPassword())
+	fmt.Println("Error result: ", err)
 	if err != nil {
-		return err.Error()
+		return "invalid credentials"
 	}
 	return "success"
 }

@@ -7,5 +7,6 @@ import (
 )
 
 var AuthRouter = func(router *gin.Engine) {
-	_ = router.GET("/", Authcontrollers.Login)
+	_ = router.POST("/", Authcontrollers.Login)
+	_ = router.POST("/", Authcontrollers.Login)
 }
