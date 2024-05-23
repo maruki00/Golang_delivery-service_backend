@@ -1,16 +1,16 @@
 package DTOs
 
 type UserDTO struct {
-	Id       int
-	UserName string
-	FullName string
-	Email    string
-	Password string
-	Country  string
-	City     string
-	Street   string
-	House    int
-	Flat     int
+	Id       int    `json:id`
+	UserName string `json:user_name`
+	FullName string `json:full_name`
+	Email    string `json:email`
+	Password string `json:password`
+	Country  string `json:country`
+	City     string `json:city`
+	Street   string `json:street`
+	House    string `json:house`
+	Flat     string `json:flat`
 }
 
 func (obj *UserDTO) SetId(Id int) {
@@ -37,10 +37,10 @@ func (obj *UserDTO) SetCity(City string) {
 func (obj *UserDTO) SetStreet(Street string) {
 	obj.Street = Street
 }
-func (obj *UserDTO) SetHouse(House int) {
+func (obj *UserDTO) SetHouse(House string) {
 	obj.House = House
 }
-func (obj *UserDTO) SetFlat(Flat int) {
+func (obj *UserDTO) SetFlat(Flat string) {
 	obj.Flat = Flat
 }
 
@@ -68,9 +68,9 @@ func (obj *UserDTO) GetCity() string {
 func (obj *UserDTO) GetStreet() string {
 	return obj.Street
 }
-func (obj *UserDTO) GetHouse() int {
+func (obj *UserDTO) GetHouse() string {
 	return obj.House
 }
-func (obj *UserDTO) GetFlat() int {
+func (obj *UserDTO) GetFlat() string {
 	return obj.Flat
 }

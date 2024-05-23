@@ -37,18 +37,35 @@ func (obj *AuthRepository) Register(
 	country string,
 	city string,
 	street string,
-	house int,
-	flat int) error {
+	house string,
+	flat string) error {
+
+	fmt.Println("fuck data: ", userName,
+		fullName,
+		email,
+		password,
+		country,
+		city,
+		street,
+		house,
+		flat)
 
 	db := shareddb.NewDB()
 	defer db.Close()
 
 	hash := md5.Sum([]byte(password))
-	hhashedPass := fmt.Sprintf("%x", hash)
+	hashedPass := fmt.Sprintf("%x", hash)
 
-	statement, _ := db.Prepare("INSERT INTO users (user_name, full_name, email, address, password) VALUES (?, ?, ?, ?, ?)")
+	statement, err := db.Prepare(`
+				INSERT INTO users (user_name, full_name, email, password, country, city, street, house, flat) 
+				VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+
+	if err != nil {
+		panic(err.Error())
+	}
 	defer statement.Close()
-	_, err := statement.Exec(userName, fullName, email, hhashedPass, country, city, street, house, flat)
+
+	_, err = statement.Exec(userName, fullName, email, hashedPass, country, city, street, house, flat)
 	if err != nil {
 		return errors.New("could not register a new account")
 	}
