@@ -11,7 +11,7 @@ create table users(
     password text not null,
     type varchar(56) not null default 'costumer',    
     created_at timestamp default now(),
-    updated_at timestamp default now(),
+    updated_at timestamp default now()
 );
 
 create table auth(
@@ -22,16 +22,16 @@ create table auth(
     user_type varchar(56) not null,
     user_level varchar(56) not null,
     created_at timestamp default now(),
-    updated_at timestamp default now(),
+    updated_at timestamp default now()
 );
 
 create table files (
-    int primary key not null auto_increment,
+    id int primary key not null auto_increment,
     path varchar(255) not null,
     hash varchar(100) not null,
     extention varchar(10) not null,
     created_at timestamp default now(),
-    updated_at timestamp default now(),
+    updated_at timestamp default now()
 );
 
 create table orders(
@@ -95,17 +95,15 @@ create table orders_couriers(
 
 create table notifications(
     id int primary key not null auto_increment,
-
-
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
 
 create table jobs(
     id int primary key not null auto_increment,
-
-
-
+    obj varchar(226) not null,
+    data text not null,
+    attempts int default 1,
     created_at timestamp default now(),
     updated_at timestamp default now()
 );

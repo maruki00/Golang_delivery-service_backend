@@ -61,14 +61,14 @@
 
 
 //Datebase Tables
-	-> User
-	-> Order
-	-> Product
-	-> FeedBack
+	-> Users
+	-> Orders
+	-> Products
+	-> FeedBacks
 	-> Analytics
-	-> OrderTracking
-	-> Courier
-	-> Costumer
+	-> OrderTrackings
+	-> Couriers
+	-> Costumers
 	-> Admins
 
 
@@ -77,4 +77,3 @@
 	-> RabbitMq
 	-> mysql
 	-> Stripe For Payement
-	-> 
