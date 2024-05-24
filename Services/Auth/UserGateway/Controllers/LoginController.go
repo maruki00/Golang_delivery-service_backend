@@ -3,7 +3,7 @@ package Authcontrollers
 import (
 	Authusecases "delivery/Services/Auth/Application/UseCases"
 	"delivery/Services/Auth/Domain/DTOs"
-	SharedUtils "delivery/Services/Sahared/Application/Utils"
+	SharedUtils "delivery/Services/Shared/Application/Utils"
 
 	"github.com/gin-gonic/gin"
 )

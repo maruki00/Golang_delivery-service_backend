@@ -3,7 +3,7 @@ package user_repositories
 import (
 	"crypto/md5"
 	"delivery/Services/Auth/Domain/DTOs"
-	shareddb "delivery/Services/Sahared/Infrastructure/DB"
+	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"errors"
 	"fmt"
 )
