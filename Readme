@@ -1,79 +1,81 @@
 //App MicroServices
 
 // Auth Service
-	-> Login
-	-> Register
+	|-> Login
+	|-> Register
 
 // Permition 
-	-> Add Permition
-	-> Edit Permition
-	-> Delete Permition For User
-	-> Give Permission
-	-> 
+	|-> Add Permition
+	|-> Edit Permition
+	|-> Delete Permition For User
+	|-> Give Permission
 
 
 // Users Service 
-	-> Add User
-	-> Edit User
-	-> Delete User
-	-> Update User
-	-> Ban User
+	|-> Add User
+	|-> Edit User
+	|-> Delete User
+	|-> Update User
+	|-> Ban User
 
 
 // Costumer Service 
-	-> Create Order
-	-> Confirme Order
-	-> Cancel Order
-	-> Track Order
-	-> Report For Something wrong
-	-> Chat  
-	-> Rate Delivery Service
-	-> Rate Product 
+	|-> Create Order
+	|-> Confirme Order
+	|-> Cancel Order
+	|-> Track Order
+	|-> Report For Something wrong
+	|-> Chat  
+	|-> Rate Delivery Service
+	|-> Rate Product 
 
 //Restorant Service
-	-> Accept Order
-	-> Open Shop
-	-> Close Shop
-	-> Menu Edit (Add/Update/Delete)
-	-> Chat
+	|-> Accept Order
+	|-> Open Shop
+	|-> Close Shop
+	|-> Menu Edit (Add/Update/Delete)
+	|-> Chat
 
 //Courier Service
-	-> Accept Order
-	-> Cancel Order
-	-> Start delivery
-	-> Complete delivery
+	|-> Accept Order
+	|-> Cancel Order
+	|-> Start delivery
+	|-> Complete delivery
 
 //Delivery Integration
-
+	|-> Integrator
 
 
 
 //Domains
-	-> Auth
-	-> Costumer
-	-> Delivery
-	-> Order
-	-> Payment
-	-> Notifications
-	-> Rate
-	-> Users
-	-> Product
+	|-> Auth
+	|-> Costumer
+	|-> Delivery
+	|-> Order
+	|-> Payment
+	|-> Notifications
+	|-> Rate
+	|-> Users
+	|-> Product
 
 
 //Datebase Tables
-	-> Users
-	-> Orders
-	-> Products
-	-> FeedBacks
-	-> Analytics
-	-> OrderTrackings
-	-> Couriers
-	-> Costumers
-	-> Admins
+	|-> analytics        
+	|-> auth             
+	|-> feedbacks        
+	|-> files            
+	|-> jobs             
+	|-> notifications    
+	|-> orders           
+	|-> orders_couriers  
+	|-> orders_tracking  
+	|-> products         
+	|-> users            
+	|-> users_orders
 
 
-// Technologies
-	-> Go lang
-	-> RabbitMq
-	-> mysql
-	-> Stripe For Payement
+//Technologies
+	|-> Go lang
+	|-> RabbitMq
+	|-> mysql
+	|-> Stripe For Payement
