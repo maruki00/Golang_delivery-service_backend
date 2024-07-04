@@ -13,26 +13,14 @@ type RegisteruserCase struct {
 // userName string, fullName string, email string, password string, country string, city string, street string, house int, flat int
 func (obj *LoginuserCase) Register(dto DTOs.UserDTO) string {
 
-	fmt.Println("Before : ", dto.UserName,
-		dto.FullName,
-		dto.Email,
-		dto.Password,
-		dto.Country,
-		dto.City,
-		dto.Street,
-		dto.House,
-		dto.Flat)
 	fmt.Println(dto)
 	_ = obj.repo.Register(
 		dto.UserName,
 		dto.FullName,
 		dto.Email,
 		dto.Password,
-		dto.Country,
-		dto.City,
-		dto.Street,
-		dto.House,
-		dto.Flat,
+		dto.Address,
+		dto.UserType,
 	)
 
 	// fmt.Print("Hello world")

@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type USerEntity interface {
+type UserEntity interface {
 	GetUserName() string
 	GetFullName() string
 	GetEmail() ValueObject.EmailValueObject
@@ -18,6 +18,7 @@ type USerEntity interface {
 	SetEmail(email ValueObject.EmailValueObject)
 	SetPassword(password ValueObject.PasswordValueObject)
 	SetAddress(address ValueObject.AddressValueObject)
+	SetType(Type string)
 }
 
 type UserModel struct {
@@ -27,6 +28,7 @@ type UserModel struct {
 	email    ValueObject.EmailValueObject    `json:email`
 	password ValueObject.PasswordValueObject `json:password`
 	address  ValueObject.AddressValueObject  `json: address`
+	userType string                          `json: user_type`
 }
 
 func (obj *UserModel) GetUserName() string {

@@ -6,11 +6,8 @@ type UserDTO struct {
 	FullName string `json:full_name`
 	Email    string `json:email`
 	Password string `json:password`
-	Country  string `json:country`
-	City     string `json:city`
-	Street   string `json:street`
-	House    string `json:house`
-	Flat     string `json:flat`
+	Address  string `json:address`
+	UserType string `json:user_type`
 }
 
 func (obj *UserDTO) SetId(Id int) {
@@ -28,49 +25,32 @@ func (obj *UserDTO) SetEmail(Email string) {
 func (obj *UserDTO) SetPassword(Password string) {
 	obj.Password = Password
 }
-func (obj *UserDTO) SetCountry(Country string) {
-	obj.Country = Country
+func (obj *UserDTO) SetAddress(Address string) {
+	obj.Address = Address
 }
-func (obj *UserDTO) SetCity(City string) {
-	obj.City = City
-}
-func (obj *UserDTO) SetStreet(Street string) {
-	obj.Street = Street
-}
-func (obj *UserDTO) SetHouse(House string) {
-	obj.House = House
-}
-func (obj *UserDTO) SetFlat(Flat string) {
-	obj.Flat = Flat
+func (obj *UserDTO) SetType(Type string) {
+	obj.UserType = Type
 }
 
-func (obj *UserDTO) GetId() int {
+// hello world
+func (obj UserDTO) GetId() int {
 	return obj.Id
 }
-func (obj *UserDTO) GetUserName() string {
+func (obj UserDTO) GetUserName() string {
 	return obj.UserName
 }
-func (obj *UserDTO) GetFullName() string {
+func (obj UserDTO) GetFullName() string {
 	return obj.FullName
 }
-func (obj *UserDTO) GetEmail() string {
+func (obj UserDTO) GetEmail() string {
 	return obj.Email
 }
-func (obj *UserDTO) GetPassword() string {
+func (obj UserDTO) GetPassword() string {
 	return obj.Password
 }
-func (obj *UserDTO) GetCountry() string {
-	return obj.Country
+func (obj UserDTO) GetAddress() string {
+	return obj.Address
 }
-func (obj *UserDTO) GetCity() string {
-	return obj.City
-}
-func (obj *UserDTO) GetStreet() string {
-	return obj.Street
-}
-func (obj *UserDTO) GetHouse() string {
-	return obj.House
-}
-func (obj *UserDTO) GetFlat() string {
-	return obj.Flat
+func (obj UserDTO) GetType() string {
+	return obj.UserType
 }

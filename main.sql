@@ -9,7 +9,7 @@ create table users(
     email varchar(255) not null unique,
     address text not null,
     password text not null,
-    type varchar(56) not null default 'costumer',    
+    type varchar(56) not null default 'costumer',
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
@@ -36,13 +36,13 @@ create table files (
 
 create table orders(
     id int primary key not null auto_increment,
-    fingerprint text not null, 
+    fingerprint text not null,
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
 
 create table users_orders(
-    id long primary key not null auto_increment,
+    id int primary key not null auto_increment,
     order_id int not null,
     user_id int not null,
     created_at timestamp default now(),
@@ -52,7 +52,7 @@ create table users_orders(
 create table products(
     id int primary key not null auto_increment,
     label varchar(255) not null,
-    price varchar(10) not null, 
+    price varchar(10) not null,
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
@@ -90,7 +90,7 @@ create table orders_couriers(
     user_id int not null,
     order_id int not null,
     created_at timestamp default now(),
-    updated_at timestamp default now() 
+    updated_at timestamp default now()
 );
 
 create table notifications(
