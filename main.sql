@@ -66,10 +66,11 @@ create table feedbacks(
     updated_at timestamp default now()
 );
 
-create table analytics(
+create table analytics_order(
     id int primary key not null auto_increment,
     order_id int not null,
     user_id int not null,
+    delivery_id int not null,
     rate int not null,
     comment text not null,
     created_at timestamp default now(),

@@ -1,4 +1,4 @@
-package Entities
+package order_entities
 
 import (
 	"delivery/Auth/Domain/ValueObject"
@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type UserEntity interface {
+type OrderEntity interface {
 	GetUserName() string
 	GetFullName() string
 	GetEmail() ValueObject.EmailValueObject
@@ -21,7 +21,7 @@ type UserEntity interface {
 	SetType(Type string)
 }
 
-type UserModel struct {
+type OrderModel struct {
 	gorm.Model
 	username string                          `json:user_name`
 	fullname string                          `json:full_name`

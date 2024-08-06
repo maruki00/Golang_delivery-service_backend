@@ -3,7 +3,7 @@ package user_repositories
 type CustomerRepository struct {
 }
 
-func (obj *CustomerRepository) Create(login string, password string) error {
+func (obj *CustomerRepository) Create(order orderAgriggate) error {
 
 	return nil
 }
