@@ -85,7 +85,6 @@ create table orders_tracking(
     updated_at timestamp default now()
 );
 
-
 create table orders_couriers(
     id int primary key not null auto_increment,
     user_id int not null,

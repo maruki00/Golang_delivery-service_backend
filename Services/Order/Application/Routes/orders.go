@@ -6,9 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-var AuthRouter = func(router *gin.Engine) {
-	_ = router.POST("/login", Authcontrollers.Login)
-	_ = router.POST("/register", Authcontrollers.Register)
+var OrderRouter = func(router *gin.Engine) {
 	order := router.Group("/order/")
 	_ = order.POST("/create", Authcontrollers.Register)
 	_ = order.POST("/cancel", Authcontrollers.Register)

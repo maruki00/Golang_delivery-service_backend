@@ -31,33 +31,33 @@ type OrderModel struct {
 	userType string                          `json: user_type`
 }
 
-func (obj *UserModel) GetUserName() string {
+func (obj *OrderModel) GetUserName() string {
 	return obj.username
 }
-func (obj *UserModel) GetFullName() string {
+func (obj *OrderModel) GetFullName() string {
 	return obj.fullname
 }
-func (obj *UserModel) GetEmail() ValueObject.EmailValueObject {
+func (obj *OrderModel) GetEmail() ValueObject.EmailValueObject {
 	return obj.email
 }
-func (obj *UserModel) GetPassword() ValueObject.PasswordValueObject {
+func (obj *OrderModel) GetPassword() ValueObject.PasswordValueObject {
 	return obj.password
 }
-func (obj *UserModel) GetAddress() ValueObject.AddressValueObject {
+func (obj *OrderModel) GetAddress() ValueObject.AddressValueObject {
 	return obj.address
 }
-func (obj *UserModel) SetUserName(username string) {
+func (obj *OrderModel) SetUserName(username string) {
 	obj.username = username
 }
-func (obj *UserModel) SetFullName(fullName string) {
+func (obj *OrderModel) SetFullName(fullName string) {
 	obj.fullname = fullName
 }
-func (obj *UserModel) SetEmail(email ValueObject.EmailValueObject) {
+func (obj *OrderModel) SetEmail(email ValueObject.EmailValueObject) {
 	obj.email = email
 }
-func (obj *UserModel) SetPassword(password ValueObject.PasswordValueObject) {
+func (obj *OrderModel) SetPassword(password ValueObject.PasswordValueObject) {
 	obj.password = password
 }
-func (obj *UserModel) SetAddress(address ValueObject.AddressValueObject) {
+func (obj *OrderModel) SetAddress(address ValueObject.AddressValueObject) {
 	obj.address = address
 }
