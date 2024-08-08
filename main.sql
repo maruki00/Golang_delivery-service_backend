@@ -2,6 +2,13 @@ create database delivery;
 
 
 
+create table usertypes (
+    id int primary key auto_increment,
+    label varchar(100),
+    created_at timestamp default now(),
+    updated_at timestamp default now()
+);
+
 create table users(
     id int primary key not null auto_increment,
     user_name varchar(100) not null unique,
@@ -9,10 +16,12 @@ create table users(
     email varchar(255) not null unique,
     address text not null,
     password text not null,
-    type varchar(56) not null default 'costumer',
+    type int not null default 2,
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
+
+
 
 create table auth(
     id int primary key primary key auto_increment,

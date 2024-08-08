@@ -4,10 +4,10 @@
 	|-> Login
 	|-> Register
 
-// Permition 
-	|-> Add Permition
-	|-> Edit Permition
-	|-> Delete Permition For User
+// Permission 
+	|-> Add Permission
+	|-> Edit Permission
+	|-> Delete Permission For User
 	|-> Give Permission
 
 
@@ -79,3 +79,10 @@
 	|-> RabbitMq
 	|-> mysql
 	|-> Stripe For Payement
+
+
+
+
+
+
+Auth,Costumer,Delivery,Order,Payment,Notifications,Rate,Users,Product

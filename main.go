@@ -1,8 +1,8 @@
 package main
 
 import (
-	authroutes "delivery/Services/Auth/Application/Routes"
-	orderroutes "delivery/Services/Order/Application/Routes"
+	authRoutes "delivery/Services/Auth/Application/Routes"
+	orderRoutes "delivery/Services/Order/Application/Routes"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/go-sql-driver/mysql"
@@ -11,8 +11,8 @@ import (
 func main() {
 
 	router := gin.Default()
-	authroutes.AuthRouter(router)
-	orderroutes.OrderRouter(router)
-	router.Run(":3000")
+	authRoutes.AuthRouter(router)
+	orderRoutes.OrderRouter(router)
 
+	router.Run(":3000")
 }

@@ -11,7 +11,7 @@ type RegisteruserCase struct {
 }
 
 // userName string, fullName string, email string, password string, country string, city string, street string, house int, flat int
-func (obj *LoginuserCase) Register(dto DTOs.UserDTO) string {
+func (obj *LoginuserCase) Register(dto DTOs.UserDTO) (string, error) {
 
 	fmt.Println(dto)
 	_ = obj.repo.Register(
