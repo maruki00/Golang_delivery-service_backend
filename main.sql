@@ -1,7 +1,6 @@
 create database delivery;
 
 
-
 create table usertypes (
     id int primary key auto_increment,
     label varchar(100),
@@ -21,39 +20,22 @@ create table users(
     updated_at timestamp default now()
 );
 
-
-
 create table auth(
     id int primary key primary key auto_increment,
     email varchar(255) not null unique,
     token text not null unique,
     user_id int not null,
-    user_type varchar(56) not null,
-    user_level varchar(56) not null,
-    created_at timestamp default now(),
-    updated_at timestamp default now()
-);
-
-create table files (
-    id int primary key not null auto_increment,
-    path varchar(255) not null,
-    hash varchar(100) not null,
-    extention varchar(10) not null,
+    user_type int not null,
+    user_level int not null,
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
 
 create table orders(
     id int primary key not null auto_increment,
-    fingerprint text not null,
-    created_at timestamp default now(),
-    updated_at timestamp default now()
-);
-
-create table users_orders(
-    id int primary key not null auto_increment,
-    order_id int not null,
-    user_id int not null,
+    costumer_id int not null,
+    from_address varchar(200) not null,
+    to_address varchar(200) not null, 
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
@@ -65,6 +47,24 @@ create table products(
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
+
+create table product_images (
+    id int primary key auto_increment,
+    image_path varchar(100) not null,
+    product_id int not null,
+    created_at timestamp default now(),
+    updated_at timestamp default now()
+);
+
+
+create table users_orders(
+    id int primary key not null auto_increment,
+    order_id int not null,
+    user_id int not null,
+    created_at timestamp default now(),
+    updated_at timestamp default now()
+);
+
 
 create table feedbacks(
     id int primary key not null auto_increment,

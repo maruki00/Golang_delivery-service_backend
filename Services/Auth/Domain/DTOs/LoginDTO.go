@@ -1,26 +1,26 @@
 package DTOs
 
 type LoginDTO struct {
-	Login    string `json: login`
-	Password string `json: password`
+	login    string `json: login`
+	password string `json: password`
 }
 
 func (obj *LoginDTO) GetLogin() string {
-	return obj.Login
+	return obj.login
 }
 
 func (obj *LoginDTO) GetPassword() string {
-	return obj.Password
+	return obj.password
 }
 
 func (obj *LoginDTO) SetLogin(login string) {
-	obj.Login = login
+	obj.login = login
 }
 
 func (obj *LoginDTO) SetPassword(password string) {
-	obj.Password = password
+	obj.password = password
 }
 
 func (obj *LoginDTO) Failed() bool {
-	return obj.Login == "" || obj.Password == ""
+	return obj.login == "" || obj.password == ""
 }
