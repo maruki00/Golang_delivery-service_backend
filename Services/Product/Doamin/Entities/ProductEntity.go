@@ -1,4 +1,4 @@
-package product_domain
+package product_domain_entities
 
 type ProductEntity interface {
 	GetId() int
