@@ -1,7 +1,7 @@
 package authports
 
-import "delivery/Services/Auth/Domain/DTOs"
+import auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
 
 type LoginInputPort interface {
-	Login(dto DTOs.LoginDTO) (string, error)
+	Login(dto auth_domain_dto.LoginDTO) (string, error)
 }

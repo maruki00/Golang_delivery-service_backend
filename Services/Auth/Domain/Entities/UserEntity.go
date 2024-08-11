@@ -1,4 +1,4 @@
-package Entities
+package auth_domain_entities
 
 type AuthEntity interface {
 	GetEmail() string
