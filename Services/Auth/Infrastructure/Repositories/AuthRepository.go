@@ -3,6 +3,7 @@ package user_repositories
 import (
 	"crypto/md5"
 	auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
+	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"errors"
 	"fmt"
@@ -11,10 +12,10 @@ import (
 type AuthRepository struct {
 }
 
-func (obj *AuthRepository) Login(login string, password string) error {
+func (obj *AuthRepository) Login(login string, password string) (*auth_domain_dto.LoginDTO, error) {
 	db := shareddb.NewDB()
 	defer db.Close()
-	dto := &DTOs.LoginDTO{}
+	entity := &auth_infrastructure_models.AuthModel{}
 
 	hash := md5.Sum([]byte(password))
 
@@ -22,20 +23,17 @@ func (obj *AuthRepository) Login(login string, password string) error {
 
 	statement, _ := db.Prepare("SELECT email, password FROM users WHERE email = ? and password = ? limit 1")
 	defer statement.Close()
-	statement.QueryRow(login, h).Scan(&dto.Login, &dto.Password)
-	if dto.Failed() {
+	statement.QueryRow(login, h).Scan(&dto)
+	if entity.Failed() {
 		return errors.New("invalid credential")
 	}
 	return nil
 }
 
-func (obj *AuthRepository) ForgetPassword(dto auth_domain_dto.FrogetPasswordDTO) error {
+func (obj *AuthRepository) ForgetPassword(email string) error {
 
 	db := shareddb.NewDB()
 	defer db.Close()
-
-	hash := md5.Sum([]byte(password))
-	hashedPass := fmt.Sprintf("%x", hash)
 
 	statement, err := db.Prepare(`
 				INSERT INTO users (user_name, full_name, email, password, address, user_type) 

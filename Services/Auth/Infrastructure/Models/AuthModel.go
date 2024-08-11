@@ -1,4 +1,4 @@
-package models
+package auth_infrastructure_models
 
 import "gorm.io/gorm"
 
