@@ -3,10 +3,13 @@ package user_repositories
 import (
 	"crypto/md5"
 	auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
-	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
+	"encoding/base64"
 	"errors"
 	"fmt"
+
+	"github.com/google/uuid"
+	"github.com/hashicorp/go-uuid"
 )
 
 type AuthRepository struct {
@@ -15,19 +18,21 @@ type AuthRepository struct {
 func (obj *AuthRepository) Login(login string, password string) (*auth_domain_dto.AuthDTO, error) {
 	db := shareddb.NewDB()
 	defer db.Close()
-	entity := &auth_infrastructure_models.AuthModel{}
+	dto := &auth_domain_dto.AuthDTO{}
 
 	hash := md5.Sum([]byte(password))
 
 	h := fmt.Sprintf("%x", hash)
 
-	statement, _ := db.Prepare("SELECT id, email, password, user_type FROM users WHERE email = ? and password = ? limit 1")
+	statement, _ := db.Prepare("SELECT id, email, user_type, user_level FROM users WHERE email = ? and password = ? limit 1")
 	defer statement.Close()
-	statement.QueryRow(login, h).Scan(&dto.id)
-	if entity.Failed() {
-		return nil, errors.New("invalid credential")
+	statement.QueryRow(login, h).Scan(&dto.User_id, &dto.Email, &dto.User_type, &dto.User_level)
+	if dto.Email == "" || dto.User_level == "" || dto.User_type == "" {
+		return nil, errors.New("invalid credentials")
 	}
-	return nil
+	dto.Token = base64.NewEncoding("base64").EncodeToString([]byte(uuid.New))
+
+	return nil, nil
 }
 
 func (obj *AuthRepository) ForgetPassword(email string) error {
