@@ -2,43 +2,50 @@ package models
 
 import "gorm.io/gorm"
 
-type UserModel struct {
+type AuthModel struct {
 	gorm.Model
-	username string                          `json:user_name`
-	fullname string                          `json:full_name`
-	email    ValueObject.EmailValueObject    `json:email`
-	password ValueObject.PasswordValueObject `json:password`
-	address  ValueObject.AddressValueObject  `json: address`
-	userType string                          `json: user_type`
+	id         int    `json: id`
+	email      string `json: email`
+	token      string `json: token`
+	user_id    int    `json: user_id`
+	user_type  string `json: user_type`
+	user_level string `json: user_level`
 }
 
-func (obj *UserModel) GetUserName() string {
-	return obj.username
+func (obj *AuthModel) SetId(id int) {
+	obj.id = id
 }
-func (obj *UserModel) GetFullName() string {
-	return obj.fullname
-}
-func (obj *UserModel) GetEmail() ValueObject.EmailValueObject {
-	return obj.email
-}
-func (obj *UserModel) GetPassword() ValueObject.PasswordValueObject {
-	return obj.password
-}
-func (obj *UserModel) GetAddress() ValueObject.AddressValueObject {
-	return obj.address
-}
-func (obj *UserModel) SetUserName(username string) {
-	obj.username = username
-}
-func (obj *UserModel) SetFullName(fullName string) {
-	obj.fullname = fullName
-}
-func (obj *UserModel) SetEmail(email ValueObject.EmailValueObject) {
+func (obj *AuthModel) SetEmail(email string) {
 	obj.email = email
 }
-func (obj *UserModel) SetPassword(password ValueObject.PasswordValueObject) {
-	obj.password = password
+func (obj *AuthModel) SetToken(token string) {
+	obj.token = token
 }
-func (obj *UserModel) SetAddress(address ValueObject.AddressValueObject) {
-	obj.address = address
+func (obj *AuthModel) SetUserId(user_id int) {
+	obj.user_id = user_id
+}
+func (obj *AuthModel) SetUserType(user_type string) {
+	obj.user_type = user_type
+}
+func (obj *AuthModel) SetUserLevel(user_level string) {
+	obj.user_level = user_level
+}
+
+func (obj *AuthModel) GetId() int {
+	return obj.id
+}
+func (obj *AuthModel) GetEmail() string {
+	return obj.email
+}
+func (obj *AuthModel) GetToken() string {
+	return obj.token
+}
+func (obj *AuthModel) GetUserId() int {
+	return obj.user_id
+}
+func (obj *AuthModel) GetUserType() string {
+	return obj.user_type
+}
+func (obj *AuthModel) GetUserLevel() string {
+	return obj.user_level
 }
