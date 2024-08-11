@@ -1,9 +1,7 @@
 package authu_services
 
 import (
-	"delivery/Services/Auth/Domain/DTOs"
 	user_repositories "delivery/Services/Auth/Infrastructure/Repositories"
-	"fmt"
 )
 
 type RegisteruserCase struct {
@@ -11,21 +9,21 @@ type RegisteruserCase struct {
 }
 
 // userName string, fullName string, email string, password string, country string, city string, street string, house int, flat int
-func (obj *LoginuserCase) Register(dto DTOs.UserDTO) (string, error) {
+// func (obj *LoginuserCase) Register(dto auth_domain_dto.DTO) (string, error) {
 
-	fmt.Println(dto)
-	_ = obj.repo.Register(
-		dto.UserName,
-		dto.FullName,
-		dto.Email,
-		dto.Password,
-		dto.Address,
-		dto.UserType,
-	)
+// 	fmt.Println(dto)
+// 	_ = obj.repo.Register(
+// 		dto.UserName,
+// 		dto.FullName,
+// 		dto.Email,
+// 		dto.Password,
+// 		dto.Address,
+// 		dto.UserType,
+// 	)
 
-	// fmt.Print("Hello world")
-	// if err != nil {
-	// 	return "invalid Data"
-	// }
-	return "success"
-}
+// 	// fmt.Print("Hello world")
+// 	// if err != nil {
+// 	// 	return "invalid Data"
+// 	// }
+// 	return "success"
+// }

@@ -1,4 +1,4 @@
-package shareddb
+package shared_infrastructure_db
 
 import (
 	"database/sql"
