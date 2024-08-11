@@ -12,7 +12,7 @@ import (
 type AuthRepository struct {
 }
 
-func (obj *AuthRepository) Login(login string, password string) (*auth_domain_dto.LoginDTO, error) {
+func (obj *AuthRepository) Login(login string, password string) (*auth_domain_dto.AuthDTO, error) {
 	db := shareddb.NewDB()
 	defer db.Close()
 	entity := &auth_infrastructure_models.AuthModel{}
@@ -21,11 +21,11 @@ func (obj *AuthRepository) Login(login string, password string) (*auth_domain_dt
 
 	h := fmt.Sprintf("%x", hash)
 
-	statement, _ := db.Prepare("SELECT email, password FROM users WHERE email = ? and password = ? limit 1")
+	statement, _ := db.Prepare("SELECT id, email, password, user_type FROM users WHERE email = ? and password = ? limit 1")
 	defer statement.Close()
-	statement.QueryRow(login, h).Scan(&dto)
+	statement.QueryRow(login, h).Scan(&dto.id)
 	if entity.Failed() {
-		return errors.New("invalid credential")
+		return nil, errors.New("invalid credential")
 	}
 	return nil
 }

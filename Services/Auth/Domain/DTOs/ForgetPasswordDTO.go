@@ -1,7 +1,7 @@
 package auth_domain_dto
 
 type FrogetPasswordDTO struct {
-	email string `json: email`
+	email string
 }
 
 func (obj *FrogetPasswordDTO) GetEmail() string {

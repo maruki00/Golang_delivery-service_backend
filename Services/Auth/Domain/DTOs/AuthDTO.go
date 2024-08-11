@@ -6,11 +6,11 @@ import (
 )
 
 type AuthDTO struct {
-	email      string
-	token      string
-	user_id    int
-	user_type  string
-	user_level string
+	Email      string
+	Token      string
+	User_id    int
+	User_type  string
+	User_level string
 }
 
 func AuthDTOError(msg string) error {
@@ -29,26 +29,10 @@ func AuthDTOFromArray(items map[string]string) (*AuthDTO, error) {
 		return nil, errors.New("user_id should be a valid int")
 	}
 	return &AuthDTO{
-		email:      items["email"],
-		token:      items["token"],
-		user_id:    user_id,
-		user_type:  items["user_type"],
-		user_level: items["user_level"],
+		Email:      items["email"],
+		Token:      items["token"],
+		User_id:    user_id,
+		User_type:  items["user_type"],
+		User_level: items["user_level"],
 	}, nil
-}
-
-func (obj *AuthDTO) GetEmail() string {
-	return obj.email
-}
-func (obj *AuthDTO) GetToken() string {
-	return obj.token
-}
-func (obj *AuthDTO) GetUserId() int {
-	return obj.user_id
-}
-func (obj *AuthDTO) GetUserType() string {
-	return obj.user_type
-}
-func (obj *AuthDTO) GetUserLevel() string {
-	return obj.user_level
 }
