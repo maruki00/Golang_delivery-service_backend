@@ -1,4 +1,4 @@
-package Authcontrollers
+package auth_usergetway_controllers
 
 import (
 	Authusecases "delivery/Services/Auth/Application/UseCases"

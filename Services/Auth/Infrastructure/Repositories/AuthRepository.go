@@ -1,4 +1,4 @@
-package user_repositories
+package auth_infrastructure_repository
 
 import (
 	"crypto/md5"

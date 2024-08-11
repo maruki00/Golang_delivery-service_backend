@@ -1,4 +1,4 @@
-package auth_domain_dto
+package auth_domain_dtos
 
 type LoginDTO struct {
 	login    string `json: login`

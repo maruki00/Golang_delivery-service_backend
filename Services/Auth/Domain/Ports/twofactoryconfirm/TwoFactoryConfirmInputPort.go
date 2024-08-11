@@ -1,4 +1,4 @@
-package authports
+package auth_domain_ports
 
 import auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
 
