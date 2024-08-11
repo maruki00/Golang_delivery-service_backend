@@ -2,6 +2,7 @@ package models
 
 import "gorm.io/gorm"
 
+// impolements AuthEntity
 type AuthModel struct {
 	gorm.Model
 	id         int    `json: id`

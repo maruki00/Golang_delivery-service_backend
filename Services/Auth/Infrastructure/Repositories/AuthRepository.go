@@ -2,7 +2,7 @@ package user_repositories
 
 import (
 	"crypto/md5"
-	"delivery/Services/Auth/Domain/DTOs"
+	auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"errors"
 	"fmt"
@@ -29,13 +29,7 @@ func (obj *AuthRepository) Login(login string, password string) error {
 	return nil
 }
 
-func (obj *AuthRepository) Register(
-	userName string,
-	fullName string,
-	email string,
-	password string,
-	address string,
-	userType string) error {
+func (obj *AuthRepository) ForgetPassword(dto auth_domain_dto.FrogetPasswordDTO) error {
 
 	db := shareddb.NewDB()
 	defer db.Close()
