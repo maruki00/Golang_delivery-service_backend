@@ -1,20 +1,9 @@
 package Entities
 
-import (
-	"delivery/Auth/Domain/ValueObject"
-)
+type AuthEntity interface {
+	GetEmail() string
+	GetPassowrd() string
 
-type UserEntity interface {
-	GetUserName() string
-	GetFullName() string
-	GetEmail() ValueObject.EmailValueObject
-	GetPassword() ValueObject.PasswordValueObject
-	GetAddress() ValueObject.AddressValueObject
-
-	SetUserName(username string)
-	SetFullName(fullName string)
-	SetEmail(email ValueObject.EmailValueObject)
-	SetPassword(password ValueObject.PasswordValueObject)
-	SetAddress(address ValueObject.AddressValueObject)
-	SetType(Type string)
+	SetEmail(email string)
+	SetPassword(password string)
 }

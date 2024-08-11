@@ -1,4 +1,4 @@
-package Authusecases
+package authu_services
 
 import (
 	"delivery/Services/Auth/Domain/DTOs"

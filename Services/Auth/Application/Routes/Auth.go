@@ -1,4 +1,4 @@
-package routes
+package auth_routes
 
 import (
 	Authcontrollers "delivery/Services/Auth/UserGateway/Controllers"

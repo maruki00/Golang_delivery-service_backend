@@ -1,13 +1,22 @@
-package DTOs
+package auth_domain_dto
 
-type ForgetPasswordDTO struct {
+type TwoFactoryConfirmDTO struct {
 	email string `json: email`
+	pin   string `json: pin`
 }
 
-func (obj *ForgetPasswordDTO) GetEmail() string {
+func (obj *TwoFactoryConfirmDTO) GetPin() string {
+	return obj.pin
+}
+
+func (obj *TwoFactoryConfirmDTO) SetPin(pin string) {
+	obj.pin = pin
+}
+
+func (obj *TwoFactoryConfirmDTO) GetEmail() string {
 	return obj.email
 }
 
-func (obj *ForgetPasswordDTO) SetLogin(email string) {
+func (obj *TwoFactoryConfirmDTO) SetEmail(email string) {
 	obj.email = email
 }

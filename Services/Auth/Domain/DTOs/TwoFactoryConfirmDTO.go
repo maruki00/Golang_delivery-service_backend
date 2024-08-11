@@ -1,4 +1,4 @@
-package DTOs
+package auth_domain_dto
 
 type UserDTO struct {
 	Id       int    `json:id`
