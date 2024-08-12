@@ -1,7 +1,9 @@
 package auth_usergetway_controllers
 
 import (
-	Authusecases "delivery/Services/Auth/Application/UseCases"
+	authu_services "delivery/Services/Auth/Application/Services"
+	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
+	SharedUtils "delivery/Services/Shared/Application/Utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -9,15 +11,11 @@ import (
 type Authcontroller struct {
 }
 
-var (
-	userCase = &Authusecases.LoginuserCase{}
-)
-
 func Login(ctx *gin.Context) {
-	// var dto DTOs.LoginDTO
-	// SharedUtils.ParseBody(ctx.Request, &dto)
-	// res := userCase.Login(dto)
-	// SharedUtils.Success(ctx, res, 200)
+	var dto auth_domain_dtos.LoginDTO
+	SharedUtils.ParseBody(ctx.Request, &dto)
+	res, _ := authu_services.Login(dto)
+	SharedUtils.Success(ctx, res, 200)
 }
 
 func Register(ctx *gin.Context) {
