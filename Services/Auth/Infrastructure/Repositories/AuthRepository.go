@@ -4,7 +4,6 @@ import (
 	"crypto/md5"
 	auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
-	"encoding/base64"
 	"errors"
 	"fmt"
 )
@@ -12,26 +11,27 @@ import (
 type AuthRepository struct {
 }
 
-func (obj *AuthRepository) Login(login string, password string) (*auth_domain_dto.AuthDTO, error) {
+func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthDTO, error) {
+
 	db := shareddb.NewDB()
 	defer db.Close()
 	dto := &auth_domain_dto.AuthDTO{}
-	dto.Token = base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
+	dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
 	hash := md5.Sum([]byte(password))
 	h := fmt.Sprintf("%x", hash)
-
+	fmt.Println("data : ", h, login, password)
 	statement, _ := db.Prepare("SELECT id, email, user_type, user_level FROM users WHERE email = ? and password = ? limit 1")
 	defer statement.Close()
 	err := statement.QueryRow(login, h).Scan(&dto.User_id, &dto.Email, &dto.User_type, &dto.User_level)
 	if err != nil {
-		return nil, errors.New("invalid creadentails ")
+		fmt.Println(err.Error())
+		return nil, errors.New("invalid creadentails " + err.Error())
 	}
+
 	if dto.Email == "" || dto.User_level == "" || dto.User_type == "" {
 		return nil, errors.New("invalid credentials")
 	}
-
 	return dto, nil
-
 }
 
 func (obj *AuthRepository) ForgetPassword(email string) error {
