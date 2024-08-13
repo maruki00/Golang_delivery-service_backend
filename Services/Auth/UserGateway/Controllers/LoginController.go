@@ -9,14 +9,15 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type Authcontroller struct {
+type AuthController struct {
+	authService authu_services.AuthService
 }
 
-func Login(ctx *gin.Context) {
+func (obj AuthController) Login(ctx *gin.Context) {
 	var dto auth_domain_dtos.LoginDTO
 	SharedUtils.ParseBody(ctx.Request, &dto)
 	fmt.Println("body : ", dto, ctx.Request)
-	res, _ := authu_services.Login(dto)
+	res, _ := obj.authService.Login(dto)
 	SharedUtils.Success(ctx, res, 200)
 }
 

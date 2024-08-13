@@ -1,9 +1,7 @@
-package auth_domain_ports
-
-import (
-	shared_adapters "delivery/Services/Shared/Domain/adapters"
-)
+package auth_domain_login_ports
 
 type LoginOutputPort interface {
-	GetResponse(responsemodel any) shared_adapters.ViewModel
+	InvalidCredentials() string
+	Success() string
+	Error() string
 }

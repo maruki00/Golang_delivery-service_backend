@@ -1,17 +1,28 @@
 package authu_services
 
 import (
+	domain_auth_contracts "delivery/Services/Auth/Domain/Contracts"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
-	user_repositories "delivery/Services/Auth/Infrastructure/Repositories"
+	auth_domain_login_ports "delivery/Services/Auth/Domain/Ports/login"
 )
 
-var repo *user_repositories.AuthRepository
+type AuthService struct {
+	repo    domain_auth_contracts.IAuthRepository
+	outPort auth_domain_login_ports.LoginOutputPort
+}
 
-func Login(dto auth_domain_dtos.LoginDTO) (string, error) {
+func NewAuthService(repo domain_auth_contracts.IAuthRepository, outputPort auth_domain_login_ports.LoginOutputPort) *AuthService {
+	return &AuthService{
+		repo:    repo,
+		outPort: outputPort,
+	}
+}
 
-	_, err := repo.Login(dto.GetLogin(), dto.GetPassword())
+func (obj AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
+
+	_, err := obj.repo.Login(dto.GetLogin(), dto.GetPassword())
 	if err != nil {
-		return "invalid credentials", nil
+		return obj.outPort.Success(), nil
 	}
 	return "success", nil
 }

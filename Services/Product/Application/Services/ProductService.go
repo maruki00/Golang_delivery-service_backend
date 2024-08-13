@@ -23,4 +23,4 @@ func (this ProductService) AddProduct(dto product_domain_dtos.ProductDTO) (error
 	this.outputPortl.
 }
 
-func 
+
