@@ -10,7 +10,6 @@ func main() {
 
 	router := gin.Default()
 	auth_routes.AuthRouter(router)
-	// orderRoutes.OrderRouter(router)
 
 	router.Run(":3000")
 

@@ -11,8 +11,12 @@ import (
 type AuthRepository struct {
 }
 
-func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthDTO, error) {
+func (obj &AuthRepository) CeckToken(token string ) bool {
 
+
+	return false
+}
+func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthDTO, error) {
 	db := shareddb.NewDB()
 	defer db.Close()
 	dto := &auth_domain_dto.AuthDTO{}
@@ -35,7 +39,7 @@ func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthD
 }
 
 func (obj *AuthRepository) ForgetPassword(email string) error {
-
+/
 	// db := shareddb.NewDB()
 	// defer db.Close()
 
