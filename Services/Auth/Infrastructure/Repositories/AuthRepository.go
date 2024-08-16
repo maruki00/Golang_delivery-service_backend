@@ -5,6 +5,7 @@ import (
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
+	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
 	"fmt"
 	"sync"
@@ -39,8 +40,11 @@ func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.Auth
 	//dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
 	hash := md5.Sum([]byte(password))
 	hashedPassword := fmt.Sprintf("%x", hash)
-	u := obj.db.Model("users").Where("user_name", login).Where("password", hashedPassword)
-
+	uu := &shared_models.User{}
+	u := obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(&uu)
+	if u.RowsAffected == 0 {
+		return nil, errors.New("invalid credentials")
+	}
 	err := statement.QueryRow(login, h).Scan(&dto.User_id, &dto.Email, &dto.User_type, &dto.User_level)
 	if err != nil {
 		fmt.Println(err.Error())
