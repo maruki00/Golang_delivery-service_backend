@@ -12,7 +12,7 @@ func JwtToken(email string, user_id int) (string, error) {
 
 	conf, err := shared_configs.GetConfig()
 	if err != nil {
-		return "", errors.New("Config error")
+		return "", errors.New("config error")
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
@@ -21,8 +21,9 @@ func JwtToken(email string, user_id int) (string, error) {
 			"exp":     time.Now().Add(time.Hour * 24).Unix(),
 		})
 
-	tokenString, err := token.SignedString(conf.Jwt.Secret)
+	tokenString, err := token.SignedString([]byte(conf.Jwt.Secret))
 	if err != nil {
+
 		return "", err
 	}
 	return tokenString, nil

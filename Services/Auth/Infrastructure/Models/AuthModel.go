@@ -1,56 +1,55 @@
 package auth_infrastructure_models
 
 import (
-	"github.com/golang/protobuf/ptypes/timestamp"
 	"gorm.io/gorm"
 )
 
 // impolements AuthEntity
 type Auth struct {
 	gorm.Model
-	id         int                 `json: id`
-	email      string              `json: email`
-	token      string              `json: token`
-	user_id    int                 `json: user_id`
-	user_type  string              `json: user_type`
-	user_level string              `json: user_level`
-	expires_at timestamp.Timestamp `json: user_level`
+	Id        int    `json: id`
+	Email     string `json: email`
+	Token     string `json: token`
+	UserId    int    `json: user_id`
+	UserType  string `json: user_type`
+	UserLevel string `json: user_level`
+	ExpiresAt string `json: expires_at`
 }
 
-func (obj *AuthModel) SetId(id int) {
-	obj.id = id
+func (obj *Auth) SetId(id int) {
+	obj.Id = id
 }
-func (obj *AuthModel) SetEmail(email string) {
-	obj.email = email
+func (obj *Auth) SetEmail(email string) {
+	obj.Email = email
 }
-func (obj *AuthModel) SetToken(token string) {
-	obj.token = token
+func (obj *Auth) SetToken(token string) {
+	obj.Token = token
 }
-func (obj *AuthModel) SetUserId(user_id int) {
-	obj.user_id = user_id
+func (obj *Auth) SetUserId(user_id int) {
+	obj.UserId = user_id
 }
-func (obj *AuthModel) SetUserType(user_type string) {
-	obj.user_type = user_type
+func (obj *Auth) SetUserType(user_type string) {
+	obj.UserType = user_type
 }
-func (obj *AuthModel) SetUserLevel(user_level string) {
-	obj.user_level = user_level
+func (obj *Auth) SetUserLevel(user_level string) {
+	obj.UserLevel = user_level
 }
 
-func (obj *AuthModel) GetId() int {
-	return obj.id
+func (obj *Auth) GetId() int {
+	return obj.Id
 }
-func (obj *AuthModel) GetEmail() string {
-	return obj.email
+func (obj *Auth) GetEmail() string {
+	return obj.Email
 }
-func (obj *AuthModel) GetToken() string {
-	return obj.token
+func (obj *Auth) GetToken() string {
+	return obj.Token
 }
-func (obj *AuthModel) GetUserId() int {
-	return obj.user_id
+func (obj *Auth) GetUserId() int {
+	return obj.UserId
 }
-func (obj *AuthModel) GetUserType() string {
-	return obj.user_type
+func (obj *Auth) GetUserType() string {
+	return obj.UserType
 }
-func (obj *AuthModel) GetUserLevel() string {
-	return obj.user_level
+func (obj *Auth) GetUserLevel() string {
+	return obj.UserLevel
 }

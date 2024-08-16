@@ -3,7 +3,9 @@ package auth_usergetway_controllers
 import (
 	authu_services "delivery/Services/Auth/Application/Services"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
+	auth_infrastructure_repository "delivery/Services/Auth/Infrastructure/Repositories"
 	auth_requests "delivery/Services/Auth/UserGateway/Requests"
+	shared_configs "delivery/Services/Shared/Application/Configs"
 	"fmt"
 	"net/http"
 
@@ -13,11 +15,14 @@ import (
 
 type AuthController struct {
 	Validate *validator.Validate
+	service  *authu_services.AuthService
 }
 
 func NewAuthController() *AuthController {
+	config, _ := shared_configs.GetConfig()
 	return &AuthController{
 		Validate: validator.New(),
+		service:  authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(config)),
 	}
 }
 
@@ -36,15 +41,16 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	_, _ = authu_services.Login(auth_domain_dtos.LoginDTO{
+	accessToken, _ := obj.service.Login(auth_domain_dtos.LoginDTO{
 		Login:    request.Login,
 		Password: request.Password,
 	})
 
-	ctx.JSON(200, request)
+	ctx.JSON(200, map[string]any{
+		"token": accessToken})
 }
 
-func Register(ctx *gin.Context) {
+func (obj AuthController) Register(ctx *gin.Context) {
 	// var dto DTOs.UserDTO
 	// SharedUtils.ParseBody(ctx.Request, &dto)
 	// fmt.Println("level Register Controller : ", ctx.Request.Body)

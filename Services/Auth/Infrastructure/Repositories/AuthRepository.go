@@ -1,13 +1,15 @@
 package auth_infrastructure_repository
 
 import (
-	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
+	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
+	"errors"
 	"fmt"
 	"sync"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -28,28 +30,49 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 	return false
 }
 
-func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
+// func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
 
-	return ""
-}
+// 	return ""
+// }
 
-func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.LoggedInDTO, error) {
+func (obj *AuthRepository) Login(login, password string) (string, error) {
 
 	hashedPassword := shared_utils.Md5Hash(password)
 	uu := &shared_models.User{}
-	_ = obj.db.Model(&shared_models.User{}) //.Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(nil)
-	// if u.RowsAffected == 0 {
-	// 	return nil, errors.New("invalid credentials")
-	// }
-	// token, err := shared_utils.JwtToken(uu.Email, uu.Id)
-	// if err != nil {
-	// 	return nil, fmt.Errorf("could not generate token")
-	// }
 
-	fmt.Println(hashedPassword, uu)
-	return &auth_domain_dtos.LoggedInDTO{
-		Token: "",
-	}, nil
+	u := obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(uu)
+	if u.RowsAffected == 0 {
+		return "", errors.New("invalid credentials")
+	}
+
+	token, err := shared_utils.JwtToken(uu.Email, uu.Id)
+	auth := &auth_infrastructure_models.Auth{
+		Email:     uu.Email,
+		Token:     token,
+		UserId:    uu.Id,
+		UserType:  uu.UserType,
+		UserLevel: uu.UserLevel,
+		ExpiresAt: string(time.Now().Format("y-m-d H:i:s")),
+	}
+	obj.clearToken(auth.UserId)
+	obj.Create(auth)
+	if err != nil {
+		return "", fmt.Errorf("could not generate token " + err.Error())
+	}
+
+	return token, nil
+}
+
+func (obj *AuthRepository) clearToken(id int) {
+	//var auth auth_infrastructure_models.Auth
+	obj.db.Exec("delete from auths  where user_id = ? ", id)
+	//result = obj.db.Where("user_id = ?", id).Delete(&auth)
+	// fmt.Println("user_id : ", id, result.Error)
+}
+
+func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_infrastructure_models.Auth {
+	obj.db.Create(auth)
+	return auth
 }
 
 func (obj *AuthRepository) ForgetPassword(email string) error {
