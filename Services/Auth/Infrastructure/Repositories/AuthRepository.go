@@ -37,7 +37,7 @@ func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
 func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.AuthDTO, error) {
 
 	dto := &auth_domain_dtos.AuthDTO{}
-	//dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
+
 	hash := md5.Sum([]byte(password))
 	hashedPassword := fmt.Sprintf("%x", hash)
 	uu := &shared_models.User{}
@@ -45,11 +45,7 @@ func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.Auth
 	if u.RowsAffected == 0 {
 		return nil, errors.New("invalid credentials")
 	}
-	err := statement.QueryRow(login, h).Scan(&dto.User_id, &dto.Email, &dto.User_type, &dto.User_level)
-	if err != nil {
-		fmt.Println(err.Error())
-		return nil, errors.New("invalid creadentails " + err.Error())
-	}
+	dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
 
 	if dto.Email == "" || dto.User_level == "" || dto.User_type == "" {
 		return nil, errors.New("invalid credentials")

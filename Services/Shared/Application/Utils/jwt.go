@@ -1,19 +1,12 @@
 package shared_utils
 
 import (
-	"crypto/md5"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	"errors"
-	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
-
-func Md5Hash(text string) string {
-	hash := md5.Sum([]byte(pass))
-	return fmt.Sprintf("%x", hash)
-}
 
 func JwtToken(email, fullname string) (string, error) {
 
