@@ -37,6 +37,7 @@ func verifyToken(tokenString string) error {
 func AuthRequired() gin.HandlerFunc {
 
 	return func(ctx *gin.Context) {
+
 		tokenString := ctx.Request.Header.Get("Authorization")
 		if tokenString == "" || len(tokenString) < 8 {
 			ctx.AbortWithStatusJSON(401, map[string]string{
@@ -54,7 +55,6 @@ func AuthRequired() gin.HandlerFunc {
 				"error: ": "unauthorized",
 			})
 			return
-
 		}
 
 		db := core.GetDB()

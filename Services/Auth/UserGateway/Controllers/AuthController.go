@@ -1,6 +1,8 @@
 package auth_usergetway_controllers
 
 import (
+	authu_services "delivery/Services/Auth/Application/Services"
+	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	auth_requests "delivery/Services/Auth/UserGateway/Requests"
 	"fmt"
 	"net/http"
@@ -28,18 +30,16 @@ func (obj AuthController) Login(ctx *gin.Context) {
 	}
 
 	if err := obj.Validate.Struct(request); err != nil {
-		fmt.Println(err.Error())
-		// 	validationErrors := err.(validator.ValidationErrors)
-		// 	errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
-		// 	ctx.JSON(http.StatusBadRequest, gin.H{"error": errorMessage})
-		// 	return
-		// }
-
-		// res, _ := authu_services.Login(auth_domain_dtos.LoginDTO{
-		// 	Login:    request.Login,
-		// 	Password: request.Password,
+		validationErrors := err.(validator.ValidationErrors)
+		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": errorMessage})
+		return
 	}
-	//)
+
+	_, _ = authu_services.Login(auth_domain_dtos.LoginDTO{
+		Login:    request.Login,
+		Password: request.Password,
+	})
 
 	ctx.JSON(200, request)
 }

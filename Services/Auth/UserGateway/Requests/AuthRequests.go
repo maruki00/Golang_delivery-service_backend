@@ -7,6 +7,6 @@ package auth_requests
 // }
 
 type LoginRequest struct {
-	Login    string //`validate:"required" json:"login"`
-	Password string //`validate:"required" json:"password"`
+	Login    string // `validate:"required" json:"login"`
+	Password string // `validate:"required" json:"password"`
 }

@@ -1,13 +1,11 @@
 package auth_infrastructure_repository
 
 import (
-	"crypto/md5"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
-	"errors"
 	"fmt"
 	"sync"
 
@@ -19,9 +17,9 @@ type AuthRepository struct {
 	db *gorm.DB
 }
 
-func NewAuthRepository(config shared_configs.Config) *AuthRepository {
+func NewAuthRepository(config *shared_configs.Config) *AuthRepository {
 	return &AuthRepository{
-		db: shareddb.NewMysqlDB_GORM(&config),
+		db: shareddb.NewMysqlDB_GORM(config),
 	}
 }
 
@@ -37,19 +35,20 @@ func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
 
 func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.LoggedInDTO, error) {
 
-	hash := md5.Sum([]byte(password))
-	hashedPassword := fmt.Sprintf("%x", hash)
+	hashedPassword := shared_utils.Md5Hash(password)
 	uu := &shared_models.User{}
-	u := obj.db.Model(uu).Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(&uu)
-	if u.RowsAffected == 0 {
-		return nil, errors.New("invalid credentials")
-	}
-	token, err := shared_utils.JwtToken(uu.Email, uu.Id)
-	if err != nil {
-		return nil, fmt.Errorf("could not generate token")
-	}
+	_ = obj.db.Model(&shared_models.User{}) //.Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(nil)
+	// if u.RowsAffected == 0 {
+	// 	return nil, errors.New("invalid credentials")
+	// }
+	// token, err := shared_utils.JwtToken(uu.Email, uu.Id)
+	// if err != nil {
+	// 	return nil, fmt.Errorf("could not generate token")
+	// }
+
+	fmt.Println(hashedPassword, uu)
 	return &auth_domain_dtos.LoggedInDTO{
-		Token: token,
+		Token: "",
 	}, nil
 }
 
