@@ -1,6 +1,7 @@
 package main
 
 import (
+	auth_routes "delivery/Services/Auth/Application/Routes"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	"fmt"
 	"path/filepath"
@@ -12,7 +13,7 @@ func main() {
 	config, _ := shared_configs.GetConfig()
 	fmt.Println(filepath.Dir("./"))
 	router := gin.Default()
-	// auth_routes.AuthRouter(router)
+	auth_routes.AuthRouter(router)
 
 	router.Run(fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Port))
 }

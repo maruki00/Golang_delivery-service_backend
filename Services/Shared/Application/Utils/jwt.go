@@ -8,7 +8,7 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
-func JwtToken(email, fullname string) (string, error) {
+func JwtToken(email string, user_id int) (string, error) {
 
 	conf, err := shared_configs.GetConfig()
 	if err != nil {
@@ -16,9 +16,9 @@ func JwtToken(email, fullname string) (string, error) {
 	}
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
-			"email":    email,
-			"fullname": fullname,
-			"exp":      time.Now().Add(time.Hour * 24).Unix(),
+			"email":   email,
+			"user_id": user_id,
+			"exp":     time.Now().Add(time.Hour * 24).Unix(),
 		})
 
 	tokenString, err := token.SignedString(conf.Jwt.Secret)

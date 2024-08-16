@@ -4,6 +4,7 @@ import (
 	"crypto/md5"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	shared_configs "delivery/Services/Shared/Application/Configs"
+	shared_utils "delivery/Services/Shared/Application/Utils"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
@@ -34,23 +35,22 @@ func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
 	return ""
 }
 
-func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.AuthDTO, error) {
-
-	dto := &auth_domain_dtos.AuthDTO{}
+func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.LoggedInDTO, error) {
 
 	hash := md5.Sum([]byte(password))
 	hashedPassword := fmt.Sprintf("%x", hash)
 	uu := &shared_models.User{}
-	u := obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(&uu)
+	u := obj.db.Model(uu).Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(&uu)
 	if u.RowsAffected == 0 {
 		return nil, errors.New("invalid credentials")
 	}
-	dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
-
-	if dto.Email == "" || dto.User_level == "" || dto.User_type == "" {
-		return nil, errors.New("invalid credentials")
+	token, err := shared_utils.JwtToken(uu.Email, uu.Id)
+	if err != nil {
+		return nil, fmt.Errorf("could not generate token")
 	}
-	return dto, nil
+	return &auth_domain_dtos.LoggedInDTO{
+		Token: token,
+	}, nil
 }
 
 func (obj *AuthRepository) ForgetPassword(email string) error {
