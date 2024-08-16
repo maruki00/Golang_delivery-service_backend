@@ -11,11 +11,17 @@ import (
 type AuthRepository struct {
 }
 
-func (obj &AuthRepository) CeckToken(token string ) bool {
+func (obj *AuthRepository) CeckToken(token string ) bool {
 
 
 	return false
 }
+
+func (obj *AuthRepository)generateToken(dto *auth_domain_dto.AuthDTO) string {
+
+}
+
+
 func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthDTO, error) {
 	db := shareddb.NewDB()
 	defer db.Close()
