@@ -1,0 +1,13 @@
+server:
+  host: "localhost"
+  port: 8000
+
+
+
+database:
+  driver: "mysql"
+  host: "locahost"
+  user: "user"
+  pass: "pass"
+  port: 3306
+  

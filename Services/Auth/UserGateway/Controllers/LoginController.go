@@ -10,14 +10,13 @@ import (
 )
 
 type AuthController struct {
-	authService authu_services.AuthService
 }
 
 func (obj AuthController) Login(ctx *gin.Context) {
 	var dto auth_domain_dtos.LoginDTO
 	SharedUtils.ParseBody(ctx.Request, &dto)
 	fmt.Println("body : ", dto, ctx.Request)
-	res, _ := obj.authService.Login(dto)
+	res, _ := authu_services.Login(dto)
 	SharedUtils.Success(ctx, res, 200)
 }
 

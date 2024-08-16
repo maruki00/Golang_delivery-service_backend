@@ -2,7 +2,7 @@ package auth_infrastructure_repository
 
 import (
 	"crypto/md5"
-	auth_domain_dto "delivery/Services/Auth/Domain/DTOs"
+	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"errors"
 	"fmt"
@@ -11,21 +11,19 @@ import (
 type AuthRepository struct {
 }
 
-func (obj *AuthRepository) CeckToken(token string ) bool {
-
+func (obj *AuthRepository) CheckToken(token string) bool {
 
 	return false
 }
 
-func (obj *AuthRepository)generateToken(dto *auth_domain_dto.AuthDTO) string {
-
+func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
+	return ""
 }
 
-
-func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthDTO, error) {
+func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.AuthDTO, error) {
 	db := shareddb.NewDB()
 	defer db.Close()
-	dto := &auth_domain_dto.AuthDTO{}
+	dto := &auth_domain_dtos.AuthDTO{}
 	dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
 	hash := md5.Sum([]byte(password))
 	h := fmt.Sprintf("%x", hash)
@@ -45,7 +43,7 @@ func (obj *AuthRepository) Login(login, password string) (*auth_domain_dto.AuthD
 }
 
 func (obj *AuthRepository) ForgetPassword(email string) error {
-/
+
 	// db := shareddb.NewDB()
 	// defer db.Close()
 
