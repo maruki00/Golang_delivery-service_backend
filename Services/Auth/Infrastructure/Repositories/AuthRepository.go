@@ -3,12 +3,24 @@ package auth_infrastructure_repository
 import (
 	"crypto/md5"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
+	shared_configs "delivery/Services/Shared/Application/Configs"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"errors"
 	"fmt"
+	"sync"
+
+	"gorm.io/gorm"
 )
 
 type AuthRepository struct {
+	sync.Mutex
+	db *gorm.DB
+}
+
+func NewAuthRepository(config shared_configs.Config) *AuthRepository {
+	return &AuthRepository{
+		db: shareddb.NewMysqlDB_GORM(&config),
+	}
 }
 
 func (obj *AuthRepository) CheckToken(token string) bool {
@@ -17,19 +29,18 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 }
 
 func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
+
 	return ""
 }
 
 func (obj *AuthRepository) Login(login, password string) (*auth_domain_dtos.AuthDTO, error) {
-	db := shareddb.NewDB()
-	defer db.Close()
+
 	dto := &auth_domain_dtos.AuthDTO{}
-	dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
+	//dto.Token = "helloworld" //base64.NewEncoding("base64").EncodeToString([]byte("asfdf"))
 	hash := md5.Sum([]byte(password))
-	h := fmt.Sprintf("%x", hash)
-	fmt.Println("data : ", h, login, password)
-	statement, _ := db.Prepare("SELECT id, email, user_type, user_level FROM users WHERE email = ? and password = ? limit 1")
-	defer statement.Close()
+	hashedPassword := fmt.Sprintf("%x", hash)
+	u := obj.db.Model("users").Where("user_name", login).Where("password", hashedPassword)
+
 	err := statement.QueryRow(login, h).Scan(&dto.User_id, &dto.Email, &dto.User_type, &dto.User_level)
 	if err != nil {
 		fmt.Println(err.Error())

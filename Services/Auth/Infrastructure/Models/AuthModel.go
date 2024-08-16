@@ -1,16 +1,20 @@
 package auth_infrastructure_models
 
-import "gorm.io/gorm"
+import (
+	"github.com/golang/protobuf/ptypes/timestamp"
+	"gorm.io/gorm"
+)
 
 // impolements AuthEntity
-type AuthModel struct {
+type Auth struct {
 	gorm.Model
-	id         int    `json: id`
-	email      string `json: email`
-	token      string `json: token`
-	user_id    int    `json: user_id`
-	user_type  string `json: user_type`
-	user_level string `json: user_level`
+	id         int                 `json: id`
+	email      string              `json: email`
+	token      string              `json: token`
+	user_id    int                 `json: user_id`
+	user_type  string              `json: user_type`
+	user_level string              `json: user_level`
+	expires_at timestamp.Timestamp `json: user_level`
 }
 
 func (obj *AuthModel) SetId(id int) {
