@@ -22,3 +22,8 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
 	}
 	return accessToken, nil
 }
+
+func (obj *AuthService) Register() (string, error) {
+
+	return "", nil
+}

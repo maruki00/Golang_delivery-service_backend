@@ -64,10 +64,7 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 }
 
 func (obj *AuthRepository) clearToken(id int) {
-	//var auth auth_infrastructure_models.Auth
 	obj.db.Exec("delete from auths  where user_id = ? ", id)
-	//result = obj.db.Where("user_id = ?", id).Delete(&auth)
-	// fmt.Println("user_id : ", id, result.Error)
 }
 
 func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_infrastructure_models.Auth {
@@ -93,5 +90,14 @@ func (obj *AuthRepository) ForgetPassword(email string) error {
 	// if err != nil {
 	// 	return errors.New("could not register a new account")
 	// }
+	return nil
+}
+
+func (obj *AuthRepository) Register(user shared_models.User) error {
+
+	u := obj.db.Model(&shared_models.User{}).Create(user)
+	if u.RowsAffected == 0 {
+		return errors.New("could not create the user")
+	}
 	return nil
 }
