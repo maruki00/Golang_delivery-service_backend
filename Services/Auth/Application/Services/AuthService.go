@@ -16,7 +16,7 @@ func NewAuthService(repo *auth_infrastructure_repository.AuthRepository) *AuthSe
 }
 
 func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
-	accessToken, err := obj.repo.Login(dto.GetLogin(), dto.GetPassword())
+	accessToken, err := obj.repo.Login(dto.Login, dto.Password)
 	if err != nil {
 		return err.Error(), err
 	}
