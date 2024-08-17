@@ -30,14 +30,22 @@ func (obj AuthController) Login(ctx *gin.Context) {
 
 	request := &auth_requests.LoginRequest{}
 	if err := ctx.BindJSON(&request); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+			"error":   err.Error(),
+			"data":    nil,
+		})
 		return
 	}
 
 	if err := obj.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": errorMessage})
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+			"error":   errorMessage,
+			"data":    nil,
+		})
 		return
 	}
 
@@ -46,11 +54,51 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		Password: request.Password,
 	})
 
-	ctx.JSON(200, map[string]any{
-		"token": accessToken})
+	ctx.JSON(http.StatusOK, gin.H{
+		"message": "Success",
+		"token":   accessToken,
+		"error":   nil,
+		"data":    nil,
+	})
 }
 
 func (obj AuthController) Register(ctx *gin.Context) {
+	request := &auth_requests.RegisterRequest{}
+	if err := ctx.BindJSON(request); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+			"error":   err.Error(),
+			"data":    nil,
+		})
+		return
+	}
+
+	if err := obj.Validate.Struct(request); err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			"message": "Bad Request",
+			"error":   errorMessage,
+			"data":    nil,
+		})
+		return
+	}
+
+	accessToken, _ := obj.service.Login(auth_domain_dtos.RegisterDTO{
+		UserName
+		FullName
+		Email
+		Address
+		Password
+		UserType
+		UserLevel
+		IsOnline
+		IsLocked
+		LastSeen
+	})
+
+
+
 	// var dto DTOs.UserDTO
 	// SharedUtils.ParseBody(ctx.Request, &dto)
 	// fmt.Println("level Register Controller : ", ctx.Request.Body)
