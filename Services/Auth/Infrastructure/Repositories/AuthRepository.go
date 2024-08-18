@@ -1,6 +1,7 @@
 package auth_infrastructure_repository
 
 import (
+	auth_domain_entities "delivery/Services/Auth/Domain/Entities"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
@@ -72,24 +73,8 @@ func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_i
 	return auth
 }
 
-func (obj *AuthRepository) ForgetPassword(email string) error {
+func (obj *AuthRepository) ForgetPassword(enttity auth_domain_entities.ForgetPasswordEntity) error {
 
-	// db := shareddb.NewDB()
-	// defer db.Close()
-
-	// statement, err := db.Prepare(`
-	// 			INSERT INTO users (user_name, full_name, email, password, address, user_type)
-	// 			VALUES (?, ?, ?, ?, ?, ?)`)
-
-	// if err != nil {
-	// 	panic(err.Error())
-	// }
-	// defer statement.Close()
-
-	// _, err = statement.Exec(userName, fullName, email, hashedPass, address, userType)
-	// if err != nil {
-	// 	return errors.New("could not register a new account")
-	// }
 	return nil
 }
 
