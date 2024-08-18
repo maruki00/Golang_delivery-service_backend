@@ -12,7 +12,7 @@ type Auth struct {
 	Token     string `json: token`
 	UserId    int    `json: user_id`
 	UserType  string `json: user_type`
-	UserLevel string `json: user_level`
+	UserLevel int    `json: user_level`
 	ExpiresAt string `json: expires_at`
 }
 
@@ -31,7 +31,7 @@ func (obj *Auth) SetUserId(user_id int) {
 func (obj *Auth) SetUserType(user_type string) {
 	obj.UserType = user_type
 }
-func (obj *Auth) SetUserLevel(user_level string) {
+func (obj *Auth) SetUserLevel(user_level int) {
 	obj.UserLevel = user_level
 }
 
@@ -50,6 +50,6 @@ func (obj *Auth) GetUserId() int {
 func (obj *Auth) GetUserType() string {
 	return obj.UserType
 }
-func (obj *Auth) GetUserLevel() string {
+func (obj *Auth) GetUserLevel() int {
 	return obj.UserLevel
 }

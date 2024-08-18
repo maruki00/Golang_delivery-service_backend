@@ -8,9 +8,9 @@ type UserEntity interface {
 	GetAddress() string
 	GetPassword() string
 	GetUserType() string
-	GetUserLevel() string
-	GetIsOnline() string
-	GetIsLocked() string
+	GetUserLevel() int
+	GetIsOnline() int
+	GetIsLocked() int
 	GetLastSeen() string
 	GetCreatedAt() string
 	GetUpdatedAt() string

@@ -2,15 +2,15 @@ package shared_models
 
 type User struct {
 	Id        int    `json: "id"`
-	Username  string `json: "user_name"`
-	Fullname  string `json: "full_name"`
+	UserName  string `json: "user_name"`
+	FullName  string `json: "full_name"`
 	Email     string `json: "email"`
 	Address   string `json: "address"`
 	Password  string `json: "password"`
 	UserType  string `json: "user_type"`
-	UserLevel string `json: "user_level"`
-	IsOnline  string `json: "is_online"`
-	IsLocked  string `json: "is_locked"`
+	UserLevel int    `json: "user_level"`
+	IsOnline  int    `json: "is_online"`
+	IsLocked  int    `json: "is_locked"`
 	LastSeen  string `json: "last_seen"`
 	CreatedAt string `json: "created_at"`
 	UpdatedAt string `json: "updated_at"`
@@ -20,10 +20,10 @@ func (obj *User) GetId() int {
 	return obj.Id
 }
 func (obj *User) GetUsername() string {
-	return obj.Username
+	return obj.UserName
 }
 func (obj *User) GetFullname() string {
-	return obj.Fullname
+	return obj.FullName
 }
 func (obj *User) GetEmail() string {
 	return obj.Email
@@ -37,13 +37,13 @@ func (obj *User) GetPassword() string {
 func (obj *User) GetUserType() string {
 	return obj.UserType
 }
-func (obj *User) GetUserLevel() string {
+func (obj *User) GetUserLevel() int {
 	return obj.UserLevel
 }
-func (obj *User) GetIsOnline() string {
+func (obj *User) GetIsOnline() int {
 	return obj.IsOnline
 }
-func (obj *User) GetIsLocked() string {
+func (obj *User) GetIsLocked() int {
 	return obj.IsLocked
 }
 func (obj *User) GetLastSeen() string {

@@ -7,8 +7,8 @@ type RegisterDTO struct {
 	Address   string
 	Password  string
 	UserType  string
-	UserLevel string
-	IsOnline  string
-	IsLocked  string
+	UserLevel int
+	IsOnline  int
+	IsLocked  int
 	LastSeen  string
 }

@@ -7,6 +7,7 @@ import (
 	auth_requests "delivery/Services/Auth/UserGateway/Requests"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	"fmt"
+	"log"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -73,8 +74,6 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	fmt.Print(request)
-
 	if err := obj.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
@@ -86,20 +85,16 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, _ := obj.service.Register(auth_domain_dtos.RegisterDTO{
-		UserName
-		FullName
-		Email
-		Address
-		Password
-		UserType
-		UserLevel
-		IsOnline
-		IsLocked
-		LastSeen
+	_, err := obj.service.Register(auth_domain_dtos.RegisterDTO{
+		FullName: request.FullName,
+		UserName: request.FullName,
+		Email:    request.Email,
+		Address:  request.UserName,
+		Password: request.Password,
 	})
-
-
+	if err != nil {
+		log.Fatal(err.Error())
+	}
 
 	// var dto DTOs.UserDTO
 	// SharedUtils.ParseBody(ctx.Request, &dto)

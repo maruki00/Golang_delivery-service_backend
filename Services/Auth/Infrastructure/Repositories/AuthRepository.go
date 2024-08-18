@@ -1,7 +1,6 @@
 package auth_infrastructure_repository
 
 import (
-	auth_domain_entities "delivery/Services/Auth/Domain/Entities"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
@@ -74,37 +73,37 @@ func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_i
 	return auth
 }
 
-func (obj *AuthRepository) ForgetPassword(entity *auth_domain_entities.ForgetPasswordEntity) error {
-	res := obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Create(entity)
-	if res.RowsAffected == 0 {
-		return errors.New("record doesnt saved")
-	}
-	return nil
-}
+// func (obj *AuthRepository) ForgetPassword(entity *auth_domain_entities.ForgetPasswordEntity) error {
+// 	res := obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Create(entity)
+// 	if res.RowsAffected == 0 {
+// 		return errors.New("record doesnt saved")
+// 	}
+// 	return nil
+// }
 
-func (obj *AuthRepository) ResetPasswordByPin(entity *auth_domain_entities.ForgetPasswordEntity, password string) error {
-	var resetPass *auth_infrastructure_models.ResetPassword
-	obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Where("pin = ? or token = ?", entity.GetPin(), entity.GetToken()).Find(resetPass)
-	if resetPass == nil {
-		return errors.New("invalid token or pin")
-	}
-	var user shared_models.User
+// func (obj *AuthRepository) ResetPasswordByPin(entity *auth_domain_entities.ForgetPasswordEntity, password string) error {
+// 	var resetPass *auth_infrastructure_models.ResetPassword
+// 	obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Where("pin = ? or token = ?", entity.GetPin(), entity.GetToken()).Find(resetPass)
+// 	if resetPass == nil {
+// 		return errors.New("invalid token or pin")
+// 	}
+// 	var user shared_models.User
 
-	obj.db.Model(&user).Where("email = ? ", entity.GetEmail()).Find(&user)
-	if user == nil {
-		return errors.New("invalid token or pin")
-	}
+// 	obj.db.Model(&user).Where("email = ? ", entity.GetEmail()).Find(&user)
+// 	if user == nil {
+// 		return errors.New("invalid token or pin")
+// 	}
 
-	res := obj.db.Model(&user).Update("password", shared_utils.Md5Hash(password))
+// 	res := obj.db.Model(&user).Update("password", shared_utils.Md5Hash(password))
 
-	if res.RowsAffected == 0 {
-		return errors.New("record doesnt updated")
-	}
-	obj.clearToken(user.Id)
-	return nil
-}
+// 	if res.RowsAffected == 0 {
+// 		return errors.New("record doesnt updated")
+// 	}
+// 	obj.clearToken(user.Id)
+// 	return nil
+// }
 
-func (obj *AuthRepository) Register(user *shared_entities.UserEntity) (*shared_entities.UserEntity, error) {
+func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_entities.UserEntity, error) {
 
 	u := obj.db.Model(&shared_models.User{}).Create(user)
 	if u.RowsAffected == 0 {
