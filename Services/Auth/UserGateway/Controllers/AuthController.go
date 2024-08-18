@@ -73,6 +73,8 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
+	fmt.Print(request)
+
 	if err := obj.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
@@ -84,7 +86,7 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, _ := obj.service.Login(auth_domain_dtos.RegisterDTO{
+	accessToken, _ := obj.service.Register(auth_domain_dtos.RegisterDTO{
 		UserName
 		FullName
 		Email

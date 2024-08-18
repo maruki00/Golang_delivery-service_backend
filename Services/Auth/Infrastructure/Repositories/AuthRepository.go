@@ -5,6 +5,7 @@ import (
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
+	shared_entities "delivery/Services/Shared/Domain/Entities"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
@@ -103,11 +104,11 @@ func (obj *AuthRepository) ResetPasswordByPin(entity *auth_domain_entities.Forge
 	return nil
 }
 
-func (obj *AuthRepository) Register(user shared_models.User) error {
+func (obj *AuthRepository) Register(user *shared_entities.UserEntity) (*shared_entities.UserEntity, error) {
 
 	u := obj.db.Model(&shared_models.User{}).Create(user)
 	if u.RowsAffected == 0 {
-		return errors.New("could not create the user")
+		return nil, errors.New("could not create the user")
 	}
-	return nil
+	return user, nil
 }
