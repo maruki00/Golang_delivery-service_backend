@@ -73,8 +73,33 @@ func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_i
 	return auth
 }
 
-func (obj *AuthRepository) ForgetPassword(enttity auth_domain_entities.ForgetPasswordEntity) error {
+func (obj *AuthRepository) ForgetPassword(entity *auth_domain_entities.ForgetPasswordEntity) error {
+	res := obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Create(entity)
+	if res.RowsAffected == 0 {
+		return errors.New("record doesnt saved")
+	}
+	return nil
+}
 
+func (obj *AuthRepository) ResetPasswordByPin(entity *auth_domain_entities.ForgetPasswordEntity, password string) error {
+	var resetPass *auth_infrastructure_models.ResetPassword
+	obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Where("pin = ? or token = ?", entity.GetPin(), entity.GetToken()).Find(resetPass)
+	if resetPass == nil {
+		return errors.New("invalid token or pin")
+	}
+	var user shared_models.User
+
+	obj.db.Model(&user).Where("email = ? ", entity.GetEmail()).Find(&user)
+	if user == nil {
+		return errors.New("invalid token or pin")
+	}
+
+	res := obj.db.Model(&user).Update("password", shared_utils.Md5Hash(password))
+
+	if res.RowsAffected == 0 {
+		return errors.New("record doesnt updated")
+	}
+	obj.clearToken(user.Id)
 	return nil
 }
 
