@@ -31,7 +31,8 @@ func (obj AuthController) Login(ctx *gin.Context) {
 
 	request := &auth_requests.LoginRequest{}
 	if err := ctx.BindJSON(&request); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{
+		shared_utils.
+			ctx.JSON(http.StatusBadRequest, gin.H{
 			"message": "Bad Request",
 			"error":   err.Error(),
 			"data":    nil,
@@ -76,14 +77,6 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
-
-	fmt.Println("Auth : ", auth_domain_dtos.RegisterDTO{
-		FullName: request.FullName,
-		UserName: request.UserName,
-		Email:    request.Email,
-		Address:  request.UserName,
-		Password: request.Password,
-	})
 
 	_, err := obj.service.Register(auth_domain_dtos.RegisterDTO{
 		FullName: request.FullName,
