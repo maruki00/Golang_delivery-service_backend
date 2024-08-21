@@ -56,7 +56,7 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		Password: request.Password,
 	})
 
-	ctx.JSON(http.StatusOK, gin.H{
+	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{
 		"message": "Success",
 		"token":   accessToken,
 		"error":   nil,
