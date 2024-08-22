@@ -100,12 +100,8 @@ func (obj *AuthRepository) TwoFactoryConfirm(email string, pin int) (bool, error
 	return true, nil
 }
 
-func (obj *AuthRepository) UnlockUser(email string) (bool, error) {
-	res := obj.db.Exec("update users set is_locked = 0 where email = ?", email)
-	if res.RowsAffected == 0 {
-		return false, fmt.Errorf("could not unlok user %v", res.Error)
-	}
-	return true, nil
+func (obj *AuthRepository) LockUser(email string, lock int) {
+	obj.db.Exec("update users set is_locked = ? where email = ?", lock, email)
 }
 
 // func (obj *AuthRepository) ForgetPassword(entity *auth_domain_entities.ForgetPasswordEntity) error {

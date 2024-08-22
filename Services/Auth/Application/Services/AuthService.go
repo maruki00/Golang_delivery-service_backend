@@ -27,6 +27,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
 		return err.Error(), err
 	}
 
+	obj.repo.LockUser(dto.Login, 1)
 	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
 		Pin:   rand.Intn(999999),
 		Email: dto.Login,
@@ -66,12 +67,9 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) (bool, error)
 func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) (bool, error) {
 
 	_, err := obj.repo.TwoFactoryConfirm(dto.Email, dto.Pin)
-	fmt.Println("69 : ", err)
 	if err != nil {
 		return false, err
 	}
-	if ok, err := obj.repo.UnlockUser(dto.Email); err == nil || !ok {
-		return false, err
-	}
+	obj.repo.LockUser(dto.Email, 0)
 	return true, nil
 }
