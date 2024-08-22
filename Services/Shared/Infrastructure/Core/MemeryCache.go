@@ -16,7 +16,7 @@ type MemoryCache struct {
 	items map[string]*CacheItem
 }
 
-func (o *MemoryCache) Insert(key string, expiresInSeconds int, val interface{}) error {
+func (o *MemoryCache) Set(key string, expiresInSeconds int, val interface{}) error {
 	o.Mutex.Lock()
 	defer o.Mutex.Unlock()
 	o.items[key] = &CacheItem{
@@ -30,22 +30,19 @@ func (o *MemoryCache) Delete(key string) {
 	delete(o.items, key)
 }
 
-func (o *MemoryCache) Update(key string, expires int, val interface{}) error {
+func (o *MemoryCache) Get(key string, expires int, val interface{}) (error, interface{}) {
 
 	item, ok := o.items[key]
 	if !ok {
-		return fmt.Errorf("key not found")
+		return fmt.Errorf("key not found"), nil
 	}
 
 	if !item.Exprires.Before(time.Now()) {
 		o.Delete(key)
-		return fmt.Errorf("key has been expired")
+		return fmt.Errorf("key has been expired"), nil
 	}
 
-	if err := o.Insert(key, expires, val); err != nil {
-		return err
-	}
-	return nil
+	return nil, item.Value
 }
 
 func (o *MemoryCache) Clear() {

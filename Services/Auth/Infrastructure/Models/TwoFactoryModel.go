@@ -11,3 +11,7 @@ type TwoFactoryPin struct {
 func (o *TwoFactoryPin) GetPin() int {
 	return o.Pin
 }
+
+func (o *TwoFactoryPin) GetEmail() string {
+	return o.Pin
+}
