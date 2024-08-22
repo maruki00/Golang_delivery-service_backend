@@ -52,3 +52,29 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) (bool, error)
 	}
 	return true, nil
 }
+
+func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) (bool, error) {
+
+	dt := time.Now()
+	formattedTime := dt.Format("2006-01-02 15:04:05")
+	fmt.Println("now : ", formattedTime, dt)
+	user := &shared_models.User{
+		UserName:  dto.UserName,
+		FullName:  dto.FullName,
+		Email:     dto.Email,
+		Address:   shared_utils.Md5Hash(dto.Address),
+		Password:  dto.Password,
+		UserType:  "customer",
+		UserLevel: dto.UserLevel,
+		IsOnline:  0,
+		IsLocked:  0,
+		LastSeen:  formattedTime,
+		CreatedAt: formattedTime,
+		UpdatedAt: formattedTime,
+	}
+	_, err := obj.repo.Register(user)
+	if err != nil {
+		return false, err
+	}
+	return true, nil
+}
