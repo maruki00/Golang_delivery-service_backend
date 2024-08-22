@@ -30,19 +30,19 @@ func (o *MemoryCache) Delete(key string) {
 	delete(o.items, key)
 }
 
-func (o *MemoryCache) Get(key string, expires int, val interface{}) (error, interface{}) {
+func (o *MemoryCache) Get(key string, expires int, val interface{}) (interface{}, error) {
 
 	item, ok := o.items[key]
 	if !ok {
-		return fmt.Errorf("key not found"), nil
+		return nil, fmt.Errorf("key not found")
 	}
 
 	if !item.Exprires.Before(time.Now()) {
 		o.Delete(key)
-		return fmt.Errorf("key has been expired"), nil
+		return nil, fmt.Errorf("key has been expired")
 	}
 
-	return nil, item.Value
+	return item.Value, nil
 }
 
 func (o *MemoryCache) Clear() {
