@@ -32,7 +32,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
 		Email: dto.Login,
 	})
 	if !ok || err != nil {
-		return "", fmt.Errorf("something happen")
+		return "", fmt.Errorf("please try again later")
 	}
 	return accessToken, nil
 }
