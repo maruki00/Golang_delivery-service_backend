@@ -35,17 +35,20 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 func (obj *AuthRepository) Login(login, password string) (string, error) {
 
 	hashedPassword := shared_utils.Md5Hash(password)
-	uu := &shared_models.User{}
+	var uu shared_models.User
 
-	obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(uu)
-	if uu == nil {
-		return "", errors.New("invalid credentials")
-	}
+	res := obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(&uu)
+	// if &uu == nil {
+	// 	return "", errors.New("invalid credentials")
+	// }
 
+	fmt.Println("res : ", res.Error, uu)
 	token, err := shared_utils.JwtToken(uu.Email, uu.Id)
 	if err != nil {
 		return "", fmt.Errorf("could not generate token " + err.Error())
 	}
+
+	fmt.Println("auth model : ", uu)
 
 	auth := &auth_infrastructure_models.Auth{
 		Email:     uu.Email,

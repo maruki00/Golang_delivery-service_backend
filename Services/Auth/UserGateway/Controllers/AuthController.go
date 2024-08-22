@@ -71,11 +71,13 @@ func (obj AuthController) Register(ctx *gin.Context) {
 	}
 
 	_, err := obj.service.Register(auth_domain_dtos.RegisterDTO{
-		FullName: request.FullName,
-		UserName: request.UserName,
-		Email:    request.Email,
-		Address:  request.UserName,
-		Password: request.Password,
+		FullName:  request.FullName,
+		UserName:  request.UserName,
+		Email:     request.Email,
+		Address:   request.Address,
+		Password:  request.Password,
+		UserLevel: 0,
+		UserType:  "costumer",
 	})
 
 	if err != nil {

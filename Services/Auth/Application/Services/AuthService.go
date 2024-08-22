@@ -42,7 +42,6 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) (bool, error)
 
 	dt := time.Now()
 	formattedTime := dt.Format("2006-01-02 15:04:05")
-	fmt.Println("now : ", formattedTime, dt)
 	user := &shared_models.User{
 		UserName:  dto.UserName,
 		FullName:  dto.FullName,
