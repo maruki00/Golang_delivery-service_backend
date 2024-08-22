@@ -66,6 +66,7 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) (bool, error)
 func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) (bool, error) {
 
 	_, err := obj.repo.TwoFactoryConfirm(dto.Email, dto.Pin)
+	fmt.Println("69 : ", err)
 	if err != nil {
 		return false, err
 	}

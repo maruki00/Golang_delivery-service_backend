@@ -92,11 +92,11 @@ func (obj *AuthRepository) TwoFactoryCreate(twofactory auth_domain_entities.TwoF
 func (obj *AuthRepository) TwoFactoryConfirm(email string, pin int) (bool, error) {
 
 	var twofactory *auth_infrastructure_models.TwoFactoryPin
-	obj.db.Model(&twofactory).Where("pin = ? and email = ? ", pin, email).Find(twofactory)
+	obj.db.Model(&auth_infrastructure_models.TwoFactoryPin{}).Where("pin", pin).Where("email", email).Find(&twofactory)
 	if twofactory == nil {
-		return false, errors.New("could not confirm your account")
+		return false, errors.New("could not found the confiormation")
 	}
-	res := obj.db.Model(&twofactory).Where("pin = ? and email = ? ", pin, email).Delete(twofactory)
+	res := obj.db.Exec("delete from two_factory_pins where pin = ? and email = ? ", pin, email)
 	if res.RowsAffected == 0 {
 		return false, fmt.Errorf("could not confirm your account")
 	}

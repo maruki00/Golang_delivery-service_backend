@@ -14,7 +14,7 @@ var AuthRouter = func(router *gin.Engine) {
 	prefix := router.Group("/api/auth")
 	_ = prefix.POST("/login", controller.Login)
 	_ = prefix.POST("/register", controller.Register)
-	_ = prefix.PATCH("/2f-confirm", controller.Register)
+	_ = prefix.PATCH("/2f-confirm", controller.TwoFactoryConfirm)
 	// _ = prefix.POST("/check", controller.Register)
 	// _ = prefix.PATCH("/logout", controller.Register)
 }
