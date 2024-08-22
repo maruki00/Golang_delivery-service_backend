@@ -31,23 +31,14 @@ func (obj AuthController) Login(ctx *gin.Context) {
 
 	request := &auth_requests.LoginRequest{}
 	if err := ctx.BindJSON(&request); err != nil {
-		shared_utils.
-			ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad Request",
-			"error":   err.Error(),
-			"data":    nil,
-		})
+		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
 		return
 	}
 
 	if err := obj.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			"message": "Bad Request",
-			"error":   errorMessage,
-			"data":    nil,
-		})
+		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
 
@@ -65,6 +56,36 @@ func (obj AuthController) Login(ctx *gin.Context) {
 }
 
 func (obj AuthController) Register(ctx *gin.Context) {
+	request := &auth_requests.RegisterRequest{}
+	if err := ctx.BindJSON(request); err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
+		return
+	}
+
+	if err := obj.Validate.Struct(request); err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
+		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
+		return
+	}
+
+	_, err := obj.service.Register(auth_domain_dtos.RegisterDTO{
+		FullName: request.FullName,
+		UserName: request.UserName,
+		Email:    request.Email,
+		Address:  request.UserName,
+		Password: request.Password,
+	})
+
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
+		return
+	}
+
+	shared_utils.Success(ctx, http.StatusOK, "Success", nil)
+}
+
+func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 	request := &auth_requests.RegisterRequest{}
 	if err := ctx.BindJSON(request); err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())

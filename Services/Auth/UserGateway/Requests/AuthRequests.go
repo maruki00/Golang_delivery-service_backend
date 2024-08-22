@@ -13,6 +13,10 @@ type LoginRequest struct {
 	Password string `validate:"required" json:"password"`
 }
 
+type TwoFactoryConfirmRequest struct {
+	Pin int `validate: "required" json:"pin"`
+}
+
 type ResetPasswordRequest struct {
 }
 
