@@ -86,7 +86,7 @@ func (obj AuthController) Register(ctx *gin.Context) {
 }
 
 func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
-	request := &auth_requests.RegisterRequest{}
+	request := &auth_requests.TwoFactoryConfirmRequest{}
 	if err := ctx.BindJSON(request); err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
 		return
