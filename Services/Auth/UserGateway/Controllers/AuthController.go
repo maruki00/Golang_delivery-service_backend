@@ -100,18 +100,14 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 		return
 	}
 
-	// _, err := obj.service.Register(auth_domain_dtos.RegisterDTO{
-	// 	FullName: request.FullName,
-	// 	UserName: request.UserName,
-	// 	Email:    request.Email,
-	// 	Address:  request.UserName,
-	// 	Password: request.Password,
-	// })
-
-	// if err != nil {
-	// 	shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
-	// 	return
-	// }
+	res, err := obj.service.TwoFactoryConfirm(auth_domain_dtos.TwoFactoryConfirmDTO{
+		Email: request.Email,
+		Pin:   request.Pin,
+	})
+	if err != nil || !res {
+		shared_utils.Error(ctx, http.StatusInternalServerError, "Error", "could not confirm the account")
+		return
+	}
 
 	shared_utils.Success(ctx, http.StatusOK, "Success", nil)
 }

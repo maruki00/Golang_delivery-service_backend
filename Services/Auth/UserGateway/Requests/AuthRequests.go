@@ -14,7 +14,8 @@ type LoginRequest struct {
 }
 
 type TwoFactoryConfirmRequest struct {
-	Pin int `validate: "required" json:"pin"`
+	Pin   int    `validate: "required" json:"pin"`
+	Email string `validate: "required" json:"email"`
 }
 
 type ResetPasswordRequest struct {

@@ -69,5 +69,8 @@ func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirm
 	if err != nil {
 		return false, err
 	}
+	if ok, err := obj.repo.UnlockUser(dto.Email); err == nil || !ok {
+		return false, err
+	}
 	return true, nil
 }
