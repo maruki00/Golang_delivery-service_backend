@@ -7,6 +7,7 @@ import (
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"fmt"
+	"math/rand"
 	"time"
 )
 
@@ -27,8 +28,8 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
 	}
 
 	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
-		Pin:   12334,
-		Email: "helklo",
+		Pin:   rand.Intn(999999),
+		Email: dto.Login,
 	})
 	if !ok || err != nil {
 		return "", fmt.Errorf("something happen")

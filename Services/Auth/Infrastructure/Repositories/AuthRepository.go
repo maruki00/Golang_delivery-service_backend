@@ -37,8 +37,8 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 	hashedPassword := shared_utils.Md5Hash(password)
 	uu := &shared_models.User{}
 
-	u := obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(uu)
-	if u.RowsAffected == 0 {
+	obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(uu)
+	if uu == nil {
 		return "", errors.New("invalid credentials")
 	}
 
@@ -46,6 +46,7 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 	if err != nil {
 		return "", fmt.Errorf("could not generate token " + err.Error())
 	}
+
 	auth := &auth_infrastructure_models.Auth{
 		Email:     uu.Email,
 		Token:     token,
@@ -54,6 +55,7 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 		UserLevel: uu.UserLevel,
 		ExpiresAt: string(time.Now().Format("y-m-d H:i:s")),
 	}
+
 	obj.clearToken(auth.UserId)
 	obj.Create(auth)
 	obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Update("is_locked", 1)
