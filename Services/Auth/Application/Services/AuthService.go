@@ -22,12 +22,12 @@ func NewAuthService(repo *auth_infrastructure_repository.AuthRepository) *AuthSe
 }
 
 func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
-	accessToken, err := obj.repo.Login(dto.Login, dto.Password)
+	accessToken, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
 	if err != nil {
 		return err.Error(), err
 	}
 
-	obj.repo.LockUser(dto.Login, 1)
+	obj.repo.LockUser(dto.Login, "1")
 	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
 		Pin:   rand.Intn(999999),
 		Email: dto.Login,
@@ -47,12 +47,12 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) (bool, error)
 		UserName:  dto.UserName,
 		FullName:  dto.FullName,
 		Email:     dto.Email,
-		Address:   shared_utils.Md5Hash(dto.Address),
-		Password:  dto.Password,
+		Address:   dto.Address,
+		Password:  shared_utils.Md5Hash(dto.Password),
 		UserType:  "customer",
 		UserLevel: dto.UserLevel,
 		IsOnline:  0,
-		IsLocked:  0,
+		IsLocked:  1,
 		LastSeen:  formattedTime,
 		CreatedAt: formattedTime,
 		UpdatedAt: formattedTime,
@@ -70,6 +70,10 @@ func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirm
 	if err != nil {
 		return false, err
 	}
-	obj.repo.LockUser(dto.Email, 0)
+	obj.repo.LockUser(dto.Email, "0")
 	return true, nil
+}
+
+func (obj *AuthService) Logout(dto auth_domain_dtos.LogoutDTO) {
+	obj.repo.Logout(dto.Token)
 }

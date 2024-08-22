@@ -56,13 +56,13 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 		ExpiresAt: string(time.Now().Format("y-m-d H:i:s")),
 	}
 
-	obj.clearToken(auth.UserId)
+	obj.ClearToken(auth.UserId)
 	obj.Create(auth)
 	obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Update("is_locked", 1)
 	return token, nil
 }
 
-func (obj *AuthRepository) clearToken(id int) {
+func (obj *AuthRepository) ClearToken(id int) {
 	obj.db.Exec("delete from auths  where user_id = ? ", id)
 }
 
@@ -94,14 +94,18 @@ func (obj *AuthRepository) TwoFactoryConfirm(email string, pin int) (bool, error
 	var twofactory *auth_infrastructure_models.TwoFactoryPin
 	obj.db.Model(&auth_infrastructure_models.TwoFactoryPin{}).Where("pin", pin).Where("email", email).Find(&twofactory)
 	if twofactory == nil {
-		return false, errors.New("could not found the confiormation")
+		return false, errors.New("invalid data")
 	}
 	obj.db.Exec("delete from two_factory_pins where pin = ? and email = ? ", pin, email)
 	return true, nil
 }
 
-func (obj *AuthRepository) LockUser(email string, lock int) {
-	obj.db.Exec("update users set is_locked = ? where email = ?", lock, email)
+func (obj *AuthRepository) LockUser(email string, lock string) {
+	obj.db.Exec("update users set is_locked = ? where (email = ? or user_name = ?)", lock, email, email)
+}
+
+func (obj *AuthRepository) Logout(token string) {
+	obj.db.Exec("delete from auths where token = ? ", token)
 }
 
 // func (obj *AuthRepository) ForgetPassword(entity *auth_domain_entities.ForgetPasswordEntity) error {

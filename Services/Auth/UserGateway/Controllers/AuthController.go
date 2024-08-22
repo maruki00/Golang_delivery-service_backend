@@ -112,3 +112,21 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 
 	shared_utils.Success(ctx, http.StatusOK, "Success", nil)
 }
+
+func (obj *AuthController) Logout(ctx *gin.Context) {
+	request := &auth_requests.LogoutRequest{}
+	if err := ctx.BindJSON(request); err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		return
+	}
+
+	if err := obj.Validate.Struct(request); err != nil {
+		validationErrors := err.(validator.ValidationErrors)
+		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
+		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
+		return
+	}
+	obj.service.Logout(auth_domain_dtos.LogoutDTO{
+		Token: request.Token,
+	})
+}

@@ -25,4 +25,5 @@ type ForgetPasswordRequest struct {
 }
 
 type LogoutRequest struct {
+	Token string `validate: "required" json:"token"`
 }
