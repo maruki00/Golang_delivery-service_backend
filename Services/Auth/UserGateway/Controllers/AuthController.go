@@ -129,4 +129,5 @@ func (obj *AuthController) Logout(ctx *gin.Context) {
 	obj.service.Logout(auth_domain_dtos.LogoutDTO{
 		Token: request.Token,
 	})
+	shared_utils.Success(ctx, http.StatusNoContent, "Success", nil)
 }
