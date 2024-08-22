@@ -42,16 +42,17 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, _ := obj.service.Login(auth_domain_dtos.LoginDTO{
+	accessToken, err := obj.service.Login(auth_domain_dtos.LoginDTO{
 		Login:    request.Login,
 		Password: request.Password,
 	})
 
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusUnauthorized, "Error", err.Error())
+		return
+	}
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{
-		"message": "Success",
-		"token":   accessToken,
-		"error":   nil,
-		"data":    nil,
+		"token": accessToken,
 	})
 }
 

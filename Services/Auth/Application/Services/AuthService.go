@@ -26,10 +26,13 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
 		return err.Error(), err
 	}
 
-	twoFactory, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
+	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
 		Pin:   12334,
-		Email: dto.Login
+		Email: "helklo",
 	})
+	if !ok || err != nil {
+		return "", fmt.Errorf("something happen")
+	}
 	return accessToken, nil
 }
 

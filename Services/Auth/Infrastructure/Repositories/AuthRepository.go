@@ -37,7 +37,7 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 	hashedPassword := shared_utils.Md5Hash(password)
 	uu := &shared_models.User{}
 
-	u := obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Limit(1).Find(uu)
+	u := obj.db.Model(&shared_models.User{}).Where("(user_name = ? or email = ? )", login, login).Where("password", hashedPassword).Limit(1).Find(uu)
 	if u.RowsAffected == 0 {
 		return "", errors.New("invalid credentials")
 	}
@@ -78,7 +78,7 @@ func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_ent
 	return user, nil
 }
 
-func (obj *AuthRepository) TwoFactoryCreate(twofactory *auth_domain_entities.TwoFactoryPinEntity) (bool, error) {
+func (obj *AuthRepository) TwoFactoryCreate(twofactory auth_domain_entities.TwoFactoryPinEntity) (bool, error) {
 
 	u := obj.db.Model(&auth_infrastructure_models.TwoFactoryPin{}).Create(twofactory)
 	if u.RowsAffected == 0 {

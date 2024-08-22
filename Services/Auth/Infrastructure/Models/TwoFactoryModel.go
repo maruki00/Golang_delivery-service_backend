@@ -13,5 +13,5 @@ func (o *TwoFactoryPin) GetPin() int {
 }
 
 func (o *TwoFactoryPin) GetEmail() string {
-	return o.Pin
+	return o.Email
 }
