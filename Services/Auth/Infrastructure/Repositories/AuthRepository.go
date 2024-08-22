@@ -96,10 +96,7 @@ func (obj *AuthRepository) TwoFactoryConfirm(email string, pin int) (bool, error
 	if twofactory == nil {
 		return false, errors.New("could not found the confiormation")
 	}
-	res := obj.db.Exec("delete from two_factory_pins where pin = ? and email = ? ", pin, email)
-	if res.RowsAffected == 0 {
-		return false, fmt.Errorf("could not confirm your account")
-	}
+	obj.db.Exec("delete from two_factory_pins where pin = ? and email = ? ", pin, email)
 	return true, nil
 }
 
