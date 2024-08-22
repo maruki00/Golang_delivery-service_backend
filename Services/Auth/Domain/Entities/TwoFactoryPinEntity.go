@@ -1,5 +1,5 @@
 package auth_domain_entities
 
-type TwoFactoryEntity interface {
+type TwoFactoryPinEntity interface {
 	GetPin() int
 }

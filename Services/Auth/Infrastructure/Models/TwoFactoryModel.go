@@ -1,9 +1,13 @@
 package auth_infrastructure_models
 
-type TwoFactory struct {
-	Pin int `json:"pin"`
+import "gorm.io/gorm"
+
+type TwoFactoryPin struct {
+	gorm.Model
+	Pin   int    `json:"pin"`
+	Email string `json: "email"`
 }
 
-func (o *TwoFactory) GetPin() int {
+func (o *TwoFactoryPin) GetPin() int {
 	return o.Pin
 }

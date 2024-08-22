@@ -1,6 +1,7 @@
 package auth_infrastructure_repository
 
 import (
+	auth_domain_entities "delivery/Services/Auth/Domain/Entities"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
@@ -30,11 +31,6 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 
 	return false
 }
-
-// func (obj *AuthRepository) generateToken(dto *auth_domain_dtos.AuthDTO) string {
-
-// 	return ""
-// }
 
 func (obj *AuthRepository) Login(login, password string) (string, error) {
 
@@ -73,6 +69,33 @@ func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_i
 	return auth
 }
 
+func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_entities.UserEntity, error) {
+
+	u := obj.db.Model(&shared_models.User{}).Create(user)
+	if u.RowsAffected == 0 {
+		return nil, errors.New("could not create the user")
+	}
+	return user, nil
+}
+
+func (obj *AuthRepository) TwoFactoryCreate(twofactory *auth_domain_entities.TwoFactoryPinEntity) (bool, error) {
+
+	u := obj.db.Model(&auth_infrastructure_models.TwoFactoryPin{}).Create(twofactory)
+	if u.RowsAffected == 0 {
+		return false, errors.New("could not create the user")
+	}
+	return true, nil
+}
+
+func (obj *AuthRepository) TwoFactoryConfirm(pin int) (bool, error) {
+
+	u := obj.db.Model(&auth_infrastructure_models.TwoFactoryPin{}).Create(twofactory)
+	if u.RowsAffected == 0 {
+		return false, errors.New("could not create the user")
+	}
+	return true, nil
+}
+
 // func (obj *AuthRepository) ForgetPassword(entity *auth_domain_entities.ForgetPasswordEntity) error {
 // 	res := obj.db.Model(&auth_infrastructure_models.ResetPassword{}).Create(entity)
 // 	if res.RowsAffected == 0 {
@@ -102,12 +125,3 @@ func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_i
 // 	obj.clearToken(user.Id)
 // 	return nil
 // }
-
-func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_entities.UserEntity, error) {
-
-	u := obj.db.Model(&shared_models.User{}).Create(user)
-	if u.RowsAffected == 0 {
-		return nil, errors.New("could not create the user")
-	}
-	return user, nil
-}
