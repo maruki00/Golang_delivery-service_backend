@@ -43,6 +43,9 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 	}
 
 	token, err := shared_utils.JwtToken(uu.Email, uu.Id)
+	if err != nil {
+		return "", fmt.Errorf("could not generate token " + err.Error())
+	}
 	auth := &auth_infrastructure_models.Auth{
 		Email:     uu.Email,
 		Token:     token,
@@ -53,10 +56,7 @@ func (obj *AuthRepository) Login(login, password string) (string, error) {
 	}
 	obj.clearToken(auth.UserId)
 	obj.Create(auth)
-	if err != nil {
-		return "", fmt.Errorf("could not generate token " + err.Error())
-	}
-
+	obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Update("is_locked", 1)
 	return token, nil
 }
 
