@@ -37,7 +37,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
 	obj.repo.LockUser(auth.Email, "1")
 	obj.repo.CleanPins(auth.Email)
 	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
-		Pin:   rand.Intn(999999),
+		Pin:   rand.Intn(99999999),
 		Email: dto.Login,
 	})
 
