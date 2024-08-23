@@ -1,11 +1,8 @@
 package mysql_product_repository
 
 import (
-	"crypto/md5"
-
 	product_domain_entities "delivery/Services/Product/Domian/Entities"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
-	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"errors"
 	"fmt"
 
@@ -14,11 +11,13 @@ import (
 
 type ProductRepository struct {
 	db *gorm.DB
+	model interface{}
 }
 
-func NewProductRepository(dbObj *gorm.DB) *ProductRepository {
+func NewProductRepository(dbObj *gorm.DB, model interface{}) *ProductRepository {
 	return &ProductRepository{
 		db: dbObj,
+		model: model,
 	}
 }
 
@@ -55,7 +54,7 @@ func (obj *ProductRepository) Search(seasrch string) ([]*product_domain_entities
 
 func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool, error) {
 
-	res := obj.db.Model(&product_infrastructure_models.Product{}).Where("id =  ? ").Updates(data)
+	res := obj.db.Model(&product_infrastructure_models.Product{}).Where("id = ?").Updates(data)
 	if res.Error != nil {
 		return false, fmt.Errorf("Something happen, %v", res.Error)
 	}
@@ -65,38 +64,8 @@ func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool,
 	return true, nil
 }
 
-func (obj *ProductRepository) GetById(login string, password string) error {
-	db := shareddb.NewDB()
-	defer db.Close()
-	dto := &DTOs.LoginDTO{}
+func (obj *ProductRepository) Delete(id int) (bool, error) {
 
-	hash := md5.Sum([]byte(password))
-
-	h := fmt.Sprintf("%x", hash)
-
-	statement, _ := db.Prepare("SELECT email, password FROM users WHERE email = ? and password = ? limit 1")
-	defer statement.Close()
-	statement.QueryRow(login, h).Scan(&dto.Login, &dto.Password)
-	if dto.Failed() {
-		return errors.New("invalid credential")
-	}
-	return nil
-}
-
-func (obj *ProductRepository) Search(login string, password string) error {
-	db := shareddb.NewDB()
-	defer db.Close()
-	dto := &DTOs.LoginDTO{}
-
-	hash := md5.Sum([]byte(password))
-
-	h := fmt.Sprintf("%x", hash)
-
-	statement, _ := db.Prepare("SELECT email, password FROM users WHERE email = ? and password = ? limit 1")
-	defer statement.Close()
-	statement.QueryRow(login, h).Scan(&dto.Login, &dto.Password)
-	if dto.Failed() {
-		return errors.New("invalid credential")
-	}
-	return nil
+	res := obj.db.Model(&)
+	return true, nil
 }
