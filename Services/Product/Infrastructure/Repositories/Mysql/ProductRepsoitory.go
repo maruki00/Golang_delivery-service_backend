@@ -10,13 +10,13 @@ import (
 )
 
 type ProductRepository struct {
-	db *gorm.DB
-	model interface{}
+	db    *gorm.DB
+	model *interface{}
 }
 
 func NewProductRepository(dbObj *gorm.DB, model interface{}) *ProductRepository {
 	return &ProductRepository{
-		db: dbObj,
+		db:    dbObj,
 		model: model,
 	}
 }
@@ -45,7 +45,7 @@ func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEn
 
 func (obj *ProductRepository) Search(seasrch string) ([]*product_domain_entities.ProductEntity, error) {
 	var items []*product_domain_entities.ProductEntity
-	res := obj.db.Model(&product_infrastructure_models.Product{}).Where("label = ? or price = ? or type = ? ", seasrch, seasrch, seasrch).Find(&items)
+	res := obj.db.Model(obj.model).Where("label = ? or price = ? or type = ? ", seasrch, seasrch, seasrch).Find(&items)
 	if res.Error != nil {
 		return []*product_domain_entities.ProductEntity{}, nil
 	}
@@ -54,7 +54,7 @@ func (obj *ProductRepository) Search(seasrch string) ([]*product_domain_entities
 
 func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool, error) {
 
-	res := obj.db.Model(&product_infrastructure_models.Product{}).Where("id = ?").Updates(data)
+	res := obj.db.Model(obj.model).Where("id = ?").Updates(data)
 	if res.Error != nil {
 		return false, fmt.Errorf("Something happen, %v", res.Error)
 	}
@@ -64,8 +64,15 @@ func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool,
 	return true, nil
 }
 
-func (obj *ProductRepository) Delete(id int) (bool, error) {
+func (obj *ProductRepository) Delete(id int) (interface{}, error) {
 
-	res := obj.db.Model(&)
-	return true, nil
+	var product interface{}
+	res := obj.db.Model(obj.model).Where("id = ? ", id).Delete(&product)
+	if res.Error != nil {
+		return nil, fmt.Errorf("something happen %v", res.Error)
+	}
+	if res.RowsAffected == 0 {
+		return nil, fmt.Errorf("could not delete the record")
+	}
+	return product, nil
 }
