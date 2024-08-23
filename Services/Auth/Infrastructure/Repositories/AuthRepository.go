@@ -4,11 +4,11 @@ import (
 	auth_domain_entities "delivery/Services/Auth/Domain/Entities"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_configs "delivery/Services/Shared/Application/Configs"
-	shared_utils "delivery/Services/Shared/Application/Utils"
 	shared_entities "delivery/Services/Shared/Domain/Entities"
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
+	"fmt"
 	"sync"
 	"time"
 
@@ -33,14 +33,13 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 
 func (obj *AuthRepository) Login(login, password string) (*shared_models.User, error) {
 
-	hashedPassword := shared_utils.Md5Hash(password)
-	var uu *shared_models.User
+	var uu shared_models.User
 
-	obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(uu)
-	if uu == nil {
-		return nil, errors.New("invalid credentials")
-	}
-	return uu, nil
+	obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", password).Find(&uu)
+
+	fmt.Println(" hello : ", uu, password)
+
+	return &uu, nil
 }
 
 func (obj *AuthRepository) CreateAuth(token string, user *shared_models.User) *auth_infrastructure_models.Auth {

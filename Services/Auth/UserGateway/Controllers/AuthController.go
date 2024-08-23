@@ -106,7 +106,6 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 		Email: request.Email,
 		Pin:   request.Pin,
 	})
-	fmt.Println("result ; ", res, err)
 	if err != nil || !res {
 		shared_utils.Error(ctx, http.StatusInternalServerError, "Error", "could not confirm the account")
 		return
