@@ -9,7 +9,6 @@ import (
 	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
@@ -32,46 +31,34 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 	return false
 }
 
-func (obj *AuthRepository) Login(login, password string) (string, error) {
+func (obj *AuthRepository) Login(login, password string) (*shared_models.User, error) {
 
 	hashedPassword := shared_utils.Md5Hash(password)
-	var uu shared_models.User
+	var uu *shared_models.User
 
-	res := obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(&uu)
-	// if &uu == nil {
-	// 	return "", errors.New("invalid credentials")
-	// }
-
-	fmt.Println("res : ", res.Error, uu)
-	token, err := shared_utils.JwtToken(uu.Email, uu.Id)
-	if err != nil {
-		return "", fmt.Errorf("could not generate token " + err.Error())
+	obj.db.Model(&shared_models.User{}).Where("user_name", login, login).Where("password", hashedPassword).Limit(1).Find(uu)
+	if uu == nil {
+		return nil, errors.New("invalid credentials")
 	}
+	return uu, nil
+}
 
-	fmt.Println("auth model : ", uu)
-
+func (obj *AuthRepository) CreateAuth(token string, user *shared_models.User) *auth_infrastructure_models.Auth {
 	auth := &auth_infrastructure_models.Auth{
-		Email:     uu.Email,
+		Email:     user.Email,
 		Token:     token,
-		UserId:    uu.Id,
-		UserType:  uu.UserType,
-		UserLevel: uu.UserLevel,
+		UserId:    user.Id,
+		UserType:  user.UserType,
+		UserLevel: user.UserLevel,
 		ExpiresAt: string(time.Now().Format("y-m-d H:i:s")),
 	}
 
-	obj.ClearToken(auth.UserId)
-	obj.Create(auth)
-	obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", hashedPassword).Update("is_locked", 1)
-	return token, nil
-}
-
-func (obj *AuthRepository) ClearToken(id int) {
-	obj.db.Exec("delete from auths  where user_id = ? ", id)
-}
-
-func (obj *AuthRepository) Create(auth *auth_infrastructure_models.Auth) *auth_infrastructure_models.Auth {
 	obj.db.Create(auth)
 	return auth
+
+}
+func (obj *AuthRepository) ClearToken(id int) {
+	obj.db.Exec("delete from auths  where user_id = ? ", id)
 }
 
 func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_entities.UserEntity, error) {
@@ -81,6 +68,10 @@ func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_ent
 		return nil, errors.New("could not create the user")
 	}
 	return user, nil
+}
+
+func (obj *AuthRepository) CleanPins(email string) {
+	obj.db.Exec("delete from two_factory_pins where email = ? ", email)
 }
 
 func (obj *AuthRepository) TwoFactoryCreate(twofactory auth_domain_entities.TwoFactoryPinEntity) (bool, error) {

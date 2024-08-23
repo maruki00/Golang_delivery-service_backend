@@ -22,20 +22,29 @@ func NewAuthService(repo *auth_infrastructure_repository.AuthRepository) *AuthSe
 }
 
 func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) (string, error) {
-	accessToken, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
+	user, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
 	if err != nil {
 		return err.Error(), err
 	}
 
-	obj.repo.LockUser(dto.Login, "1")
+	token, err := shared_utils.JwtToken(user.Email, user.Id)
+	if err != nil {
+		return "", fmt.Errorf("could not generate token " + err.Error())
+	}
+
+	obj.repo.ClearToken(user.Id)
+	auth := obj.repo.CreateAuth(token, user)
+	obj.repo.LockUser(auth.Email, "1")
+	obj.repo.CleanPins(auth.Email)
 	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
 		Pin:   rand.Intn(999999),
 		Email: dto.Login,
 	})
+
 	if !ok || err != nil {
 		return "", fmt.Errorf("please try again later")
 	}
-	return accessToken, nil
+	return token, nil
 }
 
 func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) (bool, error) {
