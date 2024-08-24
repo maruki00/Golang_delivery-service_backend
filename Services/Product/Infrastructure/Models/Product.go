@@ -1,9 +1,10 @@
 package product_infrastructure_models
 
 type Product struct {
-	Label string
-	Price float32
-	Type  string
+	Id    int     `json:"id"`
+	Label string  `json:"label"`
+	Price float32 `json:"price"`
+	Type  string  `json:"type"`
 }
 
 func (p *Product) GetLabel() string {

@@ -7,7 +7,7 @@ import (
 	product_Infrastructure_repository "delivery/Services/Product/Infrastructure/Repositories"
 	product_usergetway_requests "delivery/Services/Product/UserGetway/Requests"
 	shared_utils "delivery/Services/Shared/Application/Utils"
-	"fmt"
+	shared_core "delivery/Services/Shared/Infrastructure/Core"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -16,35 +16,106 @@ import (
 )
 
 type ProductController struct {
-	service   *product_services.ProductService
-	Validator *validator.Validate
+	service  *product_services.ProductService
+	Validate *validator.Validate
 }
 
 func NewProductController(db *gorm.DB) *ProductController {
 	return &ProductController{
-		service: product_services.NewProductService(product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{})),
+		service:  product_services.NewProductService(product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{})),
+		Validate: validator.New(),
 	}
 }
 
 func (obj *ProductController) Insert(ctx *gin.Context) {
 
-	var request product_usergetway_requests.InsertProductRequest
-	if err := ctx.BindJSON(&request); err != nil {
-		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "some params are missing")
+	request := &product_usergetway_requests.InsertProductRequest{}
+
+	err := shared_core.Validate(ctx, obj.Validate, request)
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-
-	if err := obj.Validator.Struct(request); err != nil {
-		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "sinvalid data")
-		return
-	}
-
-	obj.service.Insert(&product_domain_dtos.InsertProductDTO{
+	res, err := obj.service.Insert(&product_domain_dtos.InsertProductDTO{
 		Label: request.Label,
 		Type:  request.Type,
 		Price: request.Price,
 	})
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
+		return
+	}
 
-	obj.Validator.Struct()
-	fmt.Println("Insert New Product ...")
+	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
+
+
+func (obj *ProductController) Search(ctx *gin.Context) {
+
+	request := &product_usergetway_requests.InsertProductRequest{}
+
+	err := shared_core.Validate(ctx, obj.Validate, request)
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		return
+	}
+	res, err := obj.service.Insert(&product_domain_dtos.InsertProductDTO{
+		Label: request.Label,
+		Type:  request.Type,
+		Price: request.Price,
+	})
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
+		return
+	}
+
+	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
+}
+
+
+func (obj *ProductController) Update(ctx *gin.Context) {
+
+	request := &product_usergetway_requests.InsertProductRequest{}
+
+	err := shared_core.Validate(ctx, obj.Validate, request)
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		return
+	}
+	res, err := obj.service.Insert(&product_domain_dtos.InsertProductDTO{
+		Label: request.Label,
+		Type:  request.Type,
+		Price: request.Price,
+	})
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
+		return
+	}
+
+	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
+}
+
+
+func (obj *ProductController) Delete(ctx *gin.Context) {
+
+	request := &product_usergetway_requests.InsertProductRequest{}
+
+	err := shared_core.Validate(ctx, obj.Validate, request)
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		return
+	}
+	res, err := obj.service.Insert(&product_domain_dtos.InsertProductDTO{
+		Label: request.Label,
+		Type:  request.Type,
+		Price: request.Price,
+	})
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
+		return
+	}
+
+	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
+}
+
+

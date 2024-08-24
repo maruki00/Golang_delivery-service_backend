@@ -2,6 +2,7 @@ package product_services
 
 import (
 	product_domain_dtos "delivery/Services/Product/Domian/DTOS"
+	product_domain_entities "delivery/Services/Product/Domian/Entities"
 	product_domain_repositories "delivery/Services/Product/Domian/Repositories"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
 	"errors"
@@ -17,7 +18,7 @@ func NewProductService(productRepository product_domain_repositories.IProductRep
 	}
 }
 
-func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (bool, error) {
+func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (product_domain_entities.ProductEntity, error) {
 
 	res, err := obj.productRepository.Insert(&product_infrastructure_models.Product{
 		Label: dto.Label,
@@ -26,12 +27,8 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (bo
 	})
 
 	if err != nil {
-		return false, errors.New("error")
+		return nil, errors.New("error")
 	}
 
-	if !res {
-		return false, errors.New("could not create product reecord")
-	}
-
-	return true, nil
+	return res, nil
 }

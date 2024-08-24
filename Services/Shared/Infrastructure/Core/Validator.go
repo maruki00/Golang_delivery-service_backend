@@ -4,22 +4,19 @@ import (
 	"fmt"
 
 	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator"
+	"github.com/go-playground/validator/v10"
 )
 
-type RequestValidator struct {
-	Validator *validator.Validate
-}
-
-func (o *RequestValidator) Validate(ctx gin.Context, request interface{}) (error, interface{}) {
-
-	if err := ctx.BindJSON(&request); err != nil {
-		return err, nil
+func Validate(ctx *gin.Context, Validate *validator.Validate, request interface{}) error {
+	if err := ctx.BindJSON(request); err != nil {
+		return err
 	}
 
-	if err := o.Validator.Struct(request); err != nil {
+	if err := Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
-		return fmt.Errorf("Validation failed for field: %s", validationErrors[0].Field()), nil
+		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
+
+		return fmt.Errorf(errorMessage)
 	}
-	return nil, request
+	return nil
 }

@@ -14,12 +14,6 @@ type ProductRepository struct {
 	model interface{}
 }
 
-// func NewAuthRepository(config *shared_configs.Config) *AuthRepository {
-// 	return &AuthRepository{
-// 		db: shareddb.NewMysqlDB_GORM(config),
-// 	}
-// }
-
 func NewProductRepository(dbObj *gorm.DB, model interface{}) *ProductRepository {
 	return &ProductRepository{
 		db:    dbObj,
@@ -27,16 +21,16 @@ func NewProductRepository(dbObj *gorm.DB, model interface{}) *ProductRepository 
 	}
 }
 
-func (obj *ProductRepository) Insert(product product_domain_entities.ProductEntity) (bool, error) {
-
+func (obj *ProductRepository) Insert(product product_domain_entities.ProductEntity) (product_domain_entities.ProductEntity, error) {
 	res := obj.db.Model(&product_infrastructure_models.Product{}).Create(product)
+	fmt.Println("product : ", product)
 	if res.Error != nil {
-		return false, res.Error
+		return nil, res.Error
 	}
 	if res.RowsAffected == 0 {
-		return false, errors.New("record could not be saved")
+		return nil, errors.New("record could not be saved")
 	}
-	return true, nil
+	return product, nil
 }
 
 func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEntity, error) {
