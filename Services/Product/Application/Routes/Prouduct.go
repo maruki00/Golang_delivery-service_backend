@@ -4,12 +4,13 @@ import (
 	auth_usergetway_controllers "delivery/Services/Auth/UserGateway/Controllers"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
-var AuthRouter = func(router *gin.Engine) {
+var AuthRouter = func(router *gin.Engine, db *gorm.DB) {
 
 	// repo := auth_infrastructure_repository.NewAuthRepository(shared_configs.GetConfig())
-	controller := auth_usergetway_controllers.NewAuthController()
+	controller := auth_usergetway_controllers.NewAuthController(db)
 
 	prefix := router.Group("/api/product")
 	_ = prefix.POST("/login", controller.Login)

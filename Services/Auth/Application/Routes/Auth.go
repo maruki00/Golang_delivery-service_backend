@@ -10,7 +10,7 @@ import (
 var AuthRouter = func(router *gin.Engine, db *gorm.DB) {
 
 	// repo := auth_infrastructure_repository.NewAuthRepository(shared_configs.GetConfig())
-	controller := auth_usergetway_controllers.NewAuthController()
+	controller := auth_usergetway_controllers.NewAuthController(db)
 
 	prefix := router.Group("/api/auth")
 	_ = prefix.POST("/login", controller.Login)

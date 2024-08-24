@@ -15,7 +15,7 @@ func main() {
 	db := shareddb.NewMysqlDB_GORM(config)
 	fmt.Println(filepath.Dir("./"))
 	router := gin.Default()
-	auth_routes.AuthRouter(router)
+	auth_routes.AuthRouter(router, db)
 
 	router.Run(fmt.Sprintf("%s:%s", config.Server.Host, config.Server.Port))
 }
