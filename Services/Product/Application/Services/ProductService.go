@@ -13,3 +13,7 @@ func NewProductService(productRepository product_domain_repositories.IProductRep
 		productRepository: &productRepository,
 	}
 }
+
+func (slef *ProductService) Insert(dto InsertProductDTO) {
+
+}

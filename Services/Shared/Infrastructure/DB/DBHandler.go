@@ -17,7 +17,8 @@ func NewDB() *sql.DB {
 		panic(err.Error())
 	}
 
-	dsn := fmt.Sprintf("%s:%s@/%s", config.Database.Mysql.Username,
+	dsn := fmt.Sprintf("%s:%s@/%s",
+		config.Database.Mysql.Username,
 		config.Database.Mysql.Password,
 		config.Database.Mysql.DBName)
 	db, err := sql.Open(config.Database.Driver, dsn)
@@ -43,5 +44,6 @@ func NewMysqlDB_GORM(config *shared_configs.Config) *gorm.DB {
 	if err != nil {
 		panic(err.Error())
 	}
+
 	return db
 }
