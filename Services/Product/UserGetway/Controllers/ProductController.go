@@ -49,17 +49,16 @@ func (obj *ProductController) Insert(ctx *gin.Context) {
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
 
-
 func (obj *ProductController) Search(ctx *gin.Context) {
 
-	request := &product_usergetway_requests.InsertProductRequest{}
+	request := &product_usergetway_requests.SearchProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res, err := obj.service.Insert(&product_domain_dtos.InsertProductDTO{
+	res, err := obj.service.Search(&product_domain_dtos.InsertProductDTO{
 		Label: request.Label,
 		Type:  request.Type,
 		Price: request.Price,
@@ -71,7 +70,6 @@ func (obj *ProductController) Search(ctx *gin.Context) {
 
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
-
 
 func (obj *ProductController) Update(ctx *gin.Context) {
 
@@ -95,7 +93,6 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
 
-
 func (obj *ProductController) Delete(ctx *gin.Context) {
 
 	request := &product_usergetway_requests.InsertProductRequest{}
@@ -117,5 +114,3 @@ func (obj *ProductController) Delete(ctx *gin.Context) {
 
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
-
-

@@ -53,16 +53,20 @@ func (obj *ProductRepository) Search(seasrch string) ([]*product_domain_entities
 	return items, nil
 }
 
-func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool, error) {
+func (obj *ProductRepository) Update(id int, data map[string]interface{}) (product_domain_entities.ProductEntity, error) {
 
 	res := obj.db.Model(obj.model).Where("id = ?").Updates(data)
 	if res.Error != nil {
-		return false, fmt.Errorf("something happen, %v", res.Error)
+		return nil, fmt.Errorf("something happen, %v", res.Error)
 	}
 	if res.RowsAffected == 0 {
-		return false, fmt.Errorf("could not update the record")
+		return nil, fmt.Errorf("could not update the record")
 	}
-	return true, nil
+	product, err := obj.GetById(id)
+	if err != nil {
+		return nil, err
+	}
+	return product, nil
 }
 
 func (obj *ProductRepository) Delete(id int) (interface{}, error) {
