@@ -5,15 +5,13 @@ meta {
 }
 
 post {
-  url: http://127.0.0.1:3000/api/product/insert
+  url: http://127.0.0.1:3000/api/product/search
   body: json
   auth: none
 }
 
 body:json {
   {
-    "label":"product 1",
-    "price": 129.00,
-    "type":"food"
+    "query": "pro"
   }
 }

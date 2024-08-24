@@ -34,9 +34,9 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (pr
 	return res, nil
 }
 
-func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]product_infrastructure_models.Product, error) {
 
-	res, err := obj.productRepository.Search(dto.GetQuery())
+	res, err := obj.productRepository.Search(dto.Query)
 
 	if err != nil {
 		return nil, errors.New("error")
@@ -48,13 +48,14 @@ func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]
 func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) (product_domain_entities.ProductEntity, error) {
 
 	res, err := obj.productRepository.Update(dto.Id, map[string]interface{}{
+		"id":    dto.Id,
 		"label": dto.Label,
 		"type":  dto.Type,
 		"price": dto.Price,
 	})
 
 	if err != nil {
-		return nil, errors.New("error")
+		return nil, err
 	}
 
 	return res, nil

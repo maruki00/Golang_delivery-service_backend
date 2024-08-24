@@ -35,7 +35,7 @@ func (obj *ProductRepository) Insert(product product_domain_entities.ProductEnti
 
 func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEntity, error) {
 
-	var product product_domain_entities.ProductEntity
+	product := &product_infrastructure_models.Product{}
 	obj.db.Model(&product_infrastructure_models.Product{}).Where("id = ?", id).Find(&product)
 	if product == nil {
 		return nil, fmt.Errorf("record could not be found")
@@ -44,24 +44,23 @@ func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEn
 	return product, nil
 }
 
-func (obj *ProductRepository) Search(seasrch string) ([]product_domain_entities.ProductEntity, error) {
-	var items []*product_domain_entities.ProductEntity
-	res := obj.db.Model(obj.model).Where("label = ? or price = ? or type = ? ", seasrch, seasrch, seasrch).Find(&items)
+func (obj *ProductRepository) Search(seasrch string) ([]product_infrastructure_models.Product, error) {
+	items := []product_infrastructure_models.Product{}
+	res := obj.db.Model(obj.model).Where("( label like  ?  or price like  ?  or type like  ? )", fmt.Sprintf("%%%s", seasrch), fmt.Sprintf("%%%s%%", seasrch), fmt.Sprintf("%%%s%%", seasrch)).Limit(3).Offset(0).Find(&items)
 	if res.Error != nil {
-		return []*product_domain_entities.ProductEntity{}, nil
+		return []product_infrastructure_models.Product{}, nil
 	}
 	return items, nil
 }
 
 func (obj *ProductRepository) Update(id int, data map[string]interface{}) (product_domain_entities.ProductEntity, error) {
 
-	res := obj.db.Model(obj.model).Where("id = ?").Updates(data)
+	fmt.Println("result : ", data)
+	res := obj.db.Model(&obj.model).Where("id", id).Updates(data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("something happen, %v", res.Error)
 	}
-	if res.RowsAffected == 0 {
-		return nil, fmt.Errorf("could not update the record")
-	}
+
 	product, err := obj.GetById(id)
 	if err != nil {
 		return nil, err

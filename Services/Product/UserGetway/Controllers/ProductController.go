@@ -76,7 +76,7 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
-		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "validation : "+err.Error())
 		return
 	}
 	res, err := obj.service.Update(&product_domain_dtos.UpdateProductDTO{
@@ -86,7 +86,7 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 		Price: request.Price,
 	})
 	if err != nil {
-		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen "+err.Error())
 		return
 	}
 
@@ -96,6 +96,25 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 func (obj *ProductController) Delete(ctx *gin.Context) {
 
 	request := &product_usergetway_requests.DeleteProductRequest{}
+
+	err := shared_core.Validate(ctx, obj.Validate, request)
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		return
+	}
+	res, err := obj.service.Delete(&product_domain_dtos.DeleteProductDTO{
+		Id: request.Id,
+	})
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
+		return
+	}
+
+	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
+}
+
+func (obj *ProductController)GetProduct(ctx *gin.Context) {
+	request := &product_usergetway_requests.G{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
