@@ -8,7 +8,6 @@ import (
 type ProductService struct {
 	productRepository *product_domain_repositories.IProductRepository
 	// outputPort        *product_domain_ports.ProductOutputPort
-	model interface{}
 }
 
 func NewProductService(productRepository product_domain_repositories.IProductRepository,
@@ -17,7 +16,6 @@ func NewProductService(productRepository product_domain_repositories.IProductRep
 	return &ProductService{
 		productRepository: &productRepository,
 		// outputPort:        &outputPort,
-		model: model,
 	}
 }
 

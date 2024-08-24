@@ -1,7 +1,7 @@
 package prouduct_routes
 
 import (
-	auth_usergetway_controllers "delivery/Services/Auth/UserGateway/Controllers"
+	product_usergetway_controllers "delivery/Services/Product/UserGetway/Controllers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -10,9 +10,9 @@ import (
 var ProductRouter = func(router *gin.Engine, db *gorm.DB) {
 
 	// repo := auth_infrastructure_repository.NewAuthRepository(shared_configs.GetConfig())
-	controller := auth_usergetway_controllers.NewProductController(db)
+	controller := product_usergetway_controllers.NewProductController(db)
 
 	prefix := router.Group("/api/product")
-	_ = prefix.POST("/login", controller.Login)
+	// _ = prefix.POST("/login", nil)
 
 }

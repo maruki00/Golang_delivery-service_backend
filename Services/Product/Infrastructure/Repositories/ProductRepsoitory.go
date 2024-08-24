@@ -11,7 +11,7 @@ import (
 
 type ProductRepository struct {
 	db    *gorm.DB
-	model *interface{}
+	model interface{}
 }
 
 // func NewAuthRepository(config *shared_configs.Config) *AuthRepository {
@@ -20,7 +20,7 @@ type ProductRepository struct {
 // 	}
 // }
 
-func NewProductRepository(dbObj *gorm.DB, model *interface{}) *ProductRepository {
+func NewProductRepository(dbObj *gorm.DB, model interface{}) *ProductRepository {
 	return &ProductRepository{
 		db:    dbObj,
 		model: model,
@@ -63,7 +63,7 @@ func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool,
 
 	res := obj.db.Model(obj.model).Where("id = ?").Updates(data)
 	if res.Error != nil {
-		return false, fmt.Errorf("Something happen, %v", res.Error)
+		return false, fmt.Errorf("something happen, %v", res.Error)
 	}
 	if res.RowsAffected == 0 {
 		return false, fmt.Errorf("could not update the record")

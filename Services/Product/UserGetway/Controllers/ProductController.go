@@ -9,12 +9,12 @@ import (
 )
 
 type ProductController struct {
-	service product_services.ProductService
+	service *product_services.ProductService
 }
 
 func NewProductController(db *gorm.DB) *ProductController {
 	return &ProductController{
-		service: &product_services.NewProductService(
+		service: product_services.NewProductService(
 			product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{}),
 		),
 	}
