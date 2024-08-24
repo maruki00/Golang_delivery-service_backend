@@ -8,14 +8,15 @@ type PriceVauleObject struct {
 	price float32
 }
 
-func (p *PriceVauleObject) Set(price float32) {
-	p.price = price
+func NewPriceValueObject(price float32) *PriceVauleObject {
+	if price == 0.0 {
+		panic("invalid price")
+	}
+	return &PriceVauleObject{
+		price: price,
+	}
 }
 
-func (p *PriceVauleObject) Get(price float32) float32 {
-	return p.price
-}
-
-func (p *PriceVauleObject) ToStriong(price float32) string {
+func (p *PriceVauleObject) String() string {
 	return fmt.Sprintf("%f", p.price)
 }
