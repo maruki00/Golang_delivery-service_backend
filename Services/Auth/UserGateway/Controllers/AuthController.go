@@ -5,13 +5,13 @@ import (
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	auth_infrastructure_repository "delivery/Services/Auth/Infrastructure/Repositories"
 	auth_requests "delivery/Services/Auth/UserGateway/Requests"
-	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
+	"gorm.io/gorm"
 )
 
 type AuthController struct {
@@ -19,11 +19,10 @@ type AuthController struct {
 	service  *authu_services.AuthService
 }
 
-func NewAuthController() *AuthController {
-	config, _ := shared_configs.GetConfig()
+func NewAuthController(db *gorm.DB) *AuthController {
 	return &AuthController{
 		Validate: validator.New(),
-		service:  authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(config)),
+		service:  authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(db)),
 	}
 }
 

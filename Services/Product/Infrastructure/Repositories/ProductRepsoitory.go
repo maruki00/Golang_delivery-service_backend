@@ -14,6 +14,12 @@ type ProductRepository struct {
 	model *interface{}
 }
 
+// func NewAuthRepository(config *shared_configs.Config) *AuthRepository {
+// 	return &AuthRepository{
+// 		db: shareddb.NewMysqlDB_GORM(config),
+// 	}
+// }
+
 func NewProductRepository(dbObj *gorm.DB, model *interface{}) *ProductRepository {
 	return &ProductRepository{
 		db:    dbObj,
@@ -34,6 +40,7 @@ func (obj *ProductRepository) Insert(product product_domain_entities.ProductEnti
 }
 
 func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEntity, error) {
+
 	var product product_domain_entities.ProductEntity
 	obj.db.Model(&product_infrastructure_models.Product{}).Where("id = ?", id).Find(&product)
 	if product == nil {

@@ -3,9 +3,7 @@ package auth_infrastructure_repository
 import (
 	auth_domain_entities "delivery/Services/Auth/Domain/Entities"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
-	shared_configs "delivery/Services/Shared/Application/Configs"
 	shared_entities "delivery/Services/Shared/Domain/Entities"
-	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
 	"fmt"
@@ -20,9 +18,9 @@ type AuthRepository struct {
 	db *gorm.DB
 }
 
-func NewAuthRepository(config *shared_configs.Config) *AuthRepository {
+func NewAuthRepository(db *gorm.DB) *AuthRepository {
 	return &AuthRepository{
-		db: shareddb.NewMysqlDB_GORM(config),
+		db: db,
 	}
 }
 
