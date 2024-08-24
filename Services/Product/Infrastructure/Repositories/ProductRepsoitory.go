@@ -1,4 +1,4 @@
-package mysql_product_repository
+package product_Infrastructure_repository
 
 import (
 	product_domain_entities "delivery/Services/Product/Domian/Entities"
