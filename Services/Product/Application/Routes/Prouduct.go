@@ -13,4 +13,8 @@ var ProductRouter = func(router *gin.Engine, db *gorm.DB) {
 
 	prefix := router.Group("/api/product")
 	_ = prefix.POST("/insert", controller.Insert)
+	_ = prefix.PATCH("/update", controller.Insert)
+	_ = prefix.DELETE("/delete", controller.Insert)
+	_ = prefix.POST("/search", controller.Insert)
+	// _ = prefix.POST("/get", controller.Insert)
 }

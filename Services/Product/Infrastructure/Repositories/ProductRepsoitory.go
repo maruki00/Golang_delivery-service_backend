@@ -44,7 +44,7 @@ func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEn
 	return product, nil
 }
 
-func (obj *ProductRepository) Search(seasrch string) ([]*product_domain_entities.ProductEntity, error) {
+func (obj *ProductRepository) Search(seasrch string) ([]product_domain_entities.ProductEntity, error) {
 	var items []*product_domain_entities.ProductEntity
 	res := obj.db.Model(obj.model).Where("label = ? or price = ? or type = ? ", seasrch, seasrch, seasrch).Find(&items)
 	if res.Error != nil {
@@ -69,9 +69,12 @@ func (obj *ProductRepository) Update(id int, data map[string]interface{}) (produ
 	return product, nil
 }
 
-func (obj *ProductRepository) Delete(id int) (interface{}, error) {
+func (obj *ProductRepository) Delete(id int) (product_domain_entities.ProductEntity, error) {
 
-	var product interface{}
+	product, err := obj.GetById(id)
+	if err != nil {
+		return nil, fmt.Errorf("product not found")
+	}
 	res := obj.db.Model(obj.model).Where("id = ? ", id).Delete(&product)
 	if res.Error != nil {
 		return nil, fmt.Errorf("something happen %v", res.Error)

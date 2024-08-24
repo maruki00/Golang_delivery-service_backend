@@ -6,6 +6,7 @@ import (
 	product_domain_repositories "delivery/Services/Product/Domian/Repositories"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
 	"errors"
+	"fmt"
 )
 
 type ProductService struct {
@@ -33,7 +34,7 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (pr
 	return res, nil
 }
 
-func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]*product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]product_domain_entities.ProductEntity, error) {
 
 	res, err := obj.productRepository.Search(dto.GetQuery())
 
@@ -47,7 +48,6 @@ func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]
 func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) (product_domain_entities.ProductEntity, error) {
 
 	res, err := obj.productRepository.Update(dto.Id, map[string]interface{}{
-		// "id":    dto.Id,
 		"label": dto.Label,
 		"type":  dto.Type,
 		"price": dto.Price,
@@ -60,32 +60,23 @@ func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) (pr
 	return res, nil
 }
 
-func (obj *ProductService) Delete(dto *product_domain_dtos.InsertProductDTO) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) (product_domain_entities.ProductEntity, error) {
 
-	res, err := obj.productRepository.Insert(&product_infrastructure_models.Product{
-		Label: dto.Label,
-		Type:  dto.Type,
-		Price: dto.Price,
-	})
+	res, err := obj.productRepository.Delete(dto.Id)
 
 	if err != nil {
-		return nil, errors.New("error")
+		return nil, fmt.Errorf("could not delete the product : %s", err.Error())
 	}
 
 	return res, nil
 }
 
-func (obj *ProductService) GetById(dto *product_domain_dtos.InsertProductDTO) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) (product_domain_entities.ProductEntity, error) {
 
-	res, err := obj.productRepository.Insert(&product_infrastructure_models.Product{
-		Label: dto.Label,
-		Type:  dto.Type,
-		Price: dto.Price,
-	})
+	res, err := obj.productRepository.GetById(dto.Id)
 
 	if err != nil {
-		return nil, errors.New("error")
+		return nil, errors.New("could not get the product or doesnt exsits")
 	}
-
 	return res, nil
 }
