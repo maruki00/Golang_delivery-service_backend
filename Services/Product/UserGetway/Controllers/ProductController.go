@@ -113,17 +113,18 @@ func (obj *ProductController) Delete(ctx *gin.Context) {
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
 
-func (obj *ProductController)GetProduct(ctx *gin.Context) {
-	request := &product_usergetway_requests.G{}
+func (obj *ProductController) GetProduct(ctx *gin.Context) {
+	request := &product_usergetway_requests.GetProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res, err := obj.service.Delete(&product_domain_dtos.DeleteProductDTO{
+	res, err := obj.service.GetById(&product_domain_dtos.GetProductByIdDTO{
 		Id: request.Id,
 	})
+
 	if err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen")
 		return
