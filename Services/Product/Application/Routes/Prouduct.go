@@ -13,6 +13,6 @@ var ProductRouter = func(router *gin.Engine, db *gorm.DB) {
 	controller := product_usergetway_controllers.NewProductController(db)
 
 	prefix := router.Group("/api/product")
-	// _ = prefix.POST("/login", nil)
+	_ = prefix.POST("/insert", controller.Insert)
 
 }
