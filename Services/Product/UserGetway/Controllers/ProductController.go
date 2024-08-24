@@ -14,8 +14,6 @@ type ProductController struct {
 
 func NewProductController(db *gorm.DB) *ProductController {
 	return &ProductController{
-		service: product_services.NewProductService(
-			product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{}),
-		),
+		service: product_services.NewProductService(product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{})),
 	}
 }
