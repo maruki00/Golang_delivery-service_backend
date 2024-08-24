@@ -7,10 +7,10 @@ import (
 	"gorm.io/gorm"
 )
 
-var AuthRouter = func(router *gin.Engine, db *gorm.DB) {
+var ProductRouter = func(router *gin.Engine, db *gorm.DB) {
 
 	// repo := auth_infrastructure_repository.NewAuthRepository(shared_configs.GetConfig())
-	controller := auth_usergetway_controllers.NewAuthController(db)
+	controller := auth_usergetway_controllers.NewProductController(db)
 
 	prefix := router.Group("/api/product")
 	_ = prefix.POST("/login", controller.Login)
