@@ -10,6 +10,9 @@ type Product struct {
 func (p *Product) GetLabel() string {
 	return p.Label
 }
+func (p *Product) GetId() int {
+	return p.Id
+}
 func (p *Product) GetPrice() float32 {
 	return p.Price
 }

@@ -130,5 +130,9 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 		return
 	}
 
+	if res.GetId() == 0 {
+		res = nil
+	}
+
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
