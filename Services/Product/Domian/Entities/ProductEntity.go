@@ -1,10 +1,7 @@
 package product_domain_entities
 
 type ProductEntity interface {
-	GetId() int
-	GetLabale() string
+	GetLabel() string
 	GetPrice() float32
-	SetId(id int)
-	SetLabale(label string)
-	SetPrice(GetPrice float32)
+	GetType() string
 }
