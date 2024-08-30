@@ -1,24 +1,35 @@
 package user_repositories
 
-type CustomerRepository struct {
+import "gorm.io/gorm"
+
+type OrderRepository struct {
+	db *gorm.DB
 }
 
-func (obj *CustomerRepository) Create(order orderAgriggate) error {
+func (obj *OrderRepository) Make(order orderAgriggate) error {
 
 	return nil
 }
 
-func (obj *CustomerRepository) Delete() error {
+func (obj *OrderRepository) Delete() error {
 
 	return nil
 }
 
-func (obj *CustomerRepository) Cancel() error {
+func (obj *OrderRepository) Cancel() error {
 
 	return nil
 }
 
-func (obj *CustomerRepository) ConfirmePickUp() error {
+func (obj *OrderRepository) ConfirmePickUp() error {
 
 	return nil
+}
+
+func (obj *OrderRepository) Tracking() error {
+
+}
+
+func (obj *OrderRepository) Confirm() error {
+
 }
