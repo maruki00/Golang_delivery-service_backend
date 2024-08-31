@@ -8,4 +8,19 @@ import (
 type OrderAggrigate struct {
 	orderEntity order_entities.OrderEntity
 	items       []product_domain_entities.ProductEntity
+	price       float32
+}
+
+func NewOrderAggrigate(order order_entities.OrderEntity, items []product_domain_entities.ProductEntity) *OrderAggrigate {
+	price := float32(0)
+	for _, product := range items {
+		price += product.GetPrice()
+	}
+
+	return &OrderAggrigate{
+		orderEntity: order,
+		items:       items,
+		price:       price,
+	}
+
 }

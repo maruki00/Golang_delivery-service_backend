@@ -33,9 +33,12 @@ create table auth(
 
 create table orders(
     id int primary key not null auto_increment,
+    order_fingerprint varchar(20) not null
     costumer_id int not null,
-    from_address varchar(200) not null,
-    to_address varchar(200) not null, 
+    from_long float not null,
+    from_lat  float not null,
+    to_long   float not null, 
+    to_lat    float not null, 
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
@@ -56,13 +59,13 @@ create table product_images (
     updated_at timestamp default now()
 );
 
--- create table couriers_orders(
---     id int primary key not null auto_increment,
---     order_id int not null,
---     user_id int not null,
---     created_at timestamp default now(),
---     updated_at timestamp default now()
--- );
+create table couriers_orders(
+    id int primary key not null auto_increment,
+    order_fingerprint varchar(20) not null,
+    courier_id int not null,
+    created_at timestamp default now(),
+    updated_at timestamp default now()
+);
 
 create table feedbacks(
     id int primary key not null auto_increment,

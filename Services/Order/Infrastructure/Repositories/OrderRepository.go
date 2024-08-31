@@ -6,7 +6,7 @@ type OrderRepository struct {
 	db *gorm.DB
 }
 
-func (obj *OrderRepository) Make(order orderAgriggate) error {
+func (obj *OrderRepository) Make() error {
 
 	return nil
 }
@@ -28,8 +28,10 @@ func (obj *OrderRepository) ConfirmePickUp() error {
 
 func (obj *OrderRepository) Tracking() error {
 
+	return nil
 }
 
 func (obj *OrderRepository) Confirm() error {
 
+	return nil
 }
