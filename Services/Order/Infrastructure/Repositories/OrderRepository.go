@@ -6,6 +6,8 @@ type OrderRepository struct {
 	db *gorm.DB
 }
 
+func 
+
 func (obj *OrderRepository) Make() error {
 
 	return nil
