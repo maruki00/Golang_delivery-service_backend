@@ -1,4 +1,4 @@
-package order_entities
+package product_domain_entities
 
 type OrderEntity interface {
 }

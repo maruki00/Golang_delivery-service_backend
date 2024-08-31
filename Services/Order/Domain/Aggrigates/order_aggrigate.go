@@ -6,9 +6,9 @@ import (
 )
 
 type OrderAggrigate struct {
-	orderEntity order_entities.OrderEntity
-	items       []product_domain_entities.ProductEntity
-	price       float32
+	OrderEntity order_entities.OrderEntity
+	Items       []product_domain_entities.ProductEntity
+	Price       float32
 }
 
 func NewOrderAggrigate(order order_entities.OrderEntity, items []product_domain_entities.ProductEntity) *OrderAggrigate {
@@ -18,9 +18,9 @@ func NewOrderAggrigate(order order_entities.OrderEntity, items []product_domain_
 	}
 
 	return &OrderAggrigate{
-		orderEntity: order,
-		items:       items,
-		price:       price,
+		OrderEntity: order,
+		Items:       items,
+		Price:       price,
 	}
 
 }
