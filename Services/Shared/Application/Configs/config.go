@@ -15,8 +15,8 @@ type Config struct {
 	Database struct {
 		Driver string `yaml:"driver"`
 		Mysql  struct {
-			Host     string `yaml:"host"`   //,   envconfig:"DB_HOST"`
-			Port     int    `yaml:"port"`   //,   envconfig:"DB_PORT"`
+			Host     string `yaml:"host"`   //, envconfig:"DB_HOST"`
+			Port     int    `yaml:"port"`   //, envconfig:"DB_PORT"`
 			DBName   string `yaml:"dbname"` //, envconfig:"DB_NAME"`
 			Username string `yaml:"dbuser"` //, envconfig:"DB_USER"`
 			Password string `yaml:"dbpass"` //, envconfig:"DB_PASS"`
