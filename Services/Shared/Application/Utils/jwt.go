@@ -14,6 +14,7 @@ func JwtToken(email string, user_id int) (string, error) {
 	if err != nil {
 		return "", errors.New("config error")
 	}
+
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256,
 		jwt.MapClaims{
 			"email":   email,
@@ -26,5 +27,6 @@ func JwtToken(email string, user_id int) (string, error) {
 
 		return "", err
 	}
+
 	return tokenString, nil
 }

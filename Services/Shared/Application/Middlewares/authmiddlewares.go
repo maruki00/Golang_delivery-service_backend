@@ -47,7 +47,6 @@ func AuthRequired() gin.HandlerFunc {
 		}
 
 		tokenString = strings.Replace(tokenString, "Bearer ", "", 7)
-
 		err := verifyToken(tokenString)
 
 		if err != nil {
@@ -66,6 +65,7 @@ func AuthRequired() gin.HandlerFunc {
 			})
 			return
 		}
+
 		var user_id int
 		err = st.QueryRow(tokenString).Scan(&user_id)
 		if err != nil {
