@@ -1,5 +1,5 @@
 package shop_usergateway_requests
 
-type ShopStatusRequest struct {
+type GetShopStatusRequest struct {
 	Status bool `json: "status"`
 }
