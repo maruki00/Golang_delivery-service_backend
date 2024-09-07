@@ -1,4 +1,4 @@
-package order_domain_valueobjects
+package ValueObject
 
 import (
 	"fmt"

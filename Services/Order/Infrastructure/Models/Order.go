@@ -8,16 +8,13 @@ import (
 
 type OrderModel struct {
 	gorm.Model
-	Id               int     `json:"id"`
-	OrderFingerprint string  `json:"order_fingerprint"`
-	CostumerId       int     `json:"costumer_id"`
-	Cost             float32 `json: "cost"`
-	// FromLong         float32 `json:"from_long"`
-	// FromLat          float32 `json:"from_lat"`
-	// ToLong float32 `json:"to_long"`
-	// ToLat  float32 `json:"to_lat"`
-	CreatedAt time.Time `json:"created_at"`
-	UpdatedAt time.Time `json:"updated_at"`
+	Id               int       `json:"id"`
+	OrderFingerprint string    `json:"order_fingerprint"`
+	CostumerId       int       `json:"costumer_id"`
+	Cost             float32   `json: "cost"`
+	Status           int       `json: "status"`
+	CreatedAt        time.Time `json:"created_at"`
+	UpdatedAt        time.Time `json:"updated_at"`
 }
 
 func (obj *OrderModel) GetId() int {
@@ -28,4 +25,10 @@ func (obj *OrderModel) GetOrderFingerprint() string {
 }
 func (obj *OrderModel) GetCostumerId() int {
 	return obj.CostumerId
+}
+func (obj *OrderModel) GetCost() float32 {
+	return obj.Cost
+}
+func (obj *OrderModel) GetStatus() int {
+	return obj.Status
 }

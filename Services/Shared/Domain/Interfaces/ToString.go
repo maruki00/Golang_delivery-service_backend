@@ -1,5 +1,5 @@
 package interfaces
 
-type ToString interface {
-	toString() string
+type String interface {
+	String() string
 }

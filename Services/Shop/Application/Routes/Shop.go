@@ -2,7 +2,7 @@ package shop_application_routes
 
 import "github.com/gin-gonic/gin"
 
-func RestorantRouter(router *gin.Engine) {
+func ShopRouter(router *gin.Engine) {
 	shop := router.Group("/restaurant")
 
 	_ = shop.POST("/open", nil)
