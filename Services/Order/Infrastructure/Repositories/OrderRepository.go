@@ -2,6 +2,7 @@ package user_repositories
 
 import (
 	order_domain_entities "delivery/Services/Order/Domain/Entities"
+	order_infrastructues_models "delivery/Services/Order/Infrastructure/Models"
 	"errors"
 
 	"gorm.io/gorm"
@@ -61,4 +62,14 @@ func (obj *OrderRepository) Confirm(id int) error {
 		return errors.New("could not delete the order")
 	}
 	return nil
+}
+
+func (obj *OrderRepository) GetStatus(id int) (int, error) {
+	var order order_infrastructues_models.OrderModel
+
+	res := obj.db.Model(order).Where("id = ?", id).Find(&order)
+	if res.Error != nil {
+		return -1, res.Error
+	}
+	return order.Status, nil
 }
