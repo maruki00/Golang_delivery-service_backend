@@ -73,3 +73,15 @@ func (obj *OrderRepository) GetStatus(id int) (int, error) {
 	}
 	return order.Status, nil
 }
+
+func (obj *OrderRepository) GetCustomerOrders(id int) ([]order_domain_entities.OrderEntity, error) {
+	var orders []order_domain_entities.OrderEntity
+
+	res := obj.db.Model(obj.model).Where("customer_id = ?", id).Find(&orders)
+
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	return orders, nil
+
+}
