@@ -4,6 +4,7 @@
 !_TAG_PROGRAM_NAME	Exuberant Ctags	//
 !_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
 !_TAG_PROGRAM_VERSION	5.9~svn20110310	//
+AddItem	Services/Shop/Application/ShopEnums.go	/^func AddItem(key,  valeu any) {$/;"	f
 AddressValueObject	Services/Shared/Domain/ValueObjects/AddressValueObject.go	/^type AddressValueObject struct {$/;"	t
 App	Services/Shared/Infrastructure/App/app.go	/^type App struct {$/;"	t
 Auth	Services/Auth/Infrastructure/Models/AuthModel.go	/^type Auth struct {$/;"	t
@@ -17,21 +18,24 @@ AuthRepository	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^typ
 AuthRouter	Services/Auth/Application/Routes/Auth.go	/^var AuthRouter = func(router *gin.Engine, db *gorm.DB) {$/;"	v
 AuthService	Services/Auth/Application/Services/AuthService.go	/^type AuthService struct {$/;"	t
 CacheItem	Services/Shared/Infrastructure/Core/MemeryCache.go	/^type CacheItem struct {$/;"	t
-Cancel	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *CustomerRepository) Cancel() error {$/;"	f
+Cancel	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *OrderRepository) Cancel(id int) error {$/;"	f
 CheckToken	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj *AuthRepository) CheckToken(token string) bool {$/;"	f
 CleanPins	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj *AuthRepository) CleanPins(email string) {$/;"	f
 Clear	Services/Shared/Infrastructure/Core/MemeryCache.go	/^func (o *MemoryCache) Clear() {$/;"	f
 ClearToken	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj *AuthRepository) ClearToken(id int) {$/;"	f
+CloseShop	Services/Shop/Application/Services/ShopService.go	/^func (obj *ShopService) CloseShop() error {$/;"	f
 Config	Services/Shared/Application/Configs/config.go	/^type Config struct {$/;"	t
-ConfirmePickUp	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *CustomerRepository) ConfirmePickUp() error {$/;"	f
-Create	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *CustomerRepository) Create(order orderAgriggate) error {$/;"	f
+Confirm	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *OrderRepository) Confirm(id int) error {$/;"	f
+Cordinate	Services/Shared/Domain/ValueObjects/Cordinate.go	/^type Cordinate struct {$/;"	t
 CreateAuth	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj *AuthRepository) CreateAuth(token string, user *shared_models.User) *auth_infrastructure_models.Auth {$/;"	f
-CustomerRepository	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^type CustomerRepository struct {$/;"	t
-Delete	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *CustomerRepository) Delete() error {$/;"	f
-Delete	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Delete(id int) (interface{}, error) {$/;"	f
+CreateOrderProducts	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *OrderRepository) CreateOrderProducts(model interface{}, products []order_domain_entities.OrderProductEntity) ([]order_domain_entities.OrderProductEntity, error) {$/;"	f
+Delete	Services/Product/Application/Services/ProductService.go	/^func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) (product_domain_entities.ProductEntity, error) {$/;"	f
+Delete	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Delete(id int) (product_domain_entities.ProductEntity, error) {$/;"	f
+Delete	Services/Product/UserGetway/Controllers/ProductController.go	/^func (obj *ProductController) Delete(ctx *gin.Context) {$/;"	f
 Delete	Services/Shared/Infrastructure/Core/MemeryCache.go	/^func (o *MemoryCache) Delete(key string) {$/;"	f
 DeleteExpires	Services/Shared/Infrastructure/Core/MemeryCache.go	/^func (o *MemoryCache) DeleteExpires() {$/;"	f
 DeleteProductDTO	Services/Product/Domian/DTOS/DeleteProductDTO.go	/^type DeleteProductDTO struct {$/;"	t
+DeleteProductRequest	Services/Product/UserGetway/Requests/DeleteProductRequest.go	/^type DeleteProductRequest struct {$/;"	t
 EmailValueObject	Services/Shared/Domain/ValueObjects/EmailValueObject.go	/^type EmailValueObject struct {$/;"	t
 Error	Services/Auth/UserGateway/adapters/loginpresenter.go	/^func (obj *LoginPresenter) Error() string {$/;"	f
 Error	Services/Shared/Application/Utils/api.go	/^func Error(context *gin.Context, httpStatus int, message string, err string) {$/;"	f
@@ -44,9 +48,15 @@ ForgetPasswordRequest	Services/Auth/UserGateway/Requests/AuthRequests.go	/^type 
 FrogetPasswordDTO	Services/Auth/Domain/DTOs/ForgetPasswordDTO.go	/^type FrogetPasswordDTO struct {$/;"	t
 Get	Services/Shared/Infrastructure/Core/MemeryCache.go	/^func (o *MemoryCache) Get(key string, expires int, val interface{}) (interface{}, error) {$/;"	f
 GetAddress	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetAddress() string {$/;"	f
+GetById	Services/Product/Application/Services/ProductService.go	/^func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) (product_domain_entities.ProductEntity, error) {$/;"	f
 GetById	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEntity, error) {$/;"	f
+GetClsoeAt	Services/Shop/Infrastructure/Medels/Shop.go	/^func (obj *Shop) GetClsoeAt() time.Time {$/;"	f
 GetConfig	Services/Shared/Application/Configs/config.go	/^func GetConfig() (*Config, error) {$/;"	f
+GetCost	Services/Order/Infrastructure/Models/Order.go	/^func (obj *OrderModel) GetCost() float32 {$/;"	f
+GetCostumerId	Services/Order/Infrastructure/Models/Order.go	/^func (obj *OrderModel) GetCostumerId() int {$/;"	f
 GetCreatedAt	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetCreatedAt() string {$/;"	f
+GetCreatedAt	Services/Shop/Infrastructure/Medels/Shop.go	/^func (obj *Shop) GetCreatedAt() time.Time {$/;"	f
+GetCustomerOrders	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *OrderRepository) GetCustomerOrders(id int) ([]order_domain_entities.OrderEntity, error) {$/;"	f
 GetEmail	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) GetEmail() string {$/;"	f
 GetEmail	Services/Auth/Infrastructure/Models/ResetPasswod.go	/^func (obj *ResetPassword) GetEmail() string {$/;"	f
 GetEmail	Services/Auth/Infrastructure/Models/TwoFactoryModel.go	/^func (o *TwoFactoryPin) GetEmail() string {$/;"	f
@@ -54,20 +64,39 @@ GetEmail	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetEm
 GetFullname	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetFullname() string {$/;"	f
 GetId	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) GetId() int {$/;"	f
 GetId	Services/Auth/Infrastructure/Models/ResetPasswod.go	/^func (obj *ResetPassword) GetId() int {$/;"	f
-GetId	Services/Product/Domian/DTOS/SearchProductDTO.go	/^func (dto SearchProductDTO) GetId() int64 {$/;"	f
+GetId	Services/Order/Infrastructure/Models/Order.go	/^func (obj *OrderModel) GetId() int {$/;"	f
 GetId	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) GetId() int {$/;"	f
 GetId	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetId() int {$/;"	f
+GetId	Services/Shop/Infrastructure/Medels/Menu.go	/^func (obj *Menu) GetId() int {$/;"	f
+GetId	Services/Shop/Infrastructure/Medels/MenuProduct.go	/^func (obj *MenuProduct) GetId() int {$/;"	f
+GetId	Services/Shop/Infrastructure/Medels/Shop.go	/^func (obj *Shop) GetId() int {$/;"	f
 GetIsLocked	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetIsLocked() int {$/;"	f
 GetIsOnline	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetIsOnline() int {$/;"	f
-GetLabale	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) GetLabale() string {$/;"	f
+GetLAbel	Services/Shop/Infrastructure/Medels/Menu.go	/^func (obj *Menu) GetLAbel() string {$/;"	f
+GetLabel	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) GetLabel() string {$/;"	f
 GetLastSeen	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetLastSeen() string {$/;"	f
+GetMenuId	Services/Shop/Infrastructure/Medels/MenuProduct.go	/^func (obj *MenuProduct) GetMenuId() int {$/;"	f
+GetName	Services/Shop/Infrastructure/Medels/Shop.go	/^func (obj *Shop) GetName() string {$/;"	f
+GetOpenAt	Services/Shop/Infrastructure/Medels/Shop.go	/^func (obj *Shop) GetOpenAt() time.Time {$/;"	f
+GetOrderFingerprint	Services/Order/Infrastructure/Models/Order.go	/^func (obj *OrderModel) GetOrderFingerprint() string {$/;"	f
+GetOrderStatus	Services/Order/Application/Enums/OrderStatuses.go	/^func GetOrderStatus() []string {$/;"	f
 GetPassword	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetPassword() string {$/;"	f
 GetPin	Services/Auth/Infrastructure/Models/TwoFactoryModel.go	/^func (o *TwoFactoryPin) GetPin() int {$/;"	f
 GetPrice	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) GetPrice() float32 {$/;"	f
-GetQuery	Services/Product/Domian/DTOS/SearchProductDTO.go	/^func (dto SearchProductDTO) GetQuery() string {$/;"	f
+GetProduct	Services/Product/UserGetway/Controllers/ProductController.go	/^func (obj *ProductController) GetProduct(ctx *gin.Context) {$/;"	f
+GetProductByIdDTO	Services/Product/Domian/DTOS/GetProductByIdDTO.go	/^type GetProductByIdDTO struct {$/;"	t
+GetProductId	Services/Shop/Infrastructure/Medels/MenuProduct.go	/^func (obj *MenuProduct) GetProductId() int {$/;"	f
+GetProductRequest	Services/Product/UserGetway/Requests/GetProductRequest.go	/^type GetProductRequest struct {$/;"	t
+GetShopEnums	Services/Shop/Application/ShopEnums.go	/^func GetShopEnums() any {$/;"	f
+GetShopStatus	Services/Shop/Application/Services/ShopService.go	/^func (obj *ShopService)GetShopStatus() (string, error) {$/;"	f
+GetShopStatusRequest	Services/Shop/UserGateway/Requests/ShopStatusRequest.go	/^type GetShopStatusRequest struct {$/;"	t
+GetStatus	Services/Order/Infrastructure/Models/Order.go	/^func (obj *OrderModel) GetStatus() int {$/;"	f
+GetStatus	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *OrderRepository) GetStatus(id int) (int, error) {$/;"	f
 GetToken	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) GetToken() string {$/;"	f
 GetToken	Services/Auth/Infrastructure/Models/ResetPasswod.go	/^func (obj *ResetPassword) GetToken() string {$/;"	f
+GetType	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) GetType() string {$/;"	f
 GetUpdatedAt	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetUpdatedAt() string {$/;"	f
+GetUpdatedAt	Services/Shop/Infrastructure/Medels/Shop.go	/^func (obj *Shop) GetUpdatedAt() time.Time {$/;"	f
 GetUserId	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) GetUserId() int {$/;"	f
 GetUserLevel	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) GetUserLevel() int {$/;"	f
 GetUserLevel	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetUserLevel() int {$/;"	f
@@ -76,10 +105,12 @@ GetUserType	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) Ge
 GetUsername	Services/Shared/Infrastructure/Models/Users.go	/^func (obj *User) GetUsername() string {$/;"	f
 IAuthRepository	Services/Auth/Domain/Contracts/IAuthRepository.go	/^type IAuthRepository interface {$/;"	t
 IProductRepository	Services/Product/Domian/Repositories/IProductRepository.go	/^type IProductRepository interface {$/;"	t
-Insert	Services/Product/Application/Services/ProductService.go	/^func (slef *ProductService) Insert(dto InsertProductDTO) {$/;"	f
-Insert	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Insert(product product_domain_entities.ProductEntity) (bool, error) {$/;"	f
+IShopRepository	Services/Shop/Domain/Contracts/IShopRepository.go	/^type IShopRepository interface {$/;"	t
+Insert	Services/Product/Application/Services/ProductService.go	/^func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (product_domain_entities.ProductEntity, error) {$/;"	f
+Insert	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Insert(product product_domain_entities.ProductEntity) (product_domain_entities.ProductEntity, error) {$/;"	f
 Insert	Services/Product/UserGetway/Controllers/ProductController.go	/^func (obj *ProductController) Insert(ctx *gin.Context) {$/;"	f
 InsertProductDTO	Services/Product/Domian/DTOS/InsertProductDTO.go	/^type InsertProductDTO struct {$/;"	t
+InsertProductRequest	Services/Product/UserGetway/Requests/InsertProductRequest.go	/^type InsertProductRequest struct {$/;"	t
 InvalidCredentials	Services/Auth/UserGateway/adapters/loginpresenter.go	/^func (obj *LoginPresenter) InvalidCredentials() string {$/;"	f
 JsonViewModel	app/adapters/ViewModels/JsonViewModel.go	/^type JsonViewModel struct {$/;"	t
 JwtToken	Services/Shared/Application/Utils/jwt.go	/^func JwtToken(email string, user_id int) (string, error) {$/;"	f
@@ -97,27 +128,41 @@ Logout	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj *
 Logout	Services/Auth/UserGateway/Controllers/AuthController.go	/^func (obj *AuthController) Logout(ctx *gin.Context) {$/;"	f
 LogoutDTO	Services/Auth/Domain/DTOs/LogoutDTO.go	/^type LogoutDTO struct {$/;"	t
 LogoutRequest	Services/Auth/UserGateway/Requests/AuthRequests.go	/^type LogoutRequest struct {$/;"	t
+Make	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func (obj *OrderRepository) Make(order order_domain_entities.OrderEntity) (order_domain_entities.OrderEntity, error) {$/;"	f
+Make	Services/Shop/Infrastructure/Respositories/MenuRepository.go	/^func (obj *MenuRepository) Make()$/;"	f
 Md5Hash	Services/Shared/Application/Utils/security.go	/^func Md5Hash(text string) string {$/;"	f
 MemoryCache	Services/Shared/Infrastructure/Core/MemeryCache.go	/^type MemoryCache struct {$/;"	t
+Menu	Services/Shop/Infrastructure/Medels/Menu.go	/^type Menu struct {$/;"	t
+MenuEntity	Services/Shop/Domain/Entities/MenuEntity.go	/^type MenuEntity interface {$/;"	t
+MenuProduct	Services/Shop/Infrastructure/Medels/MenuProduct.go	/^type MenuProduct struct {$/;"	t
+MenuProductEntity	Services/Shop/Domain/Entities/MenuProductEntity.go	/^type MenuProductEntity interface {$/;"	t
+MenuRepository	Services/Shop/Infrastructure/Respositories/MenuRepository.go	/^type MenuRepository struct {$/;"	t
 New	Services/Shared/Domain/ValueObjects/AddressValueObject.go	/^func (obj *AddressValueObject) New($/;"	f
 NewAuthController	Services/Auth/UserGateway/Controllers/AuthController.go	/^func NewAuthController(db *gorm.DB) *AuthController {$/;"	f
 NewAuthRepository	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func NewAuthRepository(db *gorm.DB) *AuthRepository {$/;"	f
 NewAuthService	Services/Auth/Application/Services/AuthService.go	/^func NewAuthService(repo *auth_infrastructure_repository.AuthRepository) *AuthService {$/;"	f
+NewCordinate	Services/Shared/Domain/ValueObjects/Cordinate.go	/^func NewCordinate(lat, long float32) *Cordinate {$/;"	f
 NewDB	Services/Shared/Infrastructure/DB/DBHandler.go	/^func NewDB() *sql.DB {$/;"	f
 NewFloafVAlueObject	Services/Shared/Domain/ValueObjects/Float32VAlueObject.go	/^func (obj *FloafVAlueObject32) NewFloafVAlueObject(value float32) {$/;"	f
 NewFloafVAlueObject	Services/Shared/Domain/ValueObjects/Float64VAlueObject.go	/^func (obj *FloafVAlueObject64) NewFloafVAlueObject(value float64) {$/;"	f
+NewMenuRepository	Services/Shop/Infrastructure/Respositories/MenuRepository.go	/^func NewMenuRepository(db *gorm.Model, model interface{}) *MenuRepository {$/;"	f
 NewMysqlDB_GORM	Services/Shared/Infrastructure/DB/DBHandler.go	/^func NewMysqlDB_GORM(config *shared_configs.Config) *gorm.DB {$/;"	f
+NewOrderAggrigate	Services/Order/Domain/Aggrigates/order_aggrigate.go	/^func NewOrderAggrigate(order order_entities.OrderEntity, items []product_domain_entities.ProductEntity) *OrderAggrigate {$/;"	f
+NewOrderRepository	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^func NewOrderRepository(db *gorm.DB, model interface{}) *OrderRepository {$/;"	f
 NewPriceValueObject	Services/Product/Domian/ValueObjects/PriceValueObject.go	/^func NewPriceValueObject(price float32) *PriceVauleObject {$/;"	f
 NewProductController	Services/Product/UserGetway/Controllers/ProductController.go	/^func NewProductController(db *gorm.DB) *ProductController {$/;"	f
-NewProductOutputPort	Services/Product/Domian/Ports/NewProductInputPort.go	/^type NewProductOutputPort interface {$/;"	t
 NewProductRepository	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func NewProductRepository(dbObj *gorm.DB, model interface{}) *ProductRepository {$/;"	f
 NewProductService	Services/Product/Application/Services/ProductService.go	/^func NewProductService(productRepository product_domain_repositories.IProductRepository) *ProductService {$/;"	f
+NewShopRepository	Services/Shop/Infrastructure/Respositories/ShopRepository.go	/^func NewShopRepository(db *gorm.DB, model interface{}) *ShopRepository {$/;"	f
+NewShopService	Services/Shop/Application/Services/ShopService.go	/^func NewShopService(repo shop_domain_contracts.IShopRepository) *ShopService {$/;"	f
 NewStringValeObject	Services/Shared/Domain/ValueObjects/StringValueObject.go	/^func (obj *StringValeObject) NewStringValeObject(value string) {$/;"	f
+OpenShop	Services/Shop/Application/Services/ShopService.go	/^func (obj *ShopService) OpenShop() error {$/;"	f
 OrderAggrigate	Services/Order/Domain/Aggrigates/order_aggrigate.go	/^type OrderAggrigate struct {$/;"	t
 OrderEntity	Services/Order/Domain/Entities/OrderEntity.go	/^type OrderEntity interface {$/;"	t
-OrderInPutPort	Services/Order/UserGateway/Adapters/Ports/IputPort.go	/^type OrderInPutPort interface {$/;"	t
-OrderModel	Services/Order/Domain/Entities/OrderEntity.go	/^type OrderModel struct {$/;"	t
-OrderOutPutPort	Services/Order/UserGateway/Adapters/Ports/OutoutPort.go	/^type OrderOutPutPort interface {$/;"	t
+OrderModel	Services/Order/Infrastructure/Models/Order.go	/^type OrderModel struct {$/;"	t
+OrderProduct	Services/Order/Infrastructure/Models/OrderProduct.go	/^type OrderProduct struct {$/;"	t
+OrderProductEntity	Services/Order/Domain/Entities/OrderProductEntity.go	/^type OrderProductEntity interface {$/;"	t
+OrderRepository	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^type OrderRepository struct {$/;"	t
 OrderRouter	Services/Order/Application/Routes/orders.go	/^var OrderRouter = func(router *gin.Engine) {$/;"	v
 PasswordValueObject	Services/Shared/Domain/ValueObjects/PasswordValueObject.go	/^type PasswordValueObject struct {$/;"	t
 PriceVauleObject	Services/Product/Domian/ValueObjects/PriceValueObject.go	/^type PriceVauleObject struct {$/;"	t
@@ -133,19 +178,19 @@ Register	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj
 Register	Services/Auth/UserGateway/Controllers/AuthController.go	/^func (obj AuthController) Register(ctx *gin.Context) {$/;"	f
 RegisterDTO	Services/Auth/Domain/DTOs/RegisterDTO.go	/^type RegisterDTO struct {$/;"	t
 RegisterRequest	Services/Auth/UserGateway/Requests/AuthRequests.go	/^type RegisterRequest struct {$/;"	t
-RequestValidator	Services/Shared/Infrastructure/Core/Validator.go	/^type RequestValidator struct {$/;"	t
 ResetPassword	Services/Auth/Infrastructure/Models/ResetPasswod.go	/^type ResetPassword struct {$/;"	t
 ResetPasswordRequest	Services/Auth/UserGateway/Requests/AuthRequests.go	/^type ResetPasswordRequest struct {$/;"	t
-Search	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Search(seasrch string) ([]*product_domain_entities.ProductEntity, error) {$/;"	f
+Search	Services/Product/Application/Services/ProductService.go	/^func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]product_infrastructure_models.Product, error) {$/;"	f
+Search	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Search(seasrch string) ([]product_infrastructure_models.Product, error) {$/;"	f
+Search	Services/Product/UserGetway/Controllers/ProductController.go	/^func (obj *ProductController) Search(ctx *gin.Context) {$/;"	f
 SearchProductDTO	Services/Product/Domian/DTOS/SearchProductDTO.go	/^type SearchProductDTO struct {$/;"	t
+SearchProductRequest	Services/Product/UserGetway/Requests/SearchProductRequest.go	/^type SearchProductRequest struct {$/;"	t
 Set	Services/Shared/Infrastructure/Core/MemeryCache.go	/^func (o *MemoryCache) Set(key string, expiresInSeconds int, val interface{}) error {$/;"	f
 SetEmail	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) SetEmail(email string) {$/;"	f
 SetEmail	Services/Shared/Domain/ValueObjects/EmailValueObject.go	/^func (obj *EmailValueObject) SetEmail(email string) {$/;"	f
 SetId	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) SetId(id int) {$/;"	f
-SetId	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) SetId(id int) {$/;"	f
-SetLabel	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) SetLabel(label string) {$/;"	f
 SetPassword	Services/Shared/Domain/ValueObjects/PasswordValueObject.go	/^func (obj *PasswordValueObject) SetPassword(password string) {$/;"	f
-SetPrice	Services/Product/Infrastructure/Models/Product.go	/^func (p *Product) SetPrice(price float32) {$/;"	f
+SetStatus	Services/Shop/Infrastructure/Respositories/ShopRepository.go	/^func (obj *ShopRepository) SetStatus(id int, status int) error {$/;"	f
 SetToken	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) SetToken(token string) {$/;"	f
 SetUserId	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) SetUserId(user_id int) {$/;"	f
 SetUserLevel	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) SetUserLevel(user_level int) {$/;"	f
@@ -153,11 +198,18 @@ SetUserType	Services/Auth/Infrastructure/Models/AuthModel.go	/^func (obj *Auth) 
 SharedDBExceptions	Services/Shared/Application/Exceptions/DB/DBExceptions.go	/^package SharedDBExceptions$/;"	p
 SharedValueObject	Services/Shared/Domain/ValueObjects/AddressValueObject.go	/^package SharedValueObject$/;"	p
 SharedValueObject	Services/Shared/Domain/ValueObjects/valueobject.go	/^package SharedValueObject$/;"	p
+Shop	Services/Shop/Infrastructure/Medels/Shop.go	/^type Shop struct {$/;"	t
+ShopController	Services/Shop/UserGateway/Controllers/ShopController.go	/^type ShopController struct {$/;"	t
+ShopEntity	Services/Shop/Domain/Entities/ShopEntity.go	/^type ShopEntity interface {$/;"	t
+ShopRepository	Services/Shop/Infrastructure/Respositories/ShopRepository.go	/^type ShopRepository struct {$/;"	t
+ShopRouter	Services/Shop/Application/Routes/Shop.go	/^func ShopRouter(router *gin.Engine) {$/;"	f
+ShopService	Services/Shop/Application/Services/ShopService.go	/^type ShopService struct {$/;"	t
 String	Services/Product/Domian/ValueObjects/PriceValueObject.go	/^func (p *PriceVauleObject) String() string {$/;"	f
+String	Services/Shared/Domain/Interfaces/ToString.go	/^type String interface {$/;"	t
+String	Services/Shared/Domain/ValueObjects/Cordinate.go	/^func (obj Cordinate) String() string {$/;"	f
 StringValeObject	Services/Shared/Domain/ValueObjects/StringValueObject.go	/^type StringValeObject struct {$/;"	t
 Success	Services/Auth/UserGateway/adapters/loginpresenter.go	/^func (obj *LoginPresenter) Success() string {$/;"	f
 Success	Services/Shared/Application/Utils/api.go	/^func Success(context *gin.Context, httpStatus int, message string, data map[string]any) {$/;"	f
-ToString	Services/Shared/Domain/Interfaces/ToString.go	/^type ToString interface {$/;"	t
 ToString	Services/Shared/Domain/ValueObjects/AddressValueObject.go	/^func (obj *AddressValueObject) ToString() string {$/;"	f
 ToString	Services/Shared/Domain/ValueObjects/EmailValueObject.go	/^func (obj *EmailValueObject) ToString() string {$/;"	f
 ToString	Services/Shared/Domain/ValueObjects/PasswordValueObject.go	/^func (obj *PasswordValueObject) ToString() string {$/;"	f
@@ -171,11 +223,17 @@ TwoFactoryConfirmRequest	Services/Auth/UserGateway/Requests/AuthRequests.go	/^ty
 TwoFactoryCreate	Services/Auth/Infrastructure/Repositories/AuthRepository.go	/^func (obj *AuthRepository) TwoFactoryCreate(twofactory auth_domain_entities.TwoFactoryPinEntity) (bool, error) {$/;"	f
 TwoFactoryPin	Services/Auth/Infrastructure/Models/TwoFactoryModel.go	/^type TwoFactoryPin struct {$/;"	t
 TwoFactoryPinEntity	Services/Auth/Domain/Entities/TwoFactoryPinEntity.go	/^type TwoFactoryPinEntity interface {$/;"	t
-Update	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Update(id int, data map[string]interface{}) (bool, error) {$/;"	f
+Update	Services/Product/Application/Services/ProductService.go	/^func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) (product_domain_entities.ProductEntity, error) {$/;"	f
+Update	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^func (obj *ProductRepository) Update(id int, data map[string]interface{}) (product_domain_entities.ProductEntity, error) {$/;"	f
+Update	Services/Product/UserGetway/Controllers/ProductController.go	/^func (obj *ProductController) Update(ctx *gin.Context) {$/;"	f
 UpdateProductDTO	Services/Product/Domian/DTOS/UpdatePRoductDTO.go	/^type UpdateProductDTO struct {$/;"	t
+UpdateProductRequerst	Services/Product/UserGetway/Requests/UpdateProductRequest.go	/^type UpdateProductRequerst struct {$/;"	t
+UpdateShopInfo	Services/Shop/Application/Services/ShopService.go	/^func (obj *ShopService) UpdateShopInfo() error {$/;"	f
+UpdateShopSettings	Services/Shop/Infrastructure/Respositories/ShopRepository.go	/^func (obj *ShopRepository) UpdateShopSettings(id int, shop shop_domain_entities.ShopEntity) (shop_domain_entities.ShopEntity, error) {$/;"	f
 User	Services/Shared/Infrastructure/Models/Users.go	/^type User struct {$/;"	t
 UserEntity	Services/Shared/Domain/Entities/UserEntity.go	/^type UserEntity interface {$/;"	t
-Validate	Services/Shared/Infrastructure/Core/Validator.go	/^func (o *RequestValidator) Validate(ctx gin.Context, request interface{}) (error, interface{}) {$/;"	f
+Validate	Services/Shared/Infrastructure/Core/Validator.go	/^func Validate(ctx *gin.Context, Validate *validator.Validate, request interface{}) error {$/;"	f
+ValueObject	Services/Shared/Domain/ValueObjects/Cordinate.go	/^package ValueObject$/;"	p
 ValueObject	Services/Shared/Domain/ValueObjects/EmailValueObject.go	/^package ValueObject$/;"	p
 ValueObject	Services/Shared/Domain/ValueObjects/Float32VAlueObject.go	/^package ValueObject$/;"	p
 ValueObject	Services/Shared/Domain/ValueObjects/Float64VAlueObject.go	/^package ValueObject$/;"	p
@@ -219,6 +277,12 @@ auth_routes	Services/Auth/Application/Routes/Auth.go	/^package auth_routes$/;"	p
 auth_usergetway_controllers	Services/Auth/UserGateway/Controllers/AuthController.go	/^package auth_usergetway_controllers$/;"	p
 authu_services	Services/Auth/Application/Services/AuthService.go	/^package authu_services$/;"	p
 cfg	Services/Shared/Application/Configs/config.go	/^var cfg *Config$/;"	v
+couriers_orders	main.sql	/^create table couriers_orders($/;"	t
+couriers_orders.courier_id	main.sql	/^    courier_id int not null,$/;"	F
+couriers_orders.created_at	main.sql	/^    created_at timestamp default now(),$/;"	F
+couriers_orders.id	main.sql	/^    id int primary key not null auto_increment,$/;"	F
+couriers_orders.order_fingerprint	main.sql	/^    order_fingerprint varchar(20) not null,$/;"	F
+couriers_orders.updated_at	main.sql	/^    updated_at timestamp default now()$/;"	F
 domain_auth_contracts	Services/Auth/Domain/Contracts/IAuthRepository.go	/^package domain_auth_contracts$/;"	p
 feedbacks	main.sql	/^create table feedbacks($/;"	t
 feedbacks.created_at	main.sql	/^    created_at timestamp default now(),$/;"	F
@@ -244,16 +308,20 @@ notifications	main.sql	/^create table notifications($/;"	t
 notifications.created_at	main.sql	/^    created_at timestamp default now(),$/;"	F
 notifications.id	main.sql	/^    id int primary key not null auto_increment,$/;"	F
 notifications.updated_at	main.sql	/^    updated_at timestamp default now()$/;"	F
-order_entities	Services/Order/Domain/Entities/OrderEntity.go	/^package order_entities$/;"	p
-order_ports	Services/Order/UserGateway/Adapters/Ports/IputPort.go	/^package order_ports$/;"	p
-order_ports	Services/Order/UserGateway/Adapters/Ports/OutoutPort.go	/^package order_ports$/;"	p
+order_application_enums	Services/Order/Application/Enums/OrderStatuses.go	/^package order_application_enums$/;"	p
+order_domain_entities	Services/Order/Domain/Entities/OrderEntity.go	/^package order_domain_entities$/;"	p
+order_domain_entities	Services/Order/Domain/Entities/OrderProductEntity.go	/^package order_domain_entities$/;"	p
+order_infrastructues_models	Services/Order/Infrastructure/Models/Order.go	/^package order_infrastructues_models$/;"	p
+order_infrastructues_models	Services/Order/Infrastructure/Models/OrderProduct.go	/^package order_infrastructues_models$/;"	p
 orderaggrigate	Services/Order/Domain/Aggrigates/order_aggrigate.go	/^package orderaggrigate$/;"	p
 orders	main.sql	/^create table orders($/;"	t
-orders.costumer_id	main.sql	/^    costumer_id int not null,$/;"	F
 orders.created_at	main.sql	/^    created_at timestamp default now(),$/;"	F
-orders.from_address	main.sql	/^    from_address varchar(200) not null,$/;"	F
+orders.from_lat	main.sql	/^    from_lat  float not null,$/;"	F
+orders.from_long	main.sql	/^    from_long float not null,$/;"	F
 orders.id	main.sql	/^    id int primary key not null auto_increment,$/;"	F
-orders.to_address	main.sql	/^    to_address varchar(200) not null, $/;"	F
+orders.order_fingerprint	main.sql	/^    order_fingerprint varchar(20) not null$/;"	F
+orders.to_lat	main.sql	/^    to_lat    float not null, $/;"	F
+orders.to_long	main.sql	/^    to_long   float not null, $/;"	F
 orders.updated_at	main.sql	/^    updated_at timestamp default now()$/;"	F
 orders_couriers	main.sql	/^create table orders_couriers($/;"	t
 orders_couriers.created_at	main.sql	/^    created_at timestamp default now(),$/;"	F
@@ -269,6 +337,7 @@ orders_tracking.status	main.sql	/^    status varchar(100) not null,$/;"	F
 orders_tracking.updated_at	main.sql	/^    updated_at timestamp default now()$/;"	F
 product_Infrastructure_repository	Services/Product/Infrastructure/Repositories/ProductRepsoitory.go	/^package product_Infrastructure_repository$/;"	p
 product_domain_dtos	Services/Product/Domian/DTOS/DeleteProductDTO.go	/^package product_domain_dtos$/;"	p
+product_domain_dtos	Services/Product/Domian/DTOS/GetProductByIdDTO.go	/^package product_domain_dtos$/;"	p
 product_domain_dtos	Services/Product/Domian/DTOS/InsertProductDTO.go	/^package product_domain_dtos$/;"	p
 product_domain_dtos	Services/Product/Domian/DTOS/SearchProductDTO.go	/^package product_domain_dtos$/;"	p
 product_domain_dtos	Services/Product/Domian/DTOS/UpdatePRoductDTO.go	/^package product_domain_dtos$/;"	p
@@ -288,6 +357,11 @@ product_images.updated_at	main.sql	/^    updated_at timestamp default now()$/;"	
 product_infrastructure_models	Services/Product/Infrastructure/Models/Product.go	/^package product_infrastructure_models$/;"	p
 product_services	Services/Product/Application/Services/ProductService.go	/^package product_services$/;"	p
 product_usergetway_controllers	Services/Product/UserGetway/Controllers/ProductController.go	/^package product_usergetway_controllers$/;"	p
+product_usergetway_requests	Services/Product/UserGetway/Requests/DeleteProductRequest.go	/^package product_usergetway_requests$/;"	p
+product_usergetway_requests	Services/Product/UserGetway/Requests/GetProductRequest.go	/^package product_usergetway_requests$/;"	p
+product_usergetway_requests	Services/Product/UserGetway/Requests/InsertProductRequest.go	/^package product_usergetway_requests$/;"	p
+product_usergetway_requests	Services/Product/UserGetway/Requests/SearchProductRequest.go	/^package product_usergetway_requests$/;"	p
+product_usergetway_requests	Services/Product/UserGetway/Requests/UpdateProductRequest.go	/^package product_usergetway_requests$/;"	p
 products	main.sql	/^create table products($/;"	t
 products.created_at	main.sql	/^    created_at timestamp default now(),$/;"	F
 products.id	main.sql	/^    id int primary key not null auto_increment,$/;"	F
@@ -307,6 +381,20 @@ shared_models	Services/Shared/Infrastructure/Models/Users.go	/^package shared_mo
 shared_utils	Services/Shared/Application/Utils/api.go	/^package shared_utils$/;"	p
 shared_utils	Services/Shared/Application/Utils/jwt.go	/^package shared_utils$/;"	p
 shared_utils	Services/Shared/Application/Utils/security.go	/^package shared_utils$/;"	p
+shop_application_enums	Services/Shop/Application/ShopEnums.go	/^package shop_application_enums$/;"	p
+shop_application_routes	Services/Shop/Application/Routes/Shop.go	/^package shop_application_routes$/;"	p
+shop_application_services	Services/Shop/Application/Services/ShopService.go	/^package shop_application_services$/;"	p
+shop_domain_contracts	Services/Shop/Domain/Contracts/IShopRepository.go	/^package shop_domain_contracts$/;"	p
+shop_domain_entities	Services/Shop/Domain/Entities/MenuEntity.go	/^package shop_domain_entities$/;"	p
+shop_domain_entities	Services/Shop/Domain/Entities/MenuProductEntity.go	/^package shop_domain_entities$/;"	p
+shop_domain_entities	Services/Shop/Domain/Entities/ShopEntity.go	/^package shop_domain_entities$/;"	p
+shop_infrastructure_medels	Services/Shop/Infrastructure/Medels/Menu.go	/^package shop_infrastructure_medels$/;"	p
+shop_infrastructure_medels	Services/Shop/Infrastructure/Medels/MenuProduct.go	/^package shop_infrastructure_medels$/;"	p
+shop_infrastructure_medels	Services/Shop/Infrastructure/Medels/Shop.go	/^package shop_infrastructure_medels$/;"	p
+shop_infrastructure_respositories	Services/Shop/Infrastructure/Respositories/MenuRepository.go	/^package shop_infrastructure_respositories$/;"	p
+shop_infrastructure_respositories	Services/Shop/Infrastructure/Respositories/ShopRepository.go	/^package shop_infrastructure_respositories$/;"	p
+shop_usergateway_controllers	Services/Shop/UserGateway/Controllers/ShopController.go	/^package shop_usergateway_controllers$/;"	p
+shop_usergateway_requests	Services/Shop/UserGateway/Requests/ShopStatusRequest.go	/^package shop_usergateway_requests$/;"	p
 toString	Services/Shared/Domain/ValueObjects/PasswordValueObject.go	/^func (obj *PasswordValueObject) toString() string {$/;"	f
 toString	Services/Shared/Domain/ValueObjects/StringValueObject.go	/^func (obj StringValeObject) toString() string {$/;"	f
 user_repositories	Services/Order/Infrastructure/Repositories/OrderRepository.go	/^package user_repositories$/;"	p
