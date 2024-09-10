@@ -66,7 +66,7 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	_, err := obj.service.Register(auth_domain_dtos.RegisterDTO{
+	res := obj.service.Register(auth_domain_dtos.RegisterDTO{
 		FullName:  request.FullName,
 		UserName:  request.UserName,
 		Email:     request.Email,
@@ -76,12 +76,8 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		UserType:  "costumer",
 	})
 
-	if err != nil {
-		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
-		return
-	}
+	ctx.JSON(res.GetResponse().Status, res.GetResponse())
 
-	shared_utils.Success(ctx, http.StatusOK, "Success", nil)
 }
 
 func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
@@ -98,16 +94,19 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 		return
 	}
 
-	res, err := obj.service.TwoFactoryConfirm(auth_domain_dtos.TwoFactoryConfirmDTO{
+	res := obj.service.TwoFactoryConfirm(auth_domain_dtos.TwoFactoryConfirmDTO{
 		Email: request.Email,
 		Pin:   request.Pin,
 	})
-	if err != nil || !res {
-		shared_utils.Error(ctx, http.StatusInternalServerError, "Error", "could not confirm the account")
-		return
-	}
 
-	shared_utils.Success(ctx, http.StatusOK, "Success", nil)
+	ctx.JSON(res.GetResponse().Status, res.GetResponse())
+
+	// if err != nil || !res {
+	// 	shared_utils.Error(ctx, http.StatusInternalServerError, "Error", "could not confirm the account")
+	// 	return
+	// }
+
+	// shared_utils.Success(ctx, http.StatusOK, "Success", nil)
 }
 
 func (obj *AuthController) Logout(ctx *gin.Context) {
