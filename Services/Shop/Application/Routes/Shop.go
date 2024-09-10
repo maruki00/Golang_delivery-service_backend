@@ -8,6 +8,12 @@ func ShopRouter(router *gin.Engine) {
 	_ = shop.POST("/open", nil)
 	_ = shop.POST("/close", nil)
 
+	employee := shop.Group("/employee")
+	employee.POST("/add", nil)
+	employee.POST("/delete", nil)
+	employee.POST("/get", nil)
+	employee.POST("/search", nil)
+
 	menu := shop.Group("/menu")
 	menu.POST("/add", nil)
 	menu.POST("/delete", nil)
