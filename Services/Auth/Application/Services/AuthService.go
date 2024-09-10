@@ -27,14 +27,25 @@ func NewAuthService(repo *auth_infrastructure_repository.AuthRepository, outport
 }
 
 func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) domain_auth_contracts.ViewModel {
+
 	user, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
 	if err != nil {
-		return obj.outport.Error(gin.H{"result": err.Error()})
+		return obj.outport.Error(shared_models.ResponseModel{
+			Status:  400,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
 
 	token, err := shared_utils.JwtToken(user.Email, user.Id)
 	if err != nil {
-		return obj.outport.Error(gin.H{"result": "could not generate token " + err.Error()})
+		return obj.outport.Error(shared_models.ResponseModel{
+			Status:  400,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
 
 	obj.repo.ClearToken(user.Id)
@@ -47,9 +58,19 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) domain_auth_contrac
 	})
 
 	if !ok || err != nil {
-		return obj.outport.Error(gin.H{"result: ": "please try again later"})
+		return obj.outport.Error(shared_models.ResponseModel{
+			Status:  400,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
-	return obj.outport.Success(gin.H{"result": token})
+	return obj.outport.Success(shared_models.ResponseModel{
+		Status:  200,
+		Message: "Success",
+		Error:   nil,
+		Data:    gin.H{"result": token},
+	})
 }
 
 func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) domain_auth_contracts.ViewModel {
@@ -72,19 +93,39 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) domain_auth_c
 	}
 	_, err := obj.repo.Register(user)
 	if err != nil {
-		obj.outport.Error(gin.H{"result: ": err.Error()})
+		return obj.outport.Error(shared_models.ResponseModel{
+			Status:  400,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
-	return obj.outport.Success(nil)
+	return obj.outport.Error(shared_models.ResponseModel{
+		Status:  200,
+		Message: "Success",
+		Error:   nil,
+		Data:    nil,
+	})
 }
 
 func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) domain_auth_contracts.ViewModel {
 
 	_, err := obj.repo.TwoFactoryConfirm(dto.Email, dto.Pin)
 	if err != nil {
-		return obj.outport.Error(gin.H{"result: ": err.Error()})
+		return obj.outport.Error(shared_models.ResponseModel{
+			Status:  400,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
 	obj.repo.LockUser(dto.Email, "0")
-	return obj.outport.Success(nil)
+	return obj.outport.Success(shared_models.ResponseModel{
+		Status:  200,
+		Message: "Success",
+		Error:   nil,
+		Data:    nil,
+	})
 }
 
 func (obj *AuthService) Logout(dto auth_domain_dtos.LogoutDTO) {
