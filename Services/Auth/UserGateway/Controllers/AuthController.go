@@ -44,10 +44,14 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, err := obj.inputPort.Login(auth_domain_dtos.LoginDTO{
+	result := obj.inputPort.Login(auth_domain_dtos.LoginDTO{
 		Login:    request.Login,
 		Password: request.Password,
 	})
+
+
+	ctx.JSON(result.GetResponse().)
+
 
 	if err != nil {
 		shared_utils.Error(ctx, http.StatusUnauthorized, "Error", err.Error())

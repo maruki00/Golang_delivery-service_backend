@@ -9,7 +9,7 @@ import (
 type JSONAuthPresenter struct {
 }
 
-func (obj *JSONAuthPresenter) Success(data any) domain_auth_contracts.ViewModel {
+func (obj *JSONAuthPresenter) Success(data shared_models.ResponseModel) domain_auth_contracts.ViewModel {
 	return auth_adapters_viewmodels.NewJsonViewModel(shared_models.ResponseModel{
 		Status:  200,
 		Message: "Operation Done with success",
