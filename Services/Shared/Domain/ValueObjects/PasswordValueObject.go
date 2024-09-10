@@ -1,4 +1,4 @@
-package ValueObject
+package shared_valueobject
 
 type PasswordValueObject struct {
 	value string

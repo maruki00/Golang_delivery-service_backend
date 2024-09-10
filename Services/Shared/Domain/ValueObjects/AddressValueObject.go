@@ -1,4 +1,4 @@
-package SharedValueObject
+package shared_valueobject
 
 import "fmt"
 

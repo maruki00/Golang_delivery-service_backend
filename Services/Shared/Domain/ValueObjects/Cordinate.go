@@ -1,4 +1,4 @@
-package ValueObject
+package shared_valueobject
 
 import (
 	"fmt"

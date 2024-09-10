@@ -1,4 +1,4 @@
-package ValueObject
+package shared_valueobject
 
 type EmailValueObject struct {
 	value string
