@@ -3,6 +3,7 @@ package auth_usergetway_controllers
 import (
 	authu_services "delivery/Services/Auth/Application/Services"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
+	auth_domain_ports "delivery/Services/Auth/Domain/Ports"
 	auth_infrastructure_repository "delivery/Services/Auth/Infrastructure/Repositories"
 	auth_requests "delivery/Services/Auth/UserGateway/Requests"
 	shared_utils "delivery/Services/Shared/Application/Utils"
@@ -15,15 +16,16 @@ import (
 )
 
 type AuthController struct {
-	Validate *validator.Validate
-	service  *authu_services.AuthService
-	outPort  *
+	Validate  *validator.Validate
+	service   *authu_services.AuthService
+	inputPort auth_domain_ports.AuthInputPort
 }
 
 func NewAuthController(db *gorm.DB) *AuthController {
 	return &AuthController{
-		Validate: validator.New(),
-		service:  authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(db)),
+		Validate:  validator.New(),
+		service:   authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(db), nil),
+		inputPort: nil,
 	}
 }
 
@@ -42,7 +44,7 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	accessToken, err := obj.service.Login(auth_domain_dtos.LoginDTO{
+	accessToken, err := obj.inputPort.Login(auth_domain_dtos.LoginDTO{
 		Login:    request.Login,
 		Password: request.Password,
 	})

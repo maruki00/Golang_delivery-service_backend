@@ -1,4 +1,4 @@
-package shared_adapters
+package shared_contracts
 
 type ViewModel interface {
 	GetResponse() any
