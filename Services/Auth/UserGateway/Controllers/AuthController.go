@@ -49,17 +49,7 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		Password: request.Password,
 	})
 
-
-	ctx.JSON(result.GetResponse().)
-
-
-	if err != nil {
-		shared_utils.Error(ctx, http.StatusUnauthorized, "Error", err.Error())
-		return
-	}
-	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{
-		"token": accessToken,
-	})
+	ctx.JSON(result.GetResponse().Status, result.GetResponse())
 }
 
 func (obj AuthController) Register(ctx *gin.Context) {
