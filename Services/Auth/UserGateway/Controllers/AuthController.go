@@ -17,6 +17,7 @@ import (
 type AuthController struct {
 	Validate *validator.Validate
 	service  *authu_services.AuthService
+	outPort  *
 }
 
 func NewAuthController(db *gorm.DB) *AuthController {
