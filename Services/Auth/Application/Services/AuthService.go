@@ -2,11 +2,11 @@ package auth_services
 
 import (
 	auth_domain_contracts "delivery/Services/Auth/Domain/Contracts"
-	domain_auth_contracts "delivery/Services/Auth/Domain/Contracts"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	auth_domain_ports "delivery/Services/Auth/Domain/Ports"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
 	shared_utils "delivery/Services/Shared/Application/Utils"
+	shared_domain_contracts "delivery/Services/Shared/Domain/Contracts"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"math/rand"
 	"time"
@@ -26,7 +26,7 @@ func NewAuthService(repo auth_domain_contracts.IAuthRepository, outport auth_dom
 	}
 }
 
-func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) domain_auth_contracts.ViewModel {
+func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) shared_domain_contracts.ViewModel {
 
 	user, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
 	if err != nil {
@@ -73,7 +73,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) domain_auth_contrac
 	})
 }
 
-func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) domain_auth_contracts.ViewModel {
+func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) shared_domain_contracts.ViewModel {
 
 	dt := time.Now()
 	formattedTime := dt.Format("2006-01-02 15:04:05")
@@ -108,7 +108,7 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) domain_auth_c
 	})
 }
 
-func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) domain_auth_contracts.ViewModel {
+func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) shared_domain_contracts.ViewModel {
 
 	_, err := obj.repo.TwoFactoryConfirm(dto.Email, dto.Pin)
 	if err != nil {

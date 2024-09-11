@@ -1,4 +1,4 @@
-package auth_domain_contracts
+package shared_domain_contracts
 
 import shared_models "delivery/Services/Shared/Infrastructure/Models"
 

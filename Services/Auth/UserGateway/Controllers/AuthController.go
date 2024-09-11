@@ -105,12 +105,6 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 
 	ctx.JSON(res.GetResponse().Status, res.GetResponse())
 
-	// if err != nil || !res {
-	// 	shared_utils.Error(ctx, http.StatusInternalServerError, "Error", "could not confirm the account")
-	// 	return
-	// }
-
-	// shared_utils.Success(ctx, http.StatusOK, "Success", nil)
 }
 
 func (obj *AuthController) Logout(ctx *gin.Context) {
