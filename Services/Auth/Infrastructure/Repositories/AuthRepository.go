@@ -6,10 +6,10 @@ import (
 	shared_entities "delivery/Services/Shared/Domain/Entities"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"errors"
-	"fmt"
 	"sync"
 	"time"
 
+	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
@@ -30,12 +30,12 @@ func (obj *AuthRepository) CheckToken(token string) bool {
 }
 
 func (obj *AuthRepository) Login(login, password string) (*shared_models.User, error) {
+	gin.SetMode("release")
 
 	var uu shared_models.User
 
+	obj.CleanPins(login)
 	obj.db.Model(&shared_models.User{}).Where("user_name", login).Where("password", password).Find(&uu)
-
-	fmt.Println(" hello : ", uu, password)
 
 	return &uu, nil
 }
@@ -68,6 +68,7 @@ func (obj *AuthRepository) Register(user shared_entities.UserEntity) (shared_ent
 }
 
 func (obj *AuthRepository) CleanPins(email string) {
+	obj.db.Exec("delete from auths where email = ? or email in (select email from users where user_name = ?)", email, email)
 	obj.db.Exec("delete from two_factory_pins where email = ? ", email)
 }
 

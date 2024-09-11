@@ -70,7 +70,7 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	res := obj.service.Register(auth_domain_dtos.RegisterDTO{
+	res := obj.inputPort.Register(auth_domain_dtos.RegisterDTO{
 		FullName:  request.FullName,
 		UserName:  request.UserName,
 		Email:     request.Email,
