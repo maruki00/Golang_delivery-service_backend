@@ -19,8 +19,8 @@ type AuthService struct {
 	outport auth_domain_ports.AuthOutputPort
 }
 
-func NewAuthService(repo auth_domain_contracts.IAuthRepository, outport auth_domain_ports.AuthOutputPort) AuthService {
-	return AuthService{
+func NewAuthService(repo auth_domain_contracts.IAuthRepository, outport auth_domain_ports.AuthOutputPort) *AuthService {
+	return &AuthService{
 		repo:    repo,
 		outport: outport,
 	}

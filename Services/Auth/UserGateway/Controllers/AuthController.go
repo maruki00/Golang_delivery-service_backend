@@ -1,6 +1,7 @@
 package auth_usergetway_controllers
 
 import (
+	auth_services "delivery/Services/Auth/Application/Services"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	auth_domain_ports "delivery/Services/Auth/Domain/Ports"
 	auth_infrastructure_repository "delivery/Services/Auth/Infrastructure/Repositories"
@@ -26,8 +27,7 @@ func NewAuthController(db *gorm.DB) *AuthController {
 	presenter := &auth_usergateway_presenters.JSONAuthPresenter{}
 
 	return &AuthController{
-		Validate: validator.New(),
-		//service:   authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(db), nil),
+		Validate:  validator.New(),
 		inputPort: auth_services.NewAuthService(repo, presenter),
 	}
 }
@@ -98,7 +98,7 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 		return
 	}
 
-	res := obj.service.TwoFactoryConfirm(auth_domain_dtos.TwoFactoryConfirmDTO{
+	res := obj.inputPort.TwoFactoryConfirm(auth_domain_dtos.TwoFactoryConfirmDTO{
 		Email: request.Email,
 		Pin:   request.Pin,
 	})
@@ -126,7 +126,7 @@ func (obj *AuthController) Logout(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
-	obj.service.Logout(auth_domain_dtos.LogoutDTO{
+	obj.inputPort.Logout(auth_domain_dtos.LogoutDTO{
 		Token: request.Token,
 	})
 	shared_utils.Success(ctx, http.StatusNoContent, "Success", nil)
