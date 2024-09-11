@@ -1,11 +1,11 @@
 package auth_usergetway_controllers
 
 import (
-	authu_services "delivery/Services/Auth/Application/Services"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	auth_domain_ports "delivery/Services/Auth/Domain/Ports"
 	auth_infrastructure_repository "delivery/Services/Auth/Infrastructure/Repositories"
 	auth_requests "delivery/Services/Auth/UserGateway/Requests"
+	auth_usergateway_presenters "delivery/Services/Auth/UserGateway/adapters/Presenters"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	"fmt"
 	"net/http"
@@ -16,16 +16,19 @@ import (
 )
 
 type AuthController struct {
-	Validate  *validator.Validate
-	service   *authu_services.AuthService
+	Validate *validator.Validate
+	//service   *authu_services.AuthService
 	inputPort auth_domain_ports.AuthInputPort
 }
 
 func NewAuthController(db *gorm.DB) *AuthController {
+	repo := auth_infrastructure_repository.NewAuthRepository(db)
+	presenter := &auth_usergateway_presenters.JSONAuthPresenter{}
+
 	return &AuthController{
-		Validate:  validator.New(),
-		service:   authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(db), nil),
-		inputPort: nil,
+		Validate: validator.New(),
+		//service:   authu_services.NewAuthService(auth_infrastructure_repository.NewAuthRepository(db), nil),
+		inputPort: auth_services.NewAuthService(repo, presenter),
 	}
 }
 
@@ -50,6 +53,7 @@ func (obj AuthController) Login(ctx *gin.Context) {
 	})
 
 	ctx.JSON(result.GetResponse().Status, result.GetResponse())
+
 }
 
 func (obj AuthController) Register(ctx *gin.Context) {

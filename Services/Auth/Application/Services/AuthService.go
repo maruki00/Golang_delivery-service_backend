@@ -1,11 +1,11 @@
-package authu_services
+package auth_services
 
 import (
+	auth_domain_contracts "delivery/Services/Auth/Domain/Contracts"
 	domain_auth_contracts "delivery/Services/Auth/Domain/Contracts"
 	auth_domain_dtos "delivery/Services/Auth/Domain/DTOs"
 	auth_domain_ports "delivery/Services/Auth/Domain/Ports"
 	auth_infrastructure_models "delivery/Services/Auth/Infrastructure/Models"
-	auth_infrastructure_repository "delivery/Services/Auth/Infrastructure/Repositories"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"math/rand"
@@ -15,12 +15,12 @@ import (
 )
 
 type AuthService struct {
-	repo    *auth_infrastructure_repository.AuthRepository
+	repo    auth_domain_contracts.IAuthRepository
 	outport auth_domain_ports.AuthOutputPort
 }
 
-func NewAuthService(repo *auth_infrastructure_repository.AuthRepository, outport auth_domain_ports.AuthOutputPort) *AuthService {
-	return &AuthService{
+func NewAuthService(repo auth_domain_contracts.IAuthRepository, outport auth_domain_ports.AuthOutputPort) AuthService {
+	return AuthService{
 		repo:    repo,
 		outport: outport,
 	}

@@ -6,6 +6,6 @@ import (
 )
 
 type AuthOutputPort interface {
-	Success(response shared_models.ResponseModel) domain_auth_contracts.ViewModel
-	Error(response shared_models.ResponseModel) domain_auth_contracts.ViewModel
+	Success(data shared_models.ResponseModel) domain_auth_contracts.ViewModel
+	Error(data shared_models.ResponseModel) domain_auth_contracts.ViewModel
 }

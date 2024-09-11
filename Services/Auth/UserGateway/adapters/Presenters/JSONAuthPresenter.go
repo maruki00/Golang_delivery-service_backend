@@ -9,6 +9,10 @@ import (
 type JSONAuthPresenter struct {
 }
 
+func NewJSONAuthPresenter() JSONAuthPresenter {
+	return JSONAuthPresenter{}
+}
+
 func (obj *JSONAuthPresenter) Success(data shared_models.ResponseModel) domain_auth_contracts.ViewModel {
 	return auth_adapters_viewmodels.NewJsonViewModel(data)
 }
