@@ -24,7 +24,7 @@ type AuthController struct {
 
 func NewAuthController(db *gorm.DB) *AuthController {
 	repo := auth_infrastructure_repository.NewAuthRepository(db)
-	presenter := &auth_usergateway_presenters.JSONAuthPresenter{}
+	presenter := &auth_usergateway_presenters.JsonAuthPresenter{}
 
 	return &AuthController{
 		Validate:  validator.New(),

@@ -3,6 +3,7 @@ package product_services
 import (
 	product_domain_dtos "delivery/Services/Product/Domian/DTOS"
 	product_domain_entities "delivery/Services/Product/Domian/Entities"
+	product_domain_ports "delivery/Services/Product/Domian/Ports"
 	product_domain_repositories "delivery/Services/Product/Domian/Repositories"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
 	"errors"
@@ -11,11 +12,13 @@ import (
 
 type ProductService struct {
 	productRepository product_domain_repositories.IProductRepository
+	outputPort        product_domain_ports.ProductOutputPort
 }
 
-func NewProductService(productRepository product_domain_repositories.IProductRepository) *ProductService {
+func NewProductService(productRepository product_domain_repositories.IProductRepository, outputPort product_domain_ports.ProductOutputPort) *ProductService {
 	return &ProductService{
 		productRepository: productRepository,
+		outputPort:        outputPort,
 	}
 }
 

@@ -7,17 +7,17 @@ import (
 	shared_adapters_viewmodels "delivery/Services/Shared/UserGateway/Adapters/ViewModels"
 )
 
-type JSONAuthPresenter struct {
+type JsonAuthPresenter struct {
 }
 
-func NewJSONAuthPresenter() JSONAuthPresenter {
-	return JSONAuthPresenter{}
+func NewJSONAuthPresenter() JsonAuthPresenter {
+	return JsonAuthPresenter{}
 }
 
-func (obj *JSONAuthPresenter) Success(data shared_models.ResponseModel) domain_auth_contracts.ViewModel {
+func (obj *JsonAuthPresenter) Success(data shared_models.ResponseModel) domain_auth_contracts.ViewModel {
 	return shared_adapters_viewmodels.NewJsonViewModel(data)
 }
 
-func (obj *JSONAuthPresenter) Error(data shared_models.ResponseModel) domain_auth_contracts.ViewModel {
+func (obj *JsonAuthPresenter) Error(data shared_models.ResponseModel) domain_auth_contracts.ViewModel {
 	return shared_adapters_viewmodels.NewJsonViewModel(data)
 }
