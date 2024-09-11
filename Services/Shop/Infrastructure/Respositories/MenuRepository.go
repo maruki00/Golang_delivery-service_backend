@@ -18,11 +18,9 @@ func NewMenuRepository(db *gorm.Model, model interface{}) *MenuRepository {
 	}
 }
 
-
-
 func (obj *MenuRepository) Make(menn shop_domain_entities.MenuEntity) (shop_domain_entities.MenuEntity, error) {
 
-	res := obj.
+	// res := obj.
 
 	return nil, nil
 }
