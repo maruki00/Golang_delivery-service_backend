@@ -3,8 +3,10 @@ package product_usergetway_controllers
 import (
 	product_services "delivery/Services/Product/Application/Services"
 	product_domain_dtos "delivery/Services/Product/Domian/DTOS"
+	product_domain_ports "delivery/Services/Product/Domian/Ports"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
 	product_Infrastructure_repository "delivery/Services/Product/Infrastructure/Repositories"
+	product_usergateway_adapters_presenters "delivery/Services/Product/UserGetway/Adapters/Presenters"
 	product_usergetway_requests "delivery/Services/Product/UserGetway/Requests"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shared_core "delivery/Services/Shared/Infrastructure/Core"
@@ -16,13 +18,16 @@ import (
 )
 
 type ProductController struct {
-	service  *product_services.ProductService
 	Validate *validator.Validate
+	inPort   product_domain_ports.ProductInputPort
 }
 
 func NewProductController(db *gorm.DB) *ProductController {
 	return &ProductController{
-		service:  product_services.NewProductService(product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{})),
+		inPort: product_services.NewProductService(
+			product_Infrastructure_repository.NewProductRepository(db, &product_infrastructure_models.Product{}),
+			&product_usergateway_adapters_presenters.ProductPresenter{},
+		),
 		Validate: validator.New(),
 	}
 }
@@ -36,7 +41,7 @@ func (obj *ProductController) Insert(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res, err := obj.service.Insert(&product_domain_dtos.InsertProductDTO{
+	res, err := obj.inPort.Insert(&product_domain_dtos.InsertProductDTO{
 		Label: request.Label,
 		Type:  request.Type,
 		Price: request.Price,
@@ -58,7 +63,7 @@ func (obj *ProductController) Search(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res, err := obj.service.Search(&product_domain_dtos.SearchProductDTO{
+	res, err := obj.inPort.Search(&product_domain_dtos.SearchProductDTO{
 		Query: request.Query,
 	})
 
@@ -79,7 +84,7 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "validation : "+err.Error())
 		return
 	}
-	res, err := obj.service.Update(&product_domain_dtos.UpdateProductDTO{
+	res, err := obj.inPort.Update(&product_domain_dtos.UpdateProductDTO{
 		Id:    request.Id,
 		Label: request.Label,
 		Type:  request.Type,
@@ -102,7 +107,7 @@ func (obj *ProductController) Delete(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res, err := obj.service.Delete(&product_domain_dtos.DeleteProductDTO{
+	res, err := obj.inPort.Delete(&product_domain_dtos.DeleteProductDTO{
 		Id: request.Id,
 	})
 	if err != nil {
@@ -121,7 +126,7 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res, err := obj.service.GetById(&product_domain_dtos.GetProductByIdDTO{
+	res, err := obj.inPort.GetById(&product_domain_dtos.GetProductByIdDTO{
 		Id: request.Id,
 	})
 
