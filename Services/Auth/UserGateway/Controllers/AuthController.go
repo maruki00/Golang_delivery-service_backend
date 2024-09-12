@@ -57,6 +57,7 @@ func (obj AuthController) Login(ctx *gin.Context) {
 }
 
 func (obj AuthController) Register(ctx *gin.Context) {
+	
 	request := &auth_requests.RegisterRequest{}
 	if err := ctx.BindJSON(request); err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())

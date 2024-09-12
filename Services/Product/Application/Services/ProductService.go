@@ -2,12 +2,12 @@ package product_services
 
 import (
 	product_domain_dtos "delivery/Services/Product/Domian/DTOS"
-	product_domain_entities "delivery/Services/Product/Domian/Entities"
 	product_domain_ports "delivery/Services/Product/Domian/Ports"
 	product_domain_repositories "delivery/Services/Product/Domian/Repositories"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
-	"errors"
-	"fmt"
+	shared_domain_contracts "delivery/Services/Shared/Domain/Contracts"
+	shared_models "delivery/Services/Shared/Infrastructure/Models"
+	"net/http"
 )
 
 type ProductService struct {
@@ -22,7 +22,7 @@ func NewProductService(productRepository product_domain_repositories.IProductRep
 	}
 }
 
-func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.Insert(&product_infrastructure_models.Product{
 		Label: dto.Label,
@@ -31,24 +31,44 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) (pr
 	})
 
 	if err != nil {
-		return nil, errors.New("error")
+		return obj.outputPort.Error(shared_models.ResponseModel{
+			Status:  http.StatusBadRequest,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
 
-	return res, nil
+	return obj.outputPort.Success(shared_models.ResponseModel{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Error:   nil,
+		Data:    res,
+	})
 }
 
-func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) ([]product_infrastructure_models.Product, error) {
+func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.Search(dto.Query)
 
 	if err != nil {
-		return nil, errors.New("error")
+		return obj.outputPort.Error(shared_models.ResponseModel{
+			Status:  http.StatusBadRequest,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
 
-	return res, nil
+	return obj.outputPort.Success(shared_models.ResponseModel{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Error:   nil,
+		Data:    res,
+	})
 }
 
-func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.Update(dto.Id, map[string]interface{}{
 		"id":    dto.Id,
@@ -58,29 +78,60 @@ func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) (pr
 	})
 
 	if err != nil {
-		return nil, err
+		return obj.outputPort.Error(shared_models.ResponseModel{
+			Status:  http.StatusBadRequest,
+			Message: "Error",
+			Error:   err.Error(),
+			Data:    nil,
+		})
 	}
 
-	return res, nil
+	return obj.outputPort.Success(shared_models.ResponseModel{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Error:   nil,
+		Data:    res,
+	})
 }
 
-func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.Delete(dto.Id)
 
 	if err != nil {
-		return nil, fmt.Errorf("could not delete the product : %s", err.Error())
+		return obj.outputPort.Error(shared_models.ResponseModel{
+			Status:  http.StatusBadRequest,
+			Message: "Error",
+			Error:   "could not delete the product : " + err.Error(),
+			Data:    nil,
+		})
 	}
 
-	return res, nil
+	return obj.outputPort.Success(shared_models.ResponseModel{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Error:   nil,
+		Data:    res,
+	})
 }
 
-func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.GetById(dto.Id)
 
 	if err != nil {
-		return nil, errors.New("could not get the product or doesnt exsits")
+		return obj.outputPort.Error(shared_models.ResponseModel{
+			Status:  http.StatusBadRequest,
+			Message: "Error",
+			Error:   "could not get the product or doesnt exsits",
+			Data:    nil,
+		})
 	}
-	return res, nil
+
+	return obj.outputPort.Success(shared_models.ResponseModel{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Error:   nil,
+		Data:    res,
+	})
 }
