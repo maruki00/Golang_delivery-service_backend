@@ -94,7 +94,6 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "someting wrong happen "+err.Error())
 		return
 	}
-
 	shared_utils.Success(ctx, http.StatusOK, "Success", gin.H{"product": res})
 }
 
