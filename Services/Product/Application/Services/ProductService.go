@@ -29,7 +29,6 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) sha
 		Type:  dto.Type,
 		Price: dto.Price,
 	})
-
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
@@ -50,7 +49,6 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) sha
 func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.Search(dto.Query)
-
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
@@ -118,7 +116,6 @@ func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) sha
 func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.GetById(dto.Id)
-
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
