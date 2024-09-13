@@ -1,4 +1,4 @@
-package orderaggrigate
+package order_domain_aggrigate
 
 import (
 	order_entities "delivery/Services/Order/Domain/Entities"
@@ -6,21 +6,25 @@ import (
 )
 
 type OrderAggrigate struct {
-	OrderEntity order_entities.OrderEntity
-	Items       []product_domain_entities.ProductEntity
-	Price       float32
+	Order order_entities.OrderEntity
+	Items []product_domain_entities.ProductEntity
+	Price float32
 }
 
 func NewOrderAggrigate(order order_entities.OrderEntity, items []product_domain_entities.ProductEntity) *OrderAggrigate {
-	price := float32(0)
-	for _, product := range items {
-		price += product.GetPrice()
-	}
 
-	return &OrderAggrigate{
-		OrderEntity: order,
-		Items:       items,
-		Price:       price,
-	}
+	orderAgg := &OrderAggrigate{}
+	orderAgg.Order = order
+	orderAgg.Items = items
+	orderAgg.Price = orderAgg.CalculateCoast()
 
+	return orderAgg
+}
+
+func (obj *OrderAggrigate) CalculateCoast() float32 {
+	coast := float32(0)
+	for _, product := range obj.Items {
+		coast += product.GetPrice()
+	}
+	return coast
 }

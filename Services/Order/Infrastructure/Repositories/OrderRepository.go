@@ -1,6 +1,7 @@
 package user_repositories
 
 import (
+	order_domain_aggrigate "delivery/Services/Order/Domain/Aggrigates"
 	order_domain_entities "delivery/Services/Order/Domain/Entities"
 	order_infrastructues_models "delivery/Services/Order/Infrastructure/Models"
 	"errors"
@@ -20,30 +21,27 @@ func NewOrderRepository(db *gorm.DB, model interface{}) *OrderRepository {
 	}
 }
 
-func (obj *OrderRepository) Make(order order_domain_entities.OrderEntity) (order_domain_entities.OrderEntity, error) {
+func (obj *OrderRepository) Make(order *order_domain_aggrigate.OrderAggrigate) (*order_domain_aggrigate.OrderAggrigate, error) {
 
-	res := obj.db.Model(obj.model).Create(&order)
+	obj.db.Begin()
+	res := obj.db.Model(obj.model).Create(&order.Order)
 
 	if res.Error != nil {
+		obj.db.Rollback()
 		return nil, errors.New("could not create the order")
 	}
 
-	return order, nil
-}
-
-func (obj *OrderRepository) CreateOrderProducts(model interface{}, products []order_domain_entities.OrderProductEntity) ([]order_domain_entities.OrderProductEntity, error) {
-
-	obj.db.Begin()
-	d := obj.db.Model(model)
-	for _, product := range products {
-		res := d.Create(product)
+	d := obj.db.Model(&order_infrastructues_models.OrderProduct{})
+	for _, product := range order.Items {
+		res := d.Create(&product)
 		if res.Error != nil {
 			obj.db.Rollback()
-			return nil, errors.New("could not add a new record")
+			return nil, errors.New("could not create order prodcut")
 		}
 	}
+
 	obj.db.Commit()
-	return nil, nil
+	return order, nil
 }
 
 func (obj *OrderRepository) Cancel(id int) error {
@@ -84,4 +82,14 @@ func (obj *OrderRepository) GetCustomerOrders(id int) ([]order_domain_entities.O
 	}
 	return orders, nil
 
+}
+
+func (obj *OrderRepository) GetByFingerPrint(fingerprint string) ([]order_domain_entities.OrderEntity, error) {
+	orders := []order_domain_entities.OrderEntity{}
+	res := obj.db.Model(obj.model).Where("fingerprint = ?", fingerprint).Find(orders)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+
+	return orders, nil
 }
