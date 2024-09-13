@@ -34,7 +34,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) shared_domain_contr
 			Status:  400,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -44,7 +44,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) shared_domain_contr
 			Status:  400,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -62,14 +62,14 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) shared_domain_contr
 			Status:  400,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 	return obj.outport.Success(shared_models.ResponseModel{
 		Status:  200,
 		Message: "Success",
 		Error:   nil,
-		Data:    gin.H{"result": token},
+		Result:  gin.H{"result": token},
 	})
 }
 
@@ -97,14 +97,14 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) shared_domain
 			Status:  400,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 	return obj.outport.Error(shared_models.ResponseModel{
 		Status:  200,
 		Message: "Success",
 		Error:   nil,
-		Data:    nil,
+		Result:  nil,
 	})
 }
 
@@ -116,7 +116,7 @@ func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirm
 			Status:  400,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 	obj.repo.LockUser(dto.Email, "0")
@@ -124,7 +124,7 @@ func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirm
 		Status:  200,
 		Message: "Success",
 		Error:   nil,
-		Data:    nil,
+		Result:  nil,
 	})
 }
 

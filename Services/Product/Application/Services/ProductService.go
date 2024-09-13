@@ -8,6 +8,8 @@ import (
 	shared_domain_contracts "delivery/Services/Shared/Domain/Contracts"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"net/http"
+
+	"github.com/gin-gonic/gin"
 )
 
 type ProductService struct {
@@ -34,7 +36,7 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) sha
 			Status:  http.StatusBadRequest,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -42,7 +44,7 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) sha
 		Status:  http.StatusOK,
 		Message: "Success",
 		Error:   nil,
-		Data:    res,
+		Result:  gin.H{"product": res},
 	})
 }
 
@@ -54,7 +56,7 @@ func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) sha
 			Status:  http.StatusBadRequest,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -62,7 +64,7 @@ func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) sha
 		Status:  http.StatusOK,
 		Message: "Success",
 		Error:   nil,
-		Data:    res,
+		Result:  gin.H{"products": res},
 	})
 }
 
@@ -80,7 +82,7 @@ func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) sha
 			Status:  http.StatusBadRequest,
 			Message: "Error",
 			Error:   err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -88,7 +90,7 @@ func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) sha
 		Status:  http.StatusOK,
 		Message: "Success",
 		Error:   nil,
-		Data:    res,
+		Result:  gin.H{"product": res},
 	})
 }
 
@@ -101,7 +103,7 @@ func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) sha
 			Status:  http.StatusBadRequest,
 			Message: "Error",
 			Error:   "could not delete the product : " + err.Error(),
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -109,7 +111,7 @@ func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) sha
 		Status:  http.StatusOK,
 		Message: "Success",
 		Error:   nil,
-		Data:    res,
+		Result:  gin.H{"product": res},
 	})
 }
 
@@ -121,7 +123,7 @@ func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) s
 			Status:  http.StatusBadRequest,
 			Message: "Error",
 			Error:   "could not get the product or doesnt exsits",
-			Data:    nil,
+			Result:  nil,
 		})
 	}
 
@@ -129,6 +131,6 @@ func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) s
 		Status:  http.StatusOK,
 		Message: "Success",
 		Error:   nil,
-		Data:    res,
+		Result:  gin.H{"product": res},
 	})
 }

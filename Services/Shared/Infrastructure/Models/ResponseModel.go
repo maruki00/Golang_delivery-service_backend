@@ -6,7 +6,7 @@ type ResponseModel struct {
 	Status  int    `json:"status"`
 	Message string `json:"message"`
 	Error   any    `json:"error"`
-	Data    any    `json:"data"`
+	Result  any    `json:"result"`
 }
 
 func (obj *ResponseModel) ToMap() map[string]any {
@@ -14,7 +14,7 @@ func (obj *ResponseModel) ToMap() map[string]any {
 		"status":  obj.Status,
 		"message": obj.Message,
 		"error":   obj.Error,
-		"data":    obj.Data,
+		"result":  obj.Result,
 	}
 }
 
