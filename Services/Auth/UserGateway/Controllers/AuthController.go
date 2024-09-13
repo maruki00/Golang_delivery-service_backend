@@ -18,7 +18,7 @@ import (
 
 type AuthController struct {
 	Validate *validator.Validate
-	//service   *authu_services.AuthService
+
 	inputPort auth_domain_ports.AuthInputPort
 }
 
