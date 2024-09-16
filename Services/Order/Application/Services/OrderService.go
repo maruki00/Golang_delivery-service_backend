@@ -1,4 +1,4 @@
-package main
+package order_application_services
 
 import (
 	"context"
@@ -12,7 +12,6 @@ type OrderService struct {
 	outputPort order_domain
 }
 
+func (obj *OrderService) CreateOrder(context context.Context, dto order_domain_dtos.CreateNewOrderDTO) shared_domain_contracts.ViewModel {
 
-func (obj *OrderService)CreateOrder(context context.Context, dto order_domain_dtos.CreateNewOrderDTO) shared_domain_contracts.ViewModel {
-	
 }

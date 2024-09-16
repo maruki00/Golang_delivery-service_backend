@@ -1,5 +1,7 @@
 package order_infrastructure_factories
 
+import order_application_services "delivery/Services/Order/Application/Services"
 
-
-func New
+func NewOrderService() *order_application_services.OrderService {
+	return &order_application_services.OrderService{}
+}
