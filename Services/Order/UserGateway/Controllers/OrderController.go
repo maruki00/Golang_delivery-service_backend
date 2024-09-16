@@ -40,6 +40,7 @@ func (obj *OrderController) Create(ctx *gin.Context) {
 		})
 		return
 	}
+
 	if err := obj.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
@@ -51,5 +52,4 @@ func (obj *OrderController) Create(ctx *gin.Context) {
 		})
 		return
 	}
-
 }
