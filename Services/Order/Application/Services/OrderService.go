@@ -14,4 +14,6 @@ type OrderService struct {
 
 func (obj *OrderService) CreateOrder(context context.Context, dto order_domain_dtos.CreateNewOrderDTO) shared_domain_contracts.ViewModel {
 
+	
+	return nil
 }
