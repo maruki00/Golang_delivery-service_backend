@@ -1,7 +1,6 @@
 package order_app
 
 import (
-	"context"
 	order_application_services "delivery/Services/Order/Application/Services"
 	order_domain_contracts "delivery/Services/Order/Domain/Contracts"
 	order_domain_ports "delivery/Services/Order/Domain/Ports"
@@ -28,4 +27,4 @@ func NewApp(
 	}
 }
 
-func (app *App) Worder(ctx context.Context, )
+// func (app *App) Worder(ctx context.Context, )

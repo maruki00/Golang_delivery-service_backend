@@ -1,4 +1,4 @@
-package order_infrastructure_factories
+package order_factories
 
 import order_application_services "delivery/Services/Order/Application/Services"
 
