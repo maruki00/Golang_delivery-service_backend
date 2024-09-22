@@ -1,7 +1,6 @@
 package order_routes
 
 import (
-	order_application_services "delivery/Services/Order/Application/Services"
 	order_usergateway_controllers "delivery/Services/Order/UserGateway/Controllers"
 
 	"github.com/gin-gonic/gin"

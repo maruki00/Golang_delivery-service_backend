@@ -6,7 +6,6 @@ import (
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"fmt"
 	"net/http"
-	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
@@ -20,7 +19,7 @@ type OrderController struct {
 }
 
 func NewOrderController(inputPort order_domain_ports.OrderInputPort) *OrderController {
-	ctx, cancleFunc := context.WithTimeout(context.Background(), time.Second*1)
+	ctx, cancleFunc := context.WithCancel(context.Background())
 	defer cancleFunc()
 	return &OrderController{
 		context:   ctx,
