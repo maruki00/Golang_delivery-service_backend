@@ -88,8 +88,8 @@ func (obj *ProductRepository) Delete(id int) (product_domain_entities.ProductEnt
 	return product, nil
 }
 
-func (obj *ProductRepository) GetProductByMultipleId(ids []int) ([]product_domain_entities.ProductEntity, error) {
-	var products []product_domain_entities.ProductEntity
+func (obj *ProductRepository) GetProductByMultipleId(ids []int) ([]product_infrastructure_models.Product, error) {
+	products := []product_infrastructure_models.Product{}
 
 	query := ""
 
@@ -97,8 +97,12 @@ func (obj *ProductRepository) GetProductByMultipleId(ids []int) ([]product_domai
 		query += fmt.Sprintf(" %d,", id)
 	}
 	query = strings.TrimSuffix(query, ",")
-	res := obj.db.Model(obj.model).Where("id in (?)", query).Find(&products)
+
+	fmt.Println(query)
+	res := obj.db.Model(obj.model).Where(" id in ( " + query + " )").Find(&products)
+
 	if res.Error != nil {
+		fmt.Println(res.Error.Error())
 		return nil, res.Error
 	}
 	return products, nil

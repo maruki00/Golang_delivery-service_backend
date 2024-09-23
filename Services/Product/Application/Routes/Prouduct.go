@@ -17,4 +17,5 @@ var ProductRouter = func(router *gin.Engine, db *gorm.DB) {
 	_ = prefix.DELETE("/delete", controller.Delete)
 	_ = prefix.POST("/search", controller.Search)
 	_ = prefix.POST("/get", controller.GetProduct)
+	_ = prefix.POST("/products", controller.MultipleProducts)
 }
