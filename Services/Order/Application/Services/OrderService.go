@@ -30,7 +30,7 @@ func (obj *OrderService) CreateOrder(dto order_domain_dtos.CreateNewOrderDTO) sh
 	price := float32(0)
 	var client *http.Client
 
-	client.Post("http://locahost:3000/api/product/get", "application/json", map[string]string{})
+	//client.Post("http://locahost:3000/api/product/get", "application/json", map[string]string{})
 
 }
 
