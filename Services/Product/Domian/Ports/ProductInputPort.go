@@ -11,4 +11,5 @@ type ProductInputPort interface {
 	Update(dto *product_domain_dtos.UpdateProductDTO) shared_domain_contracts.ViewModel
 	Delete(dto *product_domain_dtos.DeleteProductDTO) shared_domain_contracts.ViewModel
 	GetById(dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel
+	MultipleProducts(dto *product_domain_dtos.MultipleProductsDTO) shared_domain_contracts.ViewModel
 }

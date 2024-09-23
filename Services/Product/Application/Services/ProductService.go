@@ -8,6 +8,8 @@ import (
 	shared_domain_contracts "delivery/Services/Shared/Domain/Contracts"
 	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"net/http"
+	"strconv"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 )
@@ -118,6 +120,37 @@ func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) sha
 func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel {
 
 	res, err := obj.productRepository.GetById(dto.Id)
+	if err != nil {
+		return obj.outputPort.Error(shared_models.ResponseModel{
+			Status:  http.StatusBadRequest,
+			Message: "Error",
+			Error:   "could not get the product or doesnt exsits",
+			Result:  nil,
+		})
+	}
+
+	return obj.outputPort.Success(shared_models.ResponseModel{
+		Status:  http.StatusOK,
+		Message: "Success",
+		Error:   nil,
+		Result:  gin.H{"product": res},
+	})
+}
+
+func (obj *ProductService) MultipleProducts(dto *product_domain_dtos.MultipleProductsDTO) shared_domain_contracts.ViewModel {
+
+	ids := []int{}
+	strIds := strings.Split(dto.Ids, ",")
+
+	for _, id := range strIds {
+		i, err := strconv.ParseInt(id, 10, 64)
+		if err != nil {
+			continue
+		}
+		ids = append(ids, int(i))
+	}
+
+	res, err := obj.productRepository.GetProductByMultipleId(ids)
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,

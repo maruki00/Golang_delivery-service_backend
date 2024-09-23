@@ -5,6 +5,7 @@ import (
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
 	"errors"
 	"fmt"
+	"strings"
 
 	"gorm.io/gorm"
 )
@@ -85,4 +86,20 @@ func (obj *ProductRepository) Delete(id int) (product_domain_entities.ProductEnt
 		return nil, fmt.Errorf("could not delete the record")
 	}
 	return product, nil
+}
+
+func (obj *ProductRepository) GetProductByMultipleId(ids []int) ([]product_domain_entities.ProductEntity, error) {
+	var products []product_domain_entities.ProductEntity
+
+	query := ""
+
+	for _, id := range ids {
+		query += fmt.Sprintf(" %d,", id)
+	}
+	query = strings.TrimSuffix(query, ",")
+	res := obj.db.Model(obj.model).Where("id in (?)", query).Find(&products)
+	if res.Error != nil {
+		return nil, res.Error
+	}
+	return products, nil
 }

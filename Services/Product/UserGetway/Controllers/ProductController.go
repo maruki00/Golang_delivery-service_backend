@@ -112,3 +112,18 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 
 	ctx.JSON(res.GetResponse().Status, res.GetResponse())
 }
+
+func (obj *ProductController) MultipleProducts(ctx *gin.Context) {
+	request := &product_usergetway_requests.MultipleProductstRequest{}
+
+	err := shared_core.Validate(ctx, obj.Validate, request)
+	if err != nil {
+		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
+		return
+	}
+	res := obj.inPort.MultipleProducts(&product_domain_dtos.MultipleProductsDTO{
+		Ids: request.Ids,
+	})
+
+	ctx.JSON(res.GetResponse().Status, res.GetResponse())
+}
