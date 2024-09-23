@@ -40,6 +40,9 @@ func (obj *ProductRepository) GetById(id int) (product_domain_entities.ProductEn
 	if product == nil {
 		return nil, fmt.Errorf("record could not be found")
 	}
+	if product.Id == 0 {
+		return nil, nil
+	}
 
 	return product, nil
 }

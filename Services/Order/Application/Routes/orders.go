@@ -1,14 +1,12 @@
 package order_routes
 
 import (
-	order_usergateway_controllers "delivery/Services/Order/UserGateway/Controllers"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )
 
 var OrderRouter = func(router *gin.Engine, db *gorm.DB) {
-	controller := order_usergateway_controllers.NewOrderController()
+	//controller := order_usergateway_controllers.NewOrderController()
 	order := router.Group("/order/")
 	_ = order.POST("/create", nil)
 	_ = order.POST("/cancel", nil)

@@ -6,6 +6,7 @@ import (
 	order_domain_dtos "delivery/Services/Order/Domain/DTOs"
 	order_domain_ports "delivery/Services/Order/Domain/Ports"
 	shared_domain_contracts "delivery/Services/Shared/Domain/Contracts"
+	"net/http"
 )
 
 type OrderService struct {
@@ -26,9 +27,10 @@ func NewOrderService(
 
 func (obj *OrderService) CreateOrder(dto order_domain_dtos.CreateNewOrderDTO) shared_domain_contracts.ViewModel {
 
-	
+	price := float32(0)
+	var client *http.Client
 
-	res :- obj.repository.Make()
+	client.Post("http://locahost:3000/api/product/get", "application/json", map[string]string{})
 
 }
 
