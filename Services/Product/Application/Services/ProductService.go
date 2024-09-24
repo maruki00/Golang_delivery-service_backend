@@ -164,6 +164,6 @@ func (obj *ProductService) MultipleProducts(dto *product_domain_dtos.MultiplePro
 		Status:  http.StatusOK,
 		Message: "Success",
 		Error:   nil,
-		Result:  gin.H{"product": res},
+		Result:  gin.H{"products": res},
 	})
 }
