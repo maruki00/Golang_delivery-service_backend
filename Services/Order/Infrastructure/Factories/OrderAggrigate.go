@@ -6,12 +6,12 @@ import (
 	order_domain_aggrigate "delivery/Services/Order/Domain/Aggrigates"
 	order_infrastructues_models "delivery/Services/Order/Infrastructure/Models"
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
+	shared_models "delivery/Services/Shared/Infrastructure/Models"
 	"encoding/json"
 	"errors"
 	"fmt"
 	"io"
 	"net/http"
-	"strconv"
 	"strings"
 	"time"
 
@@ -22,12 +22,7 @@ import (
 func NewOrderAggrigate(CostomerId int, prods map[int]int) (*order_domain_aggrigate.OrderAggrigate, error) {
 
 	ids := ""
-	for i, _ := range prods {
-		id, err := strconv.ParseInt(i, 10, 32)
-		if err != nil {
-			continue
-		}
-
+	for id := range prods {
 		ids += fmt.Sprintf("%d,", id)
 	}
 
@@ -40,17 +35,23 @@ func NewOrderAggrigate(CostomerId int, prods map[int]int) (*order_domain_aggriga
 
 	cost := float32(0)
 	for _, product := range products {
-		pQty, _ := prods[product.Id]
+		pQty := prods[product.Id]
 		cost += float32(pQty) * product.Price
 	}
-	uuid := uuid.New()
-	Order := order_infrastructues_models.OrderModel{
-		CostumerId: CostomerId,
-		Cost:       cost,
-		Status:     order_enums.ORDER_CREATED,
+	fingerPrint := uuid.New().String()
+	Order := order_infrastructues_models.Order{
+		CostumerId:       CostomerId,
+		OrderFingerprint: fingerPrint,
+		Cost:             cost,
+		Status:           order_enums.ORDER_CREATED,
 	}
-	var Items []product_domain_entities.ProductEntity
-	var Price float32
+
+	return &order_domain_aggrigate.OrderAggrigate{
+		Order: &Order,
+		Items: products,
+		Price: cost,
+	}, nil
+
 }
 
 func getProducts(ids string) ([]*product_infrastructure_models.Product, error) {

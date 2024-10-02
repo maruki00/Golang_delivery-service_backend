@@ -6,7 +6,7 @@ import (
 	"gorm.io/gorm"
 )
 
-type OrderModel struct {
+type Order struct {
 	gorm.Model
 	Id               int       `json:"id"`
 	OrderFingerprint string    `json:"order_fingerprint"`
@@ -17,18 +17,18 @@ type OrderModel struct {
 	UpdatedAt        time.Time `json:"updated_at"`
 }
 
-func (obj *OrderModel) GetId() int {
+func (obj *Order) GetId() int {
 	return obj.Id
 }
-func (obj *OrderModel) GetOrderFingerprint() string {
+func (obj *Order) GetOrderFingerprint() string {
 	return obj.OrderFingerprint
 }
-func (obj *OrderModel) GetCostumerId() int {
+func (obj *Order) GetCostumerId() int {
 	return obj.CostumerId
 }
-func (obj *OrderModel) GetCost() float32 {
+func (obj *Order) GetCost() float32 {
 	return obj.Cost
 }
-func (obj *OrderModel) GetStatus() int {
+func (obj *Order) GetStatus() int {
 	return obj.Status
 }
