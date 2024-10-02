@@ -1,6 +1,7 @@
 package product_usergetway_controllers
 
 import (
+	"context"
 	product_services "delivery/Services/Product/Application/Services"
 	product_domain_dtos "delivery/Services/Product/Domian/DTOS"
 	product_domain_ports "delivery/Services/Product/Domian/Ports"
@@ -34,6 +35,8 @@ func NewProductController(db *gorm.DB) *ProductController {
 
 func (obj *ProductController) Insert(ctx *gin.Context) {
 
+	c, Cancel := context.WithCancel(context.Background())
+	defer Cancel()
 	request := &product_usergetway_requests.InsertProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
@@ -41,7 +44,7 @@ func (obj *ProductController) Insert(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res := obj.inPort.Insert(&product_domain_dtos.InsertProductDTO{
+	res := obj.inPort.Insert(c, &product_domain_dtos.InsertProductDTO{
 		Label: request.Label,
 		Type:  request.Type,
 		Price: request.Price,
@@ -51,6 +54,8 @@ func (obj *ProductController) Insert(ctx *gin.Context) {
 
 func (obj *ProductController) Search(ctx *gin.Context) {
 
+	c, Cancel := context.WithCancel(context.Background())
+	defer Cancel()
 	request := &product_usergetway_requests.SearchProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
@@ -58,7 +63,7 @@ func (obj *ProductController) Search(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res := obj.inPort.Search(&product_domain_dtos.SearchProductDTO{
+	res := obj.inPort.Search(c, &product_domain_dtos.SearchProductDTO{
 		Query: request.Query,
 	})
 	ctx.JSON(res.GetResponse().Status, res.GetResponse())
@@ -66,6 +71,8 @@ func (obj *ProductController) Search(ctx *gin.Context) {
 
 func (obj *ProductController) Update(ctx *gin.Context) {
 
+	c, Cancel := context.WithCancel(context.Background())
+	defer Cancel()
 	request := &product_usergetway_requests.UpdateProductRequerst{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
@@ -73,7 +80,7 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", "validation : "+err.Error())
 		return
 	}
-	res := obj.inPort.Update(&product_domain_dtos.UpdateProductDTO{
+	res := obj.inPort.Update(c, &product_domain_dtos.UpdateProductDTO{
 		Id:    request.Id,
 		Label: request.Label,
 		Type:  request.Type,
@@ -84,6 +91,9 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 
 func (obj *ProductController) Delete(ctx *gin.Context) {
 
+	c, Cancel := context.WithCancel(context.Background())
+	defer Cancel()
+
 	request := &product_usergetway_requests.DeleteProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
@@ -91,7 +101,7 @@ func (obj *ProductController) Delete(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res := obj.inPort.Delete(&product_domain_dtos.DeleteProductDTO{
+	res := obj.inPort.Delete(c, &product_domain_dtos.DeleteProductDTO{
 		Id: request.Id,
 	})
 
@@ -106,7 +116,7 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res := obj.inPort.GetById(&product_domain_dtos.GetProductByIdDTO{
+	res := obj.inPort.GetById(c, &product_domain_dtos.GetProductByIdDTO{
 		Id: request.Id,
 	})
 
@@ -114,6 +124,8 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 }
 
 func (obj *ProductController) MultipleProducts(ctx *gin.Context) {
+	c, Cancel := context.WithCancel(context.Background())
+	defer Cancel()
 	request := &product_usergetway_requests.MultipleProductstRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
@@ -121,7 +133,7 @@ func (obj *ProductController) MultipleProducts(ctx *gin.Context) {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Error", err.Error())
 		return
 	}
-	res := obj.inPort.MultipleProducts(&product_domain_dtos.MultipleProductsDTO{
+	res := obj.inPort.MultipleProducts(c, &product_domain_dtos.MultipleProductsDTO{
 		Ids: request.Ids,
 	})
 

@@ -1,6 +1,7 @@
 package product_services
 
 import (
+	"context"
 	product_domain_dtos "delivery/Services/Product/Domian/DTOS"
 	product_domain_ports "delivery/Services/Product/Domian/Ports"
 	product_domain_repositories "delivery/Services/Product/Domian/Repositories"
@@ -26,9 +27,9 @@ func NewProductService(productRepository product_domain_repositories.IProductRep
 	}
 }
 
-func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Insert(ctx context.Context, dto *product_domain_dtos.InsertProductDTO) shared_domain_contracts.ViewModel {
 
-	res, err := obj.productRepository.Insert(&product_infrastructure_models.Product{
+	res, err := obj.productRepository.Insert(ctx, &product_infrastructure_models.Product{
 		Label: dto.Label,
 		Type:  dto.Type,
 		Price: dto.Price,
@@ -50,9 +51,9 @@ func (obj *ProductService) Insert(dto *product_domain_dtos.InsertProductDTO) sha
 	})
 }
 
-func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Search(ctx context.Context, dto *product_domain_dtos.SearchProductDTO) shared_domain_contracts.ViewModel {
 
-	res, err := obj.productRepository.Search(dto.Query)
+	res, err := obj.productRepository.Search(ctx, dto.Query)
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
@@ -70,9 +71,9 @@ func (obj *ProductService) Search(dto *product_domain_dtos.SearchProductDTO) sha
 	})
 }
 
-func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Update(ctx context.Context, dto *product_domain_dtos.UpdateProductDTO) shared_domain_contracts.ViewModel {
 
-	res, err := obj.productRepository.Update(dto.Id, map[string]interface{}{
+	res, err := obj.productRepository.Update(ctx, dto.Id, map[string]interface{}{
 		"id":    dto.Id,
 		"label": dto.Label,
 		"type":  dto.Type,
@@ -96,9 +97,9 @@ func (obj *ProductService) Update(dto *product_domain_dtos.UpdateProductDTO) sha
 	})
 }
 
-func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Delete(ctx context.Context, dto *product_domain_dtos.DeleteProductDTO) shared_domain_contracts.ViewModel {
 
-	res, err := obj.productRepository.Delete(dto.Id)
+	res, err := obj.productRepository.Delete(ctx, dto.Id)
 
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
@@ -117,9 +118,9 @@ func (obj *ProductService) Delete(dto *product_domain_dtos.DeleteProductDTO) sha
 	})
 }
 
-func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) GetById(ctx context.Context, dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel {
 
-	res, err := obj.productRepository.GetById(dto.Id)
+	res, err := obj.productRepository.GetById(ctx, dto.Id)
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
@@ -137,7 +138,7 @@ func (obj *ProductService) GetById(dto *product_domain_dtos.GetProductByIdDTO) s
 	})
 }
 
-func (obj *ProductService) MultipleProducts(dto *product_domain_dtos.MultipleProductsDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) MultipleProducts(ctx context.Context, dto *product_domain_dtos.MultipleProductsDTO) shared_domain_contracts.ViewModel {
 
 	ids := []int{}
 	strIds := strings.Split(dto.Ids, ",")
@@ -150,7 +151,7 @@ func (obj *ProductService) MultipleProducts(dto *product_domain_dtos.MultiplePro
 		ids = append(ids, int(i))
 	}
 
-	res, err := obj.productRepository.GetProductByMultipleId(ids)
+	res, err := obj.productRepository.GetProductByMultipleId(ctx, ids)
 	if err != nil {
 		return obj.outputPort.Error(shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
