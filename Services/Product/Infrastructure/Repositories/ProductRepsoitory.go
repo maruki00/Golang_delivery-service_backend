@@ -60,13 +60,12 @@ func (obj *ProductRepository) Search(ctx context.Context, seasrch string) ([]pro
 
 func (obj *ProductRepository) Update(ctx context.Context, id int, data map[string]interface{}) (product_domain_entities.ProductEntity, error) {
 
-	fmt.Println("result : ", data)
 	res := obj.db.Model(&obj.model).Where("id", id).Updates(data)
 	if res.Error != nil {
 		return nil, fmt.Errorf("something happen, %v", res.Error)
 	}
 
-	product, err := obj.GetById(id)
+	product, err := obj.GetById(ctx, id)
 	if err != nil {
 		return nil, err
 	}
@@ -75,7 +74,7 @@ func (obj *ProductRepository) Update(ctx context.Context, id int, data map[strin
 
 func (obj *ProductRepository) Delete(ctx context.Context, id int) (product_domain_entities.ProductEntity, error) {
 
-	product, err := obj.GetById(id)
+	product, err := obj.GetById(ctx, id)
 	if err != nil {
 		return nil, fmt.Errorf("product not found")
 	}

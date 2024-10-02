@@ -12,6 +12,7 @@ import (
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shared_core "delivery/Services/Shared/Infrastructure/Core"
 	"net/http"
+	"time"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -91,7 +92,8 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 
 func (obj *ProductController) Delete(ctx *gin.Context) {
 
-	c, Cancel := context.WithCancel(context.Background())
+	// c, Cancel := context.WithCancel(context.Background())
+	c, Cancel := context.WithTimeout(context.Background(), time.Microsecond*1)
 	defer Cancel()
 
 	request := &product_usergetway_requests.DeleteProductRequest{}
@@ -109,6 +111,9 @@ func (obj *ProductController) Delete(ctx *gin.Context) {
 }
 
 func (obj *ProductController) GetProduct(ctx *gin.Context) {
+	c, Cancel := context.WithCancel(context.Background())
+	defer Cancel()
+
 	request := &product_usergetway_requests.GetProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
