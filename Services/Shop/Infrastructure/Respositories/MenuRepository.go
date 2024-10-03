@@ -7,7 +7,7 @@ import (
 )
 
 type MenuRepository struct {
-	db    gorm.Model
+	db    *gorm.Model
 	model interface{}
 }
 
