@@ -1,20 +1,14 @@
 package shared_middlewares
 
-import shared_configs "delivery/Services/Shared/Application/Configs"
-
-
-
-package middlewares
-
 import (
-	"Golang-jwt/internal/core"
+	shared_configs "delivery/Services/Shared/Application/Configs"
+	shareddb "delivery/Services/Shared/Infrastructure/DB"
 	"fmt"
 	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt"
 )
-
 
 func verifyToken(tokenString string) error {
 	conf, err := shared_configs.GetConfig()
@@ -56,7 +50,7 @@ func AuthRequired() gin.HandlerFunc {
 			return
 		}
 
-		db := core.GetDB()
+		db := shareddb.NewDB()
 
 		st, err := db.Prepare("select user_id from auths where token = ?")
 		if err != nil {
