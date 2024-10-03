@@ -1,12 +1,6 @@
-package shop_application_enums
+package shop_enums
 
-ShopEnums := map[any]any{
-	"OPEN":1
-}
-
-func AddItem(key,  valeu any) {
-	ShopEnums[key] = value
-}
-func GetShopEnums() any {
-	return ShopEnums
-}
+const (
+	OPEN  = 1
+	CLOSE = 0
+)

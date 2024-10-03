@@ -28,6 +28,7 @@ func (obj *ShopService) UpdateShopInfo() error {
 	return nil
 }
 
-func (obj *ShopService)GetShopStatus() (string, error) {
-	status := 
+func (obj *ShopService) GetShopStatus() (string, error) {
+	status := "open"
+	return status, nil
 }
