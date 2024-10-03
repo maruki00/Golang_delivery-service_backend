@@ -74,7 +74,7 @@ func (obj *ProductController) Update(ctx *gin.Context) {
 
 	c, Cancel := context.WithCancel(context.Background())
 	defer Cancel()
-	request := &product_usergetway_requests.UpdateProductRequerst{}
+	request := &product_usergateway_requests.UpdateProductRequerst{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
