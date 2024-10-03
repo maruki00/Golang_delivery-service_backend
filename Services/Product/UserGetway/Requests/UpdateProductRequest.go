@@ -1,4 +1,4 @@
-package product_usergetway_requests
+package product_usergateway_requests
 
 type UpdateProductRequerst struct {
 	Id    int     `validate: "required" json: "id" `

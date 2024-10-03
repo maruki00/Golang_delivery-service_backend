@@ -1,4 +1,4 @@
-package product_usergetway_requests
+package product_usergateway_requests
 
 type InsertProductRequest struct {
 	Label string  `validate:"required" json:"label"`

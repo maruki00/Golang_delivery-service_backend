@@ -8,7 +8,7 @@ import (
 	product_infrastructure_models "delivery/Services/Product/Infrastructure/Models"
 	product_Infrastructure_repository "delivery/Services/Product/Infrastructure/Repositories"
 	product_usergateway_adapters_presenters "delivery/Services/Product/UserGetway/Adapters/Presenters"
-	product_usergetway_requests "delivery/Services/Product/UserGetway/Requests"
+	product_usergateway_requests "delivery/Services/Product/UserGetway/Requests"
 	shared_utils "delivery/Services/Shared/Application/Utils"
 	shared_core "delivery/Services/Shared/Infrastructure/Core"
 	"net/http"
@@ -38,7 +38,7 @@ func (obj *ProductController) Insert(ctx *gin.Context) {
 
 	c, Cancel := context.WithCancel(context.Background())
 	defer Cancel()
-	request := &product_usergetway_requests.InsertProductRequest{}
+	request := &product_usergateway_requests.InsertProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
@@ -57,7 +57,7 @@ func (obj *ProductController) Search(ctx *gin.Context) {
 
 	c, Cancel := context.WithCancel(context.Background())
 	defer Cancel()
-	request := &product_usergetway_requests.SearchProductRequest{}
+	request := &product_usergateway_requests.SearchProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
@@ -96,7 +96,7 @@ func (obj *ProductController) Delete(ctx *gin.Context) {
 	c, Cancel := context.WithTimeout(context.Background(), time.Microsecond*1)
 	defer Cancel()
 
-	request := &product_usergetway_requests.DeleteProductRequest{}
+	request := &product_usergateway_requests.DeleteProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
@@ -114,7 +114,7 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 	c, Cancel := context.WithCancel(context.Background())
 	defer Cancel()
 
-	request := &product_usergetway_requests.GetProductRequest{}
+	request := &product_usergateway_requests.GetProductRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
@@ -131,7 +131,7 @@ func (obj *ProductController) GetProduct(ctx *gin.Context) {
 func (obj *ProductController) MultipleProducts(ctx *gin.Context) {
 	c, Cancel := context.WithCancel(context.Background())
 	defer Cancel()
-	request := &product_usergetway_requests.MultipleProductstRequest{}
+	request := &product_usergateway_requests.MultipleProductstRequest{}
 
 	err := shared_core.Validate(ctx, obj.Validate, request)
 	if err != nil {
