@@ -1,36 +1,37 @@
 version: "3"
 
 services:
-  # rabbitmq:
-  #   image: rabbitmq:3.11-management-alpine
-  #   environment:
-  #     RABBITMQ_DEFAULT_USER: guest
-  #     RABBITMQ_DEFAULT_PASS: guest
-  #   healthcheck:
-  #     test: rabbitmq-diagnostics -q ping
-  #     interval: 30s
-  #     timeout: 30s
-  #     retries: 3
-  #   ports:
-  #     - "5672:5672"
-  #     - "15672:15672"
-  #   networks: 
-  #       - dilevry-network
+  rabbitmq:
+    image: rabbitmq:3.11-management-alpine
+    container_name: queue_delivery
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    healthcheck:
+      test: rabbitmq-diagnostics -q ping
+      interval: 30s
+      timeout: 30s
+      retries: 3
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: 
+        - delivery_network
 
 
   db:
     image: postgres:14-alpine
+    container_name: db_delivery
     environment:
-      - POSTGRES_DB=postgres
-      - POSTGRES_USER=postgres
+      - POSTGRES_DB=delivery
+      - POSTGRES_USER=delivery
       - POSTGRES_PASSWORD=P@ssw0rd
     healthcheck:
       test: ["CMD", "pg_isready"]
     ports:
       - "5432:5432"
     networks:
-      - dilevry-network
-
+      - delivery_network
 
 
   # haproxy:
@@ -48,4 +49,4 @@ services:
 
 
 networks:
-  dilevry-network:
+  delivery_network:

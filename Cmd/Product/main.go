@@ -1,11 +1,11 @@
 package main
 
 import (
-	auth_routes "delivery/Services/Auth/Application/Routes"
-	order_routes "delivery/Services/Order/Application/Routes"
-	prouduct_routes "delivery/Services/Product/Application/Routes"
-	shared_configs "delivery/Services/Shared/Application/Configs"
-	shareddb "delivery/Services/Shared/Infrastructure/DB"
+	auth_routes "delivery/Internal/Auth/Application/Routes"
+	order_routes "delivery/Internal/Order/Application/Routes"
+	prouduct_routes "delivery/Internal/Product/Application/Routes"
+	shared_configs "delivery/Internal/Shared/Application/Configs"
+	shareddb "delivery/Internal/Shared/Infrastructure/DB"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
