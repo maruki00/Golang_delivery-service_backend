@@ -1,30 +1,50 @@
 package pkg_rabbitmq
 
 import (
+	"errors"
+	"log/slog"
+	"time"
+
 	amqp "github.com/rabbitmq/amqp091-go"
-	"github.com/streadway/amqp"
 )
 
-type RabbitMQ struct {
-	Conn      *amqp.Connection
-	Channel   *amqp.Channel
-	QueneName string
-	// RabbitMQDSN string
-}
+const (
+	MAX_TRIES      = 3
+	BACKOFFSECONDS = 3
+)
 
-func NewRAbbitMQ(rabbitMQDSN string, queneName string) *RabbitMQ {
-	conn, err := amqp.Connection(rabbitMQDSN)
-	if err != nil {
-		panic(err)
-	}
-	ch, err := conn.Channel()
-	if err != nil {
-		panic(err)
+type RabbitMQConnStr string
+
+var ErrCannotConnectRabbitMQ = errors.New("cannot connect to rabbit")
+
+func NewRabbitMQConn(rabbitMqURL RabbitMQConnStr) (*amqp.Connection, error) {
+	var (
+		amqpConn *amqp.Connection
+		counts   int64
+	)
+
+	for {
+		connection, err := amqp.Dial(string(rabbitMqURL))
+		if err != nil {
+			slog.Error("failed to connect to RabbitMq...", err, rabbitMqURL)
+			counts++
+		} else {
+			amqpConn = connection
+			break
+		}
+
+		if counts > MAX_TRIES {
+			slog.Error("failed to retry", err)
+			return nil, ErrCannotConnectRabbitMQ
+		}
+
+		slog.Info("Backing off for 2 seconds...")
+		time.Sleep(BACKOFFSECONDS * time.Second)
+
+		continue
 	}
 
-	return &RabbitMQ{
-		Conn:      conn,
-		Channel:   ch,
-		QueneName: queneName,
-	}
+	slog.Info("📫 connected to rabbitmq 🎉")
+
+	return amqpConn, nil
 }
