@@ -2,42 +2,48 @@ package shared_configs
 
 import (
 	"os"
+	"path"
 
 	"gopkg.in/yaml.v3"
 )
 
 type Config struct {
+	App struct {
+		Name    string `yaml:"name"`
+		Version string `yaml:"version"`
+		Debug   string `yaml:"debug"`
+	} `yaml:"app"`
+
 	Server struct {
 		Port string `yaml:"port"`
 		Host string `yaml:"host"`
 	} `yaml:"server"`
 
-	Database struct {
-		Driver string `yaml:"driver"`
-		DB     struct {
-			Host     string `yaml:"host"`   //, envconfig:"DB_HOST"`
-			Port     int    `yaml:"port"`   //, envconfig:"DB_PORT"`
-			DBName   string `yaml:"dbname"` //, envconfig:"DB_NAME"`
-			Username string `yaml:"dbuser"` //, envconfig:"DB_USER"`
-			Password string `yaml:"dbpass"` //, envconfig:"DB_PASS"`
-		} `yaml:"mysql"`
-	}
+	DB struct {
+		Dsn string `yaml:"ddsn"`
+	} `yaml:"db"`
 
 	Jwt struct {
-		Secret string `yaml: "secret"`
-	} `yaml: "jwt"`
+		Secret string `yaml:"secret"`
+	} `yaml:"jwt"`
+
+	RabbitMq struct {
+		Dsn string `yaml:"dsn"`
+	} `yaml:"rabbitmq"`
+
+	Queues []string `yaml:"queues"`
 }
 
 var cfg *Config
 
-func GetConfig() (*Config, error) {
+func GetConfig(root string) (*Config, error) {
 
 	if cfg != nil {
 		return cfg, nil
 	}
 
 	cfg = new(Config)
-	conf, err := os.Open("./configs/config.yaml")
+	conf, err := os.Open(path.Join(root, "config.yaml"))
 	if err != nil {
 		return nil, err
 	}
