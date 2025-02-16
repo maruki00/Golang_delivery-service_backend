@@ -6,6 +6,7 @@ import (
 	prouduct_routes "delivery/internal/product/Application/Routes"
 	shared_configs "delivery/internal/shared/Application/Configs"
 	shareddb "delivery/internal/shared/Infrastructure/DB"
+
 	"fmt"
 
 	"github.com/gin-gonic/gin"
