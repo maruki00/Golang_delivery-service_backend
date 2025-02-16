@@ -14,14 +14,19 @@ type Config struct {
 		Debug   string `yaml:"debug"`
 	} `yaml:"app"`
 
-	Server struct {
+	RestServer struct {
 		Port string `yaml:"port"`
 		Host string `yaml:"host"`
-	} `yaml:"server"`
+	} `yaml:"rest_server"`
 
-	DB struct {
+	GRPCServer struct {
+		Port string `yaml:"port"`
+		Host string `yaml:"host"`
+	} `yaml:"grpc_server"`
+
+	Postgres struct {
 		Dsn string `yaml:"ddsn"`
-	} `yaml:"db"`
+	} `yaml:"postgres"`
 
 	Jwt struct {
 		Secret string `yaml:"secret"`
