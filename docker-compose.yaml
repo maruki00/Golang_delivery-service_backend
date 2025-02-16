@@ -3,7 +3,8 @@ version: "3"
 services:
   rabbitmq:
     image: rabbitmq:3.11-management-alpine
-    container_name: queue_delivery
+    # restart: "no"
+    container_name: rabbitmq_delivery
     environment:
       RABBITMQ_DEFAULT_USER: delivery
       RABBITMQ_DEFAULT_PASS: delivery
@@ -18,9 +19,10 @@ services:
     networks: 
         - delivery_network
 
-
   postgres:
     image: postgres:17-alpine
+    container_name: postgres_delivery
+    # restart: "no"
     ports:
       - 5432:5432
     volumes:
@@ -33,6 +35,23 @@ services:
       test: ["CMD", "pg_isready"]
     networks:
       - delivery_network
+  
+  pgadmin:
+    container_name: pgadmin_delivery
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    volumes:
+       - ~/.data/pgadmin:/var/lib/pgadmin
+    ports:
+      - "5050:80"
+    networks:
+      - delivery_network
+
+    restart: "no"
+
 
 
   # haproxy:
