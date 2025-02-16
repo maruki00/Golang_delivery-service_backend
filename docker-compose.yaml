@@ -5,8 +5,8 @@ services:
     image: rabbitmq:3.11-management-alpine
     container_name: queue_delivery
     environment:
-      RABBITMQ_DEFAULT_USER: guest
-      RABBITMQ_DEFAULT_PASS: guest
+      RABBITMQ_DEFAULT_USER: delivery
+      RABBITMQ_DEFAULT_PASS: delivery
     healthcheck:
       test: rabbitmq-diagnostics -q ping
       interval: 30s
@@ -19,17 +19,18 @@ services:
         - delivery_network
 
 
-  db:
-    image: postgres:14-alpine
-    container_name: db_delivery
+  postgres:
+    image: postgres:17-alpine
+    ports:
+      - 5432:5432
+    volumes:
+      - ~/.data/postgres:/var/lib/postgresql/data
     environment:
-      - POSTGRES_DB=delivery
+      - POSTGRES_PASSWORD=delivery
       - POSTGRES_USER=delivery
-      - POSTGRES_PASSWORD=P@ssw0rd
+      - POSTGRES_DB=deliivery
     healthcheck:
       test: ["CMD", "pg_isready"]
-    ports:
-      - "5432:5432"
     networks:
       - delivery_network
 
@@ -49,4 +50,5 @@ services:
 
 
 networks:
-  delivery_network:
+  delivery_network: {}
+    
