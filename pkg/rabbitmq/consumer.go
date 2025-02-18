@@ -2,6 +2,7 @@ package pkg_rabbitmq
 
 import (
 	"context"
+	"log/slog"
 
 	"github.com/rabbitmq/amqp091-go"
 )
@@ -59,7 +60,11 @@ func (c *Consumer) Start(worder func(ctx context.Context, delivery <-chan amqp09
 		for range 10 {
 			go worder(ctx, deliveryMessages)
 		}
-
 	}
+
+	forever := make(chan bool)
+
+	slog.Info(" [*] Waiting for messages. To exit press CTRL+C")
+	<-forever
 
 }
