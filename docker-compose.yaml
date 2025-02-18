@@ -1,15 +1,14 @@
-version: "3"
+version: "3.8"
 
 services:
   rabbitmq:
     image: rabbitmq:3.11-management-alpine
-    # restart: "no"
     container_name: rabbitmq_delivery
     environment:
       RABBITMQ_DEFAULT_USER: delivery
       RABBITMQ_DEFAULT_PASS: delivery
     healthcheck:
-      test: rabbitmq-diagnostics -q ping
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 30s
       timeout: 30s
       retries: 3
@@ -17,57 +16,45 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks: 
-        - delivery_network
+      - delivery_network
 
   postgres:
     image: postgres:17-alpine
     container_name: postgres_delivery
-    # restart: "no"
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
-      - ~/.data/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
-      - POSTGRES_PASSWORD=delivery
-      - POSTGRES_USER=delivery
-      - POSTGRES_DB=deliivery
+      POSTGRES_PASSWORD: delivery
+      POSTGRES_USER: delivery
+      POSTGRES_DB: delivery
     healthcheck:
-      test: ["CMD", "pg_isready"]
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 30s
+      timeout: 30s
+      retries: 3
     networks:
       - delivery_network
   
-  # pgadmin:
-  #   container_name: pgadmin_delivery
-  #   image: dpage/pgadmin4
-  #   environment:
-  #     PGADMIN_DEFAULT_EMAIL: admin@local
-  #     PGADMIN_DEFAULT_PASSWORD: admin
-  #     PGADMIN_CONFIG_SERVER_MODE: 'False'
-  #   volumes:
-  #      - ~/.data/pgadmin:/var/lib/pgadmin
-  #   ports:
-  #     - "5050:80"
-  #   networks:
-  #     - delivery_network
-
-  #   restart: "no"
-
-
-
-  # haproxy:
-  #       image: haproxy:1.9
-  #       container_name: haproxy
-  #       volumes:
-  #         - ./haproxy:/usr/local/etc/haproxy/
-  #       depends_on:
-  #         - rabbitmq
-  #       ports:
-  #         - 15672:15672
-  #         - 5672:5672
-  #       networks: 
-  #           - delivery-network
-
+  pgadmin:
+    image: dpage/pgadmin4
+    container_name: pgadmin4_container
+    restart: always
+    ports:
+      - "8888:80"
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    networks:
+      - delivery_network
 
 networks:
-  delivery_network: {}
-    
+  delivery_network:
+    driver: bridge
+
+volumes:
+  postgres_data:
+  pgadmin_data:

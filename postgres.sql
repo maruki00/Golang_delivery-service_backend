@@ -2,14 +2,14 @@ create database delivery;
 
 
 create table usertypes (
-    id int primary key auto_increment,
+    id serial ,
     label varchar(100),
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
 
 create table users(
-    id int primary key not null auto_increment,
+    id serial not null ,
     user_name varchar(100) not null unique,
     full_name varchar(255) not null,
     email varchar(255) not null unique,
@@ -21,7 +21,7 @@ create table users(
 );
 
 create table auth(
-    id int primary key primary key auto_increment,
+    id serial primary key ,
     email varchar(255) not null unique,
     token text not null unique,
     user_id int not null,
@@ -32,8 +32,8 @@ create table auth(
 );
 
 create table orders(
-    id int primary key not null auto_increment,
-    order_fingerprint varchar(20) not null
+    id serial not null ,
+    order_fingerprint varchar(20) not null,
     costumer_id int not null,
     from_long float not null,
     from_lat  float not null,
@@ -44,7 +44,7 @@ create table orders(
 );
 
 create table products(
-    id int primary key not null auto_increment,
+    id serial not null ,
     label varchar(255) not null,
     price varchar(10) not null,
     created_at timestamp default now(),
@@ -52,7 +52,7 @@ create table products(
 );
 
 create table product_images (
-    id int primary key auto_increment,
+    id serial ,
     image_path varchar(100) not null,
     product_id int not null,
     created_at timestamp default now(),
@@ -60,7 +60,7 @@ create table product_images (
 );
 
 create table couriers_orders(
-    id int primary key not null auto_increment,
+    id serial not null ,
     order_fingerprint varchar(20) not null,
     courier_id int not null,
     created_at timestamp default now(),
@@ -68,7 +68,7 @@ create table couriers_orders(
 );
 
 create table feedbacks(
-    id int primary key not null auto_increment,
+    id serial not null ,
     rate int not null default 0,
     comment text not null,
     service_type varchar(100) not null,
@@ -77,7 +77,7 @@ create table feedbacks(
 );
 
 create table analytics_order(
-    id int primary key not null auto_increment,
+    id serial not null ,
     order_id int not null,
     user_id int not null,
     delivery_id int not null,
@@ -88,7 +88,7 @@ create table analytics_order(
 );
 
 create table orders_tracking(
-    id int primary key not null auto_increment,
+    id serial not null ,
     order_id int not null,
     status varchar(100) not null,
     created_at timestamp default now(),
@@ -96,7 +96,7 @@ create table orders_tracking(
 );
 
 create table orders_couriers(
-    id int primary key not null auto_increment,
+    id serial not null ,
     user_id int not null,
     order_id int not null,
     created_at timestamp default now(),
@@ -104,13 +104,13 @@ create table orders_couriers(
 );
 
 create table notifications(
-    id int primary key not null auto_increment,
+    id serial not null ,
     created_at timestamp default now(),
     updated_at timestamp default now()
 );
 
 create table jobs(
-    id int primary key not null auto_increment,
+    id serial not null ,
     obj varchar(226) not null,
     data text not null,
     attempts int default 1,
