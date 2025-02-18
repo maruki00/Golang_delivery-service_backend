@@ -1,4 +1,4 @@
-package auth_domain_ports
+package ports
 
 import (
 	shared_domain_contracts "delivery/internal/shared/Domain/Contracts"

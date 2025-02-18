@@ -1,4 +1,4 @@
-package auth_services
+package services
 
 import (
 	auth_domain_contracts "delivery/internal/auth/Domain/Contracts"

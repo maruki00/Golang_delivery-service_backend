@@ -1,4 +1,4 @@
-package auth_domain_contracts
+package contracts
 
 import (
 	auth_domain_entities "delivery/internal/auth/Domain/Entities"

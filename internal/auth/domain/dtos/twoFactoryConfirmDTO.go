@@ -1,4 +1,4 @@
-package auth_domain_dtos
+package dtos
 
 type TwoFactoryConfirmDTO struct {
 	Email string

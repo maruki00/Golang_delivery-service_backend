@@ -1,4 +1,4 @@
-package auth_domain_entities
+package entities
 
 type ForgetPasswordEntity interface {
 	GetId() int
