@@ -4,9 +4,9 @@ import (
 	auth_services "delivery/internal/auth/Application/Services"
 	auth_domain_dtos "delivery/internal/auth/Domain/DTOs"
 	auth_domain_ports "delivery/internal/auth/Domain/Ports"
-	auth_infrastructure_repository "delivery/internal/auth/Infrastructure/Repositories"
 	auth_requests "delivery/internal/auth/UserGateway/Requests"
 	auth_usergateway_presenters "delivery/internal/auth/UserGateway/adapters/Presenters"
+	auth_infra_repository "delivery/internal/auth/infra/Repositories"
 	shared_utils "delivery/internal/shared/Application/Utils"
 	"fmt"
 	"net/http"
@@ -23,7 +23,7 @@ type AuthController struct {
 }
 
 func NewAuthController(db *gorm.DB) *AuthController {
-	repo := auth_infrastructure_repository.NewAuthRepository(db)
+	repo := auth_infra_repository.NewAuthRepository(db)
 	presenter := &auth_usergateway_presenters.JsonAuthPresenter{}
 
 	return &AuthController{

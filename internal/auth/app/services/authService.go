@@ -1,13 +1,9 @@
 package services
 
 import (
-	auth_domain_contracts "delivery/internal/auth/Domain/Contracts"
-	auth_domain_dtos "delivery/internal/auth/Domain/DTOs"
-	auth_domain_ports "delivery/internal/auth/Domain/Ports"
-	auth_infrastructure_models "delivery/internal/auth/Infrastructure/Models"
-	shared_utils "delivery/internal/shared/Application/Utils"
-	shared_domain_contracts "delivery/internal/shared/Domain/Contracts"
-	shared_models "delivery/internal/shared/Infrastructure/Models"
+	"delivery/internal/auth/domain/contracts"
+	"delivery/internal/auth/domain/dtos"
+	"delivery/internal/auth/domain/ports"
 	"math/rand"
 	"time"
 
@@ -15,18 +11,18 @@ import (
 )
 
 type AuthService struct {
-	repo    auth_domain_contracts.IAuthRepository
-	outport auth_domain_ports.AuthOutputPort
+	repo    contracts.IAuthRepository
+	outport ports.AuthOutputPort
 }
 
-func NewAuthService(repo auth_domain_contracts.IAuthRepository, outport auth_domain_ports.AuthOutputPort) *AuthService {
+func NewAuthService(repo contracts.IAuthRepository, outport ports.AuthOutputPort) *AuthService {
 	return &AuthService{
 		repo:    repo,
 		outport: outport,
 	}
 }
 
-func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) shared_domain_contracts.ViewModel {
+func (obj *AuthService) Login(dto dtos.LoginDTO) shared_contracts.ViewModel {
 
 	user, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
 	if err != nil {
@@ -52,7 +48,7 @@ func (obj *AuthService) Login(dto auth_domain_dtos.LoginDTO) shared_domain_contr
 	auth := obj.repo.CreateAuth(token, user)
 	obj.repo.LockUser(auth.Email, "1")
 	obj.repo.CleanPins(auth.Email)
-	ok, err := obj.repo.TwoFactoryCreate(&auth_infrastructure_models.TwoFactoryPin{
+	ok, err := obj.repo.TwoFactoryCreate(&auth_infra_models.TwoFactoryPin{
 		Pin:   rand.Intn(99999999),
 		Email: dto.Login,
 	})

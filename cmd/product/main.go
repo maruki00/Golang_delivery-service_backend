@@ -5,7 +5,7 @@ import (
 	order_routes "delivery/internal/order/Application/Routes"
 	prouduct_routes "delivery/internal/product/Application/Routes"
 	shared_configs "delivery/internal/shared/Application/Configs"
-	shareddb "delivery/internal/shared/Infrastructure/DB"
+	shareddb "delivery/internal/shared/infra/DB"
 	"fmt"
 
 	"github.com/gin-gonic/gin"
