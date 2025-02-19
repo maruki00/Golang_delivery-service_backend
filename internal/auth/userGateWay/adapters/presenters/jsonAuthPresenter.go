@@ -1,4 +1,4 @@
-package auth_usergateway_presenters
+package presenters
 
 import (
 	shared_domain_contracts "delivery/internal/shared/Domain/Contracts"

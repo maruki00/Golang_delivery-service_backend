@@ -1,4 +1,4 @@
-package auth_usergateway_controllers
+package controllers
 
 import (
 	auth_services "delivery/internal/auth/Application/Services"

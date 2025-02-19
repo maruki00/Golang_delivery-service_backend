@@ -1,10 +1,8 @@
-package auth_infra_repository
+package repositories
 
 import (
-	auth_domain_entities "delivery/internal/auth/Domain/Entities"
-	auth_infra_models "delivery/internal/auth/infra/Models"
-	shared_entities "delivery/internal/shared/Domain/Entities"
-	shared_models "delivery/internal/shared/infra/Models"
+	auth_infra_models "delivery/internal/auth/infra/models"
+	shared_models "delivery/internal/shared/infra/models"
 	"errors"
 	"sync"
 	"time"
