@@ -26,7 +26,7 @@ func NewRabbitMQConn(rabbitMqURL RabbitMQConnStr) (*amqp.Connection, error) {
 	for {
 		connection, err := amqp.Dial(string(rabbitMqURL))
 		if err != nil {
-			slog.Error("failed to connect to RabbitMq...", err, rabbitMqURL)
+			slog.Error("failed to connect to RabbitMq...", err.Error(), rabbitMqURL)
 			counts++
 		} else {
 			amqpConn = connection

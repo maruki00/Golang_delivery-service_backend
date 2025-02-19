@@ -3,10 +3,29 @@ package shared_utils
 import (
 	shared_configs "delivery/internal/shared/Application/Configs"
 	"errors"
+	"fmt"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 )
+
+func verifyToken(tokenString string) error {
+	conf, err := shared_configs.GetConfig("")
+	if err != nil {
+		return err
+	}
+
+	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
+		return []byte(conf.Jwt.Secret), nil
+	})
+	if err != nil {
+		return err
+	}
+	if !token.Valid {
+		return fmt.Errorf("invalid token")
+	}
+	return nil
+}
 
 func JwtToken(email string, user_id int) (string, error) {
 

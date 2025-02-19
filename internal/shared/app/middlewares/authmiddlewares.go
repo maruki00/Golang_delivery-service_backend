@@ -1,8 +1,7 @@
 package shared_middlewares
 
 import (
-	shared_configs "delivery/internal/shared/Application/Configs"
-	shareddb "delivery/internal/shared/infra/DB"
+	shared_configs "delivery/cmd/auth/configs"
 	"fmt"
 	"strings"
 
@@ -11,7 +10,7 @@ import (
 )
 
 func verifyToken(tokenString string) error {
-	conf, err := shared_configs.GetConfig()
+	conf, err := shared_configs.GetConfig("")
 	if err != nil {
 		return err
 	}

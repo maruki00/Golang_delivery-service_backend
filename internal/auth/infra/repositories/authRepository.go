@@ -1,7 +1,9 @@
 package repositories
 
 import (
+	"delivery/internal/auth/domain/entities"
 	auth_infra_models "delivery/internal/auth/infra/models"
+	shared_entities "delivery/internal/shared/domain/entities"
 	shared_models "delivery/internal/shared/infra/models"
 	"errors"
 	"sync"
@@ -70,7 +72,7 @@ func (obj *AuthRepository) CleanPins(email string) {
 	obj.db.Exec("delete from two_factory_pins where email = ? ", email)
 }
 
-func (obj *AuthRepository) TwoFactoryCreate(twofactory auth_domain_entities.TwoFactoryPinEntity) (bool, error) {
+func (obj *AuthRepository) TwoFactoryCreate(twofactory entities.TwoFactoryPinEntity) (bool, error) {
 
 	u := obj.db.Model(&auth_infra_models.TwoFactoryPin{}).Create(twofactory)
 	if u.RowsAffected == 0 {
