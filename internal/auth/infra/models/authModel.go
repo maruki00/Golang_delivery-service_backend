@@ -4,16 +4,15 @@ import (
 	"gorm.io/gorm"
 )
 
-// impolements AuthEntity
 type Auth struct {
 	gorm.Model
-	Id        int    `json: id`
-	Email     string `json: email`
-	Token     string `json: token`
-	UserId    int    `json: user_id`
-	UserType  string `json: user_type`
-	UserLevel int    `json: user_level`
-	ExpiresAt string `json: expires_at`
+	Id        int    `json:"id"`
+	Email     string `json:"email"`
+	Token     string `json:"token"`
+	UserId    int    `json:"user_id"`
+	UserType  string `json:"user_type"`
+	UserLevel int    `json:"user_level"`
+	ExpiresAt string `json:"expires_at"`
 }
 
 func (obj *Auth) SetId(id int) {

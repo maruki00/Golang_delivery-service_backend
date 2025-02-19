@@ -1,6 +1,9 @@
 package presenters
 
-import shared_models "delivery/internal/shared/infra/models"
+import (
+	shared_contracts "delivery/internal/shared/domain/contracts"
+	shared_models "delivery/internal/shared/infra/models"
+)
 
 type JsonAuthPresenter struct {
 }

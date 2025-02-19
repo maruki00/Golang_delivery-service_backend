@@ -1,8 +1,8 @@
 package ports
 
 import (
-	shared_domain_contracts "delivery/internal/shared/Domain/Contracts"
-	shared_models "delivery/internal/shared/infra/Models"
+	shared_domain_contracts "delivery/internal/shared/domain/contracts"
+	shared_models "delivery/internal/shared/infra/models"
 )
 
 type AuthOutputPort interface {

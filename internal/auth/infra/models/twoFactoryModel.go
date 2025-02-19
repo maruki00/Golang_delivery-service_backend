@@ -5,7 +5,7 @@ import "gorm.io/gorm"
 type TwoFactoryPin struct {
 	gorm.Model
 	Pin   int    `json:"pin"`
-	Email string `json: "email"`
+	Email string `json:"email"`
 }
 
 func (o *TwoFactoryPin) GetPin() int {

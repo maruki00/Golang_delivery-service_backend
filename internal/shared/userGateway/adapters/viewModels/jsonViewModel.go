@@ -1,4 +1,4 @@
-package shared_adapters_viewmodels
+package shared_viewmodels
 
 import (
 	shared_models "delivery/internal/shared/infra/models"

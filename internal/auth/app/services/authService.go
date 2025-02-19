@@ -4,6 +4,10 @@ import (
 	"delivery/internal/auth/domain/contracts"
 	"delivery/internal/auth/domain/dtos"
 	"delivery/internal/auth/domain/ports"
+	"delivery/internal/auth/infra/models"
+	shared_contracts "delivery/internal/shared/domain/contracts"
+	shared_models "delivery/internal/shared/infra/models"
+	"delivery/pkg/utils"
 	"math/rand"
 	"time"
 
@@ -24,7 +28,7 @@ func NewAuthService(repo contracts.IAuthRepository, outport ports.AuthOutputPort
 
 func (obj *AuthService) Login(dto dtos.LoginDTO) shared_contracts.ViewModel {
 
-	user, err := obj.repo.Login(dto.Login, shared_utils.Md5Hash(dto.Password))
+	user, err := obj.repo.Login(dto.Login, utils.Md5Hash(dto.Password))
 	if err != nil {
 		return obj.outport.Error(shared_models.ResponseModel{
 			Status:  400,
@@ -34,7 +38,7 @@ func (obj *AuthService) Login(dto dtos.LoginDTO) shared_contracts.ViewModel {
 		})
 	}
 
-	token, err := shared_utils.JwtToken(user.Email, user.Id)
+	token, err := pkgJwt.JwtToken(user.Email, user.Id)
 	if err != nil {
 		return obj.outport.Error(shared_models.ResponseModel{
 			Status:  400,
@@ -48,7 +52,7 @@ func (obj *AuthService) Login(dto dtos.LoginDTO) shared_contracts.ViewModel {
 	auth := obj.repo.CreateAuth(token, user)
 	obj.repo.LockUser(auth.Email, "1")
 	obj.repo.CleanPins(auth.Email)
-	ok, err := obj.repo.TwoFactoryCreate(&auth_infra_models.TwoFactoryPin{
+	ok, err := obj.repo.TwoFactoryCreate(&models.TwoFactoryPin{
 		Pin:   rand.Intn(99999999),
 		Email: dto.Login,
 	})
@@ -69,7 +73,7 @@ func (obj *AuthService) Login(dto dtos.LoginDTO) shared_contracts.ViewModel {
 	})
 }
 
-func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) shared_domain_contracts.ViewModel {
+func (obj *AuthService) Register(dto dtos.RegisterDTO) shared_contracts.ViewModel {
 
 	dt := time.Now()
 	formattedTime := dt.Format("2006-01-02 15:04:05")
@@ -78,7 +82,7 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) shared_domain
 		FullName:  dto.FullName,
 		Email:     dto.Email,
 		Address:   dto.Address,
-		Password:  shared_utils.Md5Hash(dto.Password),
+		Password:  utils.Md5Hash(dto.Password),
 		UserType:  "customer",
 		UserLevel: dto.UserLevel,
 		IsOnline:  0,
@@ -104,7 +108,7 @@ func (obj *AuthService) Register(dto auth_domain_dtos.RegisterDTO) shared_domain
 	})
 }
 
-func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirmDTO) shared_domain_contracts.ViewModel {
+func (obj *AuthService) TwoFactoryConfirm(dto dtos.TwoFactoryConfirmDTO) shared_contracts.ViewModel {
 
 	_, err := obj.repo.TwoFactoryConfirm(dto.Email, dto.Pin)
 	if err != nil {
@@ -124,6 +128,6 @@ func (obj *AuthService) TwoFactoryConfirm(dto auth_domain_dtos.TwoFactoryConfirm
 	})
 }
 
-func (obj *AuthService) Logout(dto auth_domain_dtos.LogoutDTO) {
+func (obj *AuthService) Logout(dto dtos.LogoutDTO) {
 	obj.repo.Logout(dto.Token)
 }

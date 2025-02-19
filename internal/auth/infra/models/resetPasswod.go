@@ -4,10 +4,10 @@ import "gorm.io/gorm"
 
 type ResetPassword struct {
 	gorm.Model
-	Id    int
-	Email string
-	Pin   int
-	Token string
+	Id    int    `json:"id"`
+	Email string `json:"email"`
+	Pin   int    `json:"pin"`
+	Token string `json:"token"`
 	// CreatedAt string
 	// UpdatedAt string
 }
