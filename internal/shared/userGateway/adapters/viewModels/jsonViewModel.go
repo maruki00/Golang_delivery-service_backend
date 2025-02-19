@@ -1,7 +1,7 @@
 package shared_adapters_viewmodels
 
 import (
-	shared_models "delivery/internal/shared/infra/Models"
+	shared_models "delivery/internal/shared/infra/models"
 	"encoding/json"
 )
 
