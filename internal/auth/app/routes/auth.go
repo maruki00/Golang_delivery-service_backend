@@ -1,8 +1,6 @@
 package routes
 
 import (
-	auth_usergetway_controllers "delivery/internal/auth/UserGateway/Controllers"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
 )

@@ -1,4 +1,4 @@
-package pkg_rabbitmq
+package pkgRabbitmq
 
 import (
 	"context"

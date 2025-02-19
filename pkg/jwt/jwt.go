@@ -1,4 +1,4 @@
-package shared_utils
+package pkgJwt
 
 import (
 	shared_configs "delivery/internal/shared/Application/Configs"

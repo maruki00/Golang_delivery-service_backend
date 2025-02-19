@@ -1,4 +1,4 @@
-package shared_utils
+package utils
 
 import (
 	"github.com/gin-gonic/gin"

@@ -1,4 +1,4 @@
-package shared_utils
+package utils
 
 import (
 	"crypto/md5"

@@ -1,13 +1,8 @@
 package controllers
 
 import (
-	auth_services "delivery/internal/auth/Application/Services"
-	auth_domain_dtos "delivery/internal/auth/Domain/DTOs"
-	auth_domain_ports "delivery/internal/auth/Domain/Ports"
-	auth_requests "delivery/internal/auth/UserGateway/Requests"
-	auth_usergateway_presenters "delivery/internal/auth/UserGateway/adapters/Presenters"
-	auth_infra_repository "delivery/internal/auth/infra/Repositories"
-	shared_utils "delivery/internal/shared/Application/Utils"
+	"delivery/internal/auth/userGateWay/requests"
+	shared_utils "delivery/pkg/jwt"
 	"fmt"
 	"net/http"
 
@@ -19,7 +14,7 @@ import (
 type AuthController struct {
 	Validate *validator.Validate
 
-	inputPort auth_domain_ports.AuthInputPort
+	inputPort sahred_domain.AuthInputPort
 }
 
 func NewAuthController(db *gorm.DB) *AuthController {
@@ -34,7 +29,7 @@ func NewAuthController(db *gorm.DB) *AuthController {
 
 func (obj AuthController) Login(ctx *gin.Context) {
 
-	request := &auth_requests.LoginRequest{}
+	request := &requests.LoginRequest{}
 	if err := ctx.BindJSON(&request); err != nil {
 		shared_utils.Error(ctx, http.StatusBadRequest, "Bad Request", err.Error())
 		return

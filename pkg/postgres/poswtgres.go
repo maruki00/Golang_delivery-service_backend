@@ -1,4 +1,4 @@
-package pkg_postgres
+package pkgPostgres
 
 import (
 	"database/sql"
