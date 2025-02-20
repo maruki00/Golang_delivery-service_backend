@@ -1,16 +1,16 @@
-package product_domain_repositories
+package repositories
 
 import (
 	"context"
-	product_domain_entities "delivery/internal/product/Domian/Entities"
-	product_infra_models "delivery/internal/product/infra/Models"
+	"delivery/internal/product/domian/entities"
+	"delivery/internal/product/infrastructure/models"
 )
 
 type IProductRepository interface {
-	Insert(ctx context.Context, product product_domain_entities.ProductEntity) (product_domain_entities.ProductEntity, error)
-	GetById(ctx context.Context, id int) (product_domain_entities.ProductEntity, error)
-	Search(ctx context.Context, seasrch string) ([]product_infra_models.Product, error)
-	Update(ctx context.Context, id int, data map[string]interface{}) (product_domain_entities.ProductEntity, error)
-	Delete(ctx context.Context, id int) (product_domain_entities.ProductEntity, error)
-	GetProductByMultipleId(ctx context.Context, ids []int) ([]product_infra_models.Product, error)
+	Insert(ctx context.Context, product entities.ProductEntity) (entities.ProductEntity, error)
+	GetById(ctx context.Context, id int) (entities.ProductEntity, error)
+	Search(ctx context.Context, seasrch string) ([]models.Product, error)
+	Update(ctx context.Context, id int, data map[string]interface{}) (entities.ProductEntity, error)
+	Delete(ctx context.Context, id int) (entities.ProductEntity, error)
+	GetProductByMultipleId(ctx context.Context, ids []int) ([]models.Product, error)
 }

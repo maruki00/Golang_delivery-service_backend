@@ -1,4 +1,4 @@
-package product_domain_dtos
+package dtos
 
 type SearchProductDTO struct {
 	Query string

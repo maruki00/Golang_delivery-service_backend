@@ -1,4 +1,4 @@
-package product_usergateway_requests
+package requests
 
 type SearchProductRequest struct {
 	Query string `validate : "required" json: "query"`

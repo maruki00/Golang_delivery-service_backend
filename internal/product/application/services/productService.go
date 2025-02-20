@@ -1,13 +1,13 @@
-package product_services
+package services
 
 import (
 	"context"
-	product_domain_dtos "delivery/internal/product/Domian/DTOS"
-	product_domain_ports "delivery/internal/product/Domian/Ports"
-	product_domain_repositories "delivery/internal/product/Domian/Repositories"
-	product_infra_models "delivery/internal/product/infra/Models"
-	shared_domain_contracts "delivery/internal/shared/Domain/Contracts"
-	shared_models "delivery/internal/shared/infra/Models"
+	"delivery/internal/product/domian/dtos"
+	"delivery/internal/product/domian/ports"
+	"delivery/internal/product/domian/repositories"
+	"delivery/internal/product/infrastructure/models"
+	shared_contracts "delivery/internal/shared/domain/contracts"
+	shared_models "delivery/internal/shared/infra/models"
 	"net/http"
 	"strconv"
 	"strings"
@@ -16,20 +16,20 @@ import (
 )
 
 type ProductService struct {
-	productRepository product_domain_repositories.IProductRepository
-	outputPort        product_domain_ports.ProductOutputPort
+	productRepository repositories.IProductRepository
+	outputPort        ports.ProductOutputPort
 }
 
-func NewProductService(productRepository product_domain_repositories.IProductRepository, outputPort product_domain_ports.ProductOutputPort) *ProductService {
+func NewProductService(productRepository repositories.IProductRepository, outputPort ports.ProductOutputPort) *ProductService {
 	return &ProductService{
 		productRepository: productRepository,
 		outputPort:        outputPort,
 	}
 }
 
-func (obj *ProductService) Insert(ctx context.Context, dto *product_domain_dtos.InsertProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Insert(ctx context.Context, dto *dtos.InsertProductDTO) shared_contracts.ViewModel {
 
-	res, err := obj.productRepository.Insert(ctx, &product_infra_models.Product{
+	res, err := obj.productRepository.Insert(ctx, &models.Product{
 		Label: dto.Label,
 		Type:  dto.Type,
 		Price: dto.Price,
@@ -51,7 +51,7 @@ func (obj *ProductService) Insert(ctx context.Context, dto *product_domain_dtos.
 	})
 }
 
-func (obj *ProductService) Search(ctx context.Context, dto *product_domain_dtos.SearchProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Search(ctx context.Context, dto *dtos.SearchProductDTO) shared_contracts.ViewModel {
 
 	res, err := obj.productRepository.Search(ctx, dto.Query)
 	if err != nil {
@@ -71,7 +71,7 @@ func (obj *ProductService) Search(ctx context.Context, dto *product_domain_dtos.
 	})
 }
 
-func (obj *ProductService) Update(ctx context.Context, dto *product_domain_dtos.UpdateProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Update(ctx context.Context, dto *dtos.UpdateProductDTO) shared_contracts.ViewModel {
 
 	res, err := obj.productRepository.Update(ctx, dto.Id, map[string]interface{}{
 		"id":    dto.Id,
@@ -97,7 +97,7 @@ func (obj *ProductService) Update(ctx context.Context, dto *product_domain_dtos.
 	})
 }
 
-func (obj *ProductService) Delete(ctx context.Context, dto *product_domain_dtos.DeleteProductDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) Delete(ctx context.Context, dto *dtos.DeleteProductDTO) shared_contracts.ViewModel {
 
 	res, err := obj.productRepository.Delete(ctx, dto.Id)
 
@@ -118,7 +118,7 @@ func (obj *ProductService) Delete(ctx context.Context, dto *product_domain_dtos.
 	})
 }
 
-func (obj *ProductService) GetById(ctx context.Context, dto *product_domain_dtos.GetProductByIdDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) GetById(ctx context.Context, dto *dtos.GetProductByIdDTO) shared_contracts.ViewModel {
 
 	res, err := obj.productRepository.GetById(ctx, dto.Id)
 	if err != nil {
@@ -138,7 +138,7 @@ func (obj *ProductService) GetById(ctx context.Context, dto *product_domain_dtos
 	})
 }
 
-func (obj *ProductService) MultipleProducts(ctx context.Context, dto *product_domain_dtos.MultipleProductsDTO) shared_domain_contracts.ViewModel {
+func (obj *ProductService) MultipleProducts(ctx context.Context, dto *dtos.MultipleProductsDTO) shared_contracts.ViewModel {
 
 	ids := []int{}
 	strIds := strings.Split(dto.Ids, ",")

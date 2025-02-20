@@ -1,4 +1,4 @@
-package product_infra_models
+package models
 
 type Product struct {
 	Id    int     `json:"id"`

@@ -1,4 +1,4 @@
-package product_domain_valueobjects
+package valueobjects
 
 import (
 	"fmt"

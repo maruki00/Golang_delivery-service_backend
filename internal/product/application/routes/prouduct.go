@@ -1,7 +1,7 @@
-package prouduct_routes
+package routes
 
 import (
-	product_usergetway_controllers "delivery/internal/product/UserGetway/Controllers"
+	"delivery/internal/product/userGetway/controllers"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -9,7 +9,7 @@ import (
 
 var ProductRouter = func(router *gin.Engine, db *gorm.DB) {
 
-	controller := product_usergetway_controllers.NewProductController(db)
+	controller := controllers.NewProductController(db)
 
 	prefix := router.Group("/api/product")
 	_ = prefix.POST("/insert", controller.Insert)

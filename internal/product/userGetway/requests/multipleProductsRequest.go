@@ -1,4 +1,4 @@
-package product_usergateway_requests
+package requests
 
 type MultipleProductstRequest struct {
 	Ids string `validate: "required" josn: "ids"`

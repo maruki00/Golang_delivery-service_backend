@@ -1,4 +1,4 @@
-package product_domain_entities
+package entities
 
 type ProductEntity interface {
 	GetLabel() string

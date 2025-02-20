@@ -1,9 +1,9 @@
-package product_infra_repository
+package repositories
 
 import (
 	"context"
-	product_domain_entities "delivery/internal/product/Domian/Entities"
-	product_infra_models "delivery/internal/product/infra/Models"
+	"delivery/internal/product/domian/entities"
+	"delivery/internal/product/infrastructure/models"
 	"errors"
 	"fmt"
 	"strings"
@@ -23,8 +23,8 @@ func NewProductRepository(db *gorm.DB, model interface{}) *ProductRepository {
 	}
 }
 
-func (obj *ProductRepository) Insert(ctx context.Context, product product_domain_entities.ProductEntity) (product_domain_entities.ProductEntity, error) {
-	res := obj.db.Model(&product_infra_models.Product{}).Create(product)
+func (obj *ProductRepository) Insert(ctx context.Context, product entities.ProductEntity) (entities.ProductEntity, error) {
+	res := obj.db.Model(&models.Product{}).Create(product)
 	fmt.Println("product : ", product)
 	if res.Error != nil {
 		return nil, res.Error
@@ -35,10 +35,10 @@ func (obj *ProductRepository) Insert(ctx context.Context, product product_domain
 	return product, nil
 }
 
-func (obj *ProductRepository) GetById(ctx context.Context, id int) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductRepository) GetById(ctx context.Context, id int) (entities.ProductEntity, error) {
 
-	product := &product_infra_models.Product{}
-	obj.db.Model(&product_infra_models.Product{}).Where("id = ?", id).Find(&product)
+	product := &models.Product{}
+	obj.db.Model(&models.Product{}).Where("id = ?", id).Find(&product)
 	if product == nil {
 		return nil, fmt.Errorf("record could not be found")
 	}
@@ -49,16 +49,16 @@ func (obj *ProductRepository) GetById(ctx context.Context, id int) (product_doma
 	return product, nil
 }
 
-func (obj *ProductRepository) Search(ctx context.Context, seasrch string) ([]product_infra_models.Product, error) {
-	items := []product_infra_models.Product{}
+func (obj *ProductRepository) Search(ctx context.Context, seasrch string) ([]models.Product, error) {
+	items := []models.Product{}
 	res := obj.db.Model(obj.model).Where("( label like  ?  or price like  ?  or type like  ? )", fmt.Sprintf("%%%s", seasrch), fmt.Sprintf("%%%s%%", seasrch), fmt.Sprintf("%%%s%%", seasrch)).Limit(3).Offset(0).Find(&items)
 	if res.Error != nil {
-		return []product_infra_models.Product{}, nil
+		return []models.Product{}, nil
 	}
 	return items, nil
 }
 
-func (obj *ProductRepository) Update(ctx context.Context, id int, data map[string]interface{}) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductRepository) Update(ctx context.Context, id int, data map[string]interface{}) (entities.ProductEntity, error) {
 
 	res := obj.db.Model(&obj.model).Where("id", id).Updates(data)
 	if res.Error != nil {
@@ -72,7 +72,7 @@ func (obj *ProductRepository) Update(ctx context.Context, id int, data map[strin
 	return product, nil
 }
 
-func (obj *ProductRepository) Delete(ctx context.Context, id int) (product_domain_entities.ProductEntity, error) {
+func (obj *ProductRepository) Delete(ctx context.Context, id int) (entities.ProductEntity, error) {
 
 	product, err := obj.GetById(ctx, id)
 	if err != nil {
@@ -88,8 +88,8 @@ func (obj *ProductRepository) Delete(ctx context.Context, id int) (product_domai
 	return product, nil
 }
 
-func (obj *ProductRepository) GetProductByMultipleId(ctx context.Context, ids []int) ([]product_infra_models.Product, error) {
-	products := []product_infra_models.Product{}
+func (obj *ProductRepository) GetProductByMultipleId(ctx context.Context, ids []int) ([]models.Product, error) {
+	products := []models.Product{}
 
 	query := ""
 
