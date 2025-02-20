@@ -1,6 +1,7 @@
 package presenters
 
 import (
+	"delivery/internal/auth/userGateWay/adapters/viewmodels"
 	shared_contracts "delivery/internal/shared/domain/contracts"
 	shared_models "delivery/internal/shared/infra/models"
 )
@@ -13,9 +14,9 @@ func NewJSONAuthPresenter() JsonAuthPresenter {
 }
 
 func (obj *JsonAuthPresenter) Success(data shared_models.ResponseModel) shared_contracts.ViewModel {
-	return shared_viewmodels.NewJsonViewModel(data)
+	return viewmodels.NewJsonViewModel(data)
 }
 
 func (obj *JsonAuthPresenter) Error(data shared_models.ResponseModel) shared_contracts.ViewModel {
-	return shared_viewmodels.NewJsonViewModel(data)
+	return viewmodels.NewJsonViewModel(data)
 }

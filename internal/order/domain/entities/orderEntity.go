@@ -1,4 +1,4 @@
-package order_domain_entities
+package entities
 
 type OrderEntity interface {
 	GetId() int

@@ -1,4 +1,4 @@
-package order_domain_dtos
+package dtos
 
 type ConfirmOrderDTO struct {
 }

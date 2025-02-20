@@ -1,3 +1,3 @@
-package order_domain_ports
+package ports
 
 type OrderOutputPort interface{}

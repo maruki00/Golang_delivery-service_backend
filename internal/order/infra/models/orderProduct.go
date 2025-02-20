@@ -1,4 +1,4 @@
-package order_infrastructues_models
+package models
 
 import "gorm.io/gorm"
 

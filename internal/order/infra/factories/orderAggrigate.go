@@ -1,12 +1,12 @@
-package order_factories
+package factories
 
 import (
 	"bytes"
-	order_enums "delivery/internal/order/Application/Enums"
-	order_domain_aggrigate "delivery/internal/order/Domain/Aggrigates"
-	order_infrastructues_models "delivery/internal/order/infra/Models"
-	product_infra_models "delivery/internal/product/infra/Models"
-	shared_models "delivery/internal/shared/infra/Models"
+	"delivery/internal/order/app/enums"
+	aggrigate "delivery/internal/order/domain/aggrigates"
+	"delivery/internal/order/infra/models"
+	product_infra_models "delivery/internal/product/infrastructure/models"
+	shared_models "delivery/internal/shared/infra/models"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -19,7 +19,7 @@ import (
 	"github.com/mitchellh/mapstructure"
 )
 
-func NewOrderAggrigate(CostomerId int, prods map[int]int) (*order_domain_aggrigate.OrderAggrigate, error) {
+func NewOrderAggrigate(CostomerId int, prods map[int]int) (*aggrigate.OrderAggrigate, error) {
 
 	ids := ""
 	for id := range prods {
@@ -39,16 +39,16 @@ func NewOrderAggrigate(CostomerId int, prods map[int]int) (*order_domain_aggriga
 		cost += float32(pQty) * product.Price
 	}
 	fingerPrint := uuid.New().String()
-	Order := order_infrastructues_models.Order{
+	Order := models.Order{
 		CostumerId:       CostomerId,
 		OrderFingerprint: fingerPrint,
 		Cost:             cost,
-		Status:           order_enums.ORDER_CREATED,
+		Status:           enums.ORDER_CREATED,
 	}
 
-	return &order_domain_aggrigate.OrderAggrigate{
+	return &aggrigate.OrderAggrigate{
 		Order: &Order,
-		Items: products,
+		// Items: products,
 		Price: cost,
 	}, nil
 

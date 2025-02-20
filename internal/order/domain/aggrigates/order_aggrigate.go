@@ -1,12 +1,9 @@
-package order_domain_aggrigate
+package aggrigate
 
-import (
-	order_entities "delivery/internal/order/Domain/Entities"
-	product_infra_models "delivery/internal/product/infra/Models"
-)
+import "delivery/internal/order/domain/entities"
 
 type OrderAggrigate struct {
-	Order order_entities.OrderEntity
-	Items []*product_infra_models.Product
+	Order entities.OrderEntity
+	Items []interface{}
 	Price float32
 }

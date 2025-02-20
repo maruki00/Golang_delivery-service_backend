@@ -1,4 +1,4 @@
-package order_enums
+package enums
 
 const (
 	ORDER_CREATED           = 0

@@ -1,4 +1,4 @@
-package order_usergateway_requests
+package requests
 
 type OrderProduct struct {
 	ProductId int `json:"product_id"`

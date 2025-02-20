@@ -7,6 +7,7 @@ import (
 	"delivery/internal/auth/infra/models"
 	shared_contracts "delivery/internal/shared/domain/contracts"
 	shared_models "delivery/internal/shared/infra/models"
+	pkgJwt "delivery/pkg/jwt"
 	"delivery/pkg/utils"
 	"math/rand"
 	"time"

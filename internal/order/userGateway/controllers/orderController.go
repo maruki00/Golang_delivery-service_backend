@@ -1,9 +1,9 @@
-package order_usergateway_controllers
+package controllers
 
 import (
-	order_domain_ports "delivery/internal/order/Domain/Ports"
-	order_usergateway_requests "delivery/internal/order/UserGateway/Requests"
-	shared_models "delivery/internal/shared/infra/Models"
+	"delivery/internal/order/domain/ports"
+	"delivery/internal/order/userGateway/requests"
+	shared_models "delivery/internal/shared/infra/models"
 	"fmt"
 	"net/http"
 
@@ -14,11 +14,11 @@ import (
 
 type OrderController struct {
 	context   context.Context
-	inputPort order_domain_ports.OrderInputPort
+	inputPort ports.OrderInputPort
 	Validate  *validator.Validate
 }
 
-func NewOrderController(inputPort order_domain_ports.OrderInputPort) *OrderController {
+func NewOrderController(inputPort ports.OrderInputPort) *OrderController {
 	ctx, cancleFunc := context.WithCancel(context.Background())
 	defer cancleFunc()
 	return &OrderController{
@@ -29,7 +29,7 @@ func NewOrderController(inputPort order_domain_ports.OrderInputPort) *OrderContr
 }
 
 func (obj *OrderController) Create(ctx *gin.Context) {
-	request := &order_usergateway_requests.CreateOrderRequest{}
+	request := &requests.CreateOrderRequest{}
 	if err := ctx.BindJSON(request); err != nil {
 		ctx.JSON(http.StatusBadRequest, &shared_models.ResponseModel{
 			Status:  http.StatusBadRequest,
