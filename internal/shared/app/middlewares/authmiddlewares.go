@@ -1,7 +1,6 @@
 package shared_middlewares
 
 import (
-	shared_configs "delivery/cmd/auth/configs"
 	"fmt"
 	"strings"
 
@@ -9,14 +8,14 @@ import (
 	"github.com/golang-jwt/jwt"
 )
 
+const (
+	secret = "123456"
+)
+
 func verifyToken(tokenString string) error {
-	conf, err := shared_configs.GetConfig("")
-	if err != nil {
-		return err
-	}
 
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
-		return []byte(conf.Jwt.Secret), nil
+		return []byte(secret), nil
 	})
 	if err != nil {
 		return err
@@ -48,25 +47,6 @@ func AuthRequired() gin.HandlerFunc {
 			})
 			return
 		}
-
-		// db := shareddb.NewDB()
-
-		// st, err := db.Prepare("select user_id from auths where token = ?")
-		// if err != nil {
-		// 	ctx.AbortWithStatusJSON(401, map[string]string{
-		// 		"error: ": "auth table error",
-		// 	})
-		// 	return
-		// }
-
-		// var user_id int
-		// err = st.QueryRow(tokenString).Scan(&user_id)
-		// if err != nil {
-		// 	ctx.AbortWithStatusJSON(401, map[string]string{
-		// 		"error: ": "token not found " + err.Error(),
-		// 	})
-		// 	return
-		// }
 
 		ctx.Next()
 	}
