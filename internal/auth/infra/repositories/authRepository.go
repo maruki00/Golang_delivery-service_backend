@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"delivery/internal/auth/domain/entities"
+	"delivery/internal/auth/infra/models"
 	auth_infra_models "delivery/internal/auth/infra/models"
 	shared_entities "delivery/internal/shared/domain/entities"
 	shared_models "delivery/internal/shared/infra/models"
@@ -40,7 +41,7 @@ func (obj *AuthRepository) Login(login, password string) (*shared_models.User, e
 	return &uu, nil
 }
 
-func (obj *AuthRepository) CreateAuth(token string, user *shared_models.User) *auth_infra_models.Auth {
+func (obj *AuthRepository) CreateAuth(token string, user *shared_models.User) *models.Auth {
 	auth := &auth_infra_models.Auth{
 		Email:     user.Email,
 		Token:     token,
@@ -54,6 +55,7 @@ func (obj *AuthRepository) CreateAuth(token string, user *shared_models.User) *a
 	return auth
 
 }
+
 func (obj *AuthRepository) ClearToken(id int) {
 	obj.db.Exec("delete from auths  where user_id = ? ", id)
 }

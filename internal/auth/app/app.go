@@ -13,18 +13,22 @@ import (
 )
 
 type App struct {
-	Repo      *contracts.IAuthRepository
-	Svc       *services.AuthService
-	Validate  *validator.Validate
-	InputPort ports.AuthInputPort
+	Repo       contracts.IAuthRepository
+	Validate   *validator.Validate
+	InputPort  ports.AuthInputPort
+	OutputPort ports.AuthOutputPort
 }
 
 func InitApp() (*App, error) {
 
 	repo := repositories.NewAuthRepository(nil)
-	presenter := &presenters.JsonAuthPresenter{}
+	outPort := &presenters.JsonAuthPresenter{}
+	inPort := &services.AuthService{}
 	return &App{
-		Repo: repo,
+		Repo:       repo,
+		InputPort:  inPort,
+		OutputPort: outPort,
+		Validate:   validator.New(),
 	}, nil
 }
 
