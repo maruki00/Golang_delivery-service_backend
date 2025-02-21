@@ -1,8 +1,7 @@
-package shared_configs
+package configs
 
 import (
 	"os"
-	"path"
 
 	"gopkg.in/yaml.v3"
 )
@@ -41,14 +40,14 @@ type Config struct {
 
 var cfg *Config
 
-func GetConfig(root string) (*Config, error) {
+func GetConfig() (*Config, error) {
 
 	if cfg != nil {
 		return cfg, nil
 	}
 
 	cfg = new(Config)
-	conf, err := os.Open(path.Join(root, "config.yaml"))
+	conf, err := os.Open("./configs/config.yaml")
 	if err != nil {
 		return nil, err
 	}

@@ -2,6 +2,7 @@ package app
 
 import (
 	"context"
+	"delivery/cmd/auth/configs"
 	"delivery/internal/auth/app/services"
 	"delivery/internal/auth/domain/contracts"
 	"delivery/internal/auth/domain/ports"
@@ -19,9 +20,12 @@ type App struct {
 	OutputPort ports.AuthOutputPort
 }
 
-func InitApp() (*App, error) {
+func InitApp(cfg *configs.Config) (*App, error) {
 
-	repo := repositories.NewAuthRepository(nil)
+	repo, err := repositories.NewAuthRepository(cfg.Postgres.Dsn)
+	if err != nil {
+		return nil, err
+	}
 	outPort := &presenters.JsonAuthPresenter{}
 	inPort := &services.AuthService{}
 	return &App{

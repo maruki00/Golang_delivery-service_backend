@@ -11,6 +11,7 @@ import (
 	"time"
 
 	"github.com/gin-gonic/gin"
+	"gorm.io/driver/postgres"
 	"gorm.io/gorm"
 )
 
@@ -19,10 +20,14 @@ type AuthRepository struct {
 	db *gorm.DB
 }
 
-func NewAuthRepository(db *gorm.DB) *AuthRepository {
+func NewAuthRepository(dsn string) (*AuthRepository, error) {
+	db, err := gorm.Open(postgres.Open(dsn))
+	if err != nil {
+		return nil, errors.New("could not connect to server : " + err.Error())
+	}
 	return &AuthRepository{
 		db: db,
-	}
+	}, nil
 }
 
 func (obj *AuthRepository) CheckToken(token string) bool {
