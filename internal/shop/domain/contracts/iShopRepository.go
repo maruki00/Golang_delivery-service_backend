@@ -1,4 +1,4 @@
-package shop_domain_contracts
+package contracts
 
 type IShopRepository interface {
 }

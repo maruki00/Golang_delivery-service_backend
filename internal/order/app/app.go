@@ -1,23 +1,23 @@
 package order_app
 
 import (
-	order_application_services "delivery/internal/order/Application/Services"
-	order_domain_contracts "delivery/internal/order/Domain/Contracts"
-	order_domain_ports "delivery/internal/order/Domain/Ports"
+	"delivery/internal/order/app/services"
+	"delivery/internal/order/domain/contracts"
+	"delivery/internal/order/domain/ports"
 )
 
 type App struct {
-	Service    *order_application_services.OrderService
-	Repository order_domain_contracts.IOrderRepository
-	InputPort  order_domain_ports.OrderInputPort
-	OutputPort order_domain_ports.OrderOutputPort
+	Service    *services.OrderService
+	Repository contracts.IOrderRepository
+	InputPort  ports.OrderInputPort
+	OutputPort ports.OrderOutputPort
 }
 
 func NewApp(
-	Service *order_application_services.OrderService,
-	Repository order_domain_contracts.IOrderRepository,
-	InputPort order_domain_ports.OrderInputPort,
-	OutputPort order_domain_ports.OrderOutputPort,
+	Service *services.OrderService,
+	Repository contracts.IOrderRepository,
+	InputPort ports.OrderInputPort,
+	OutputPort ports.OrderOutputPort,
 ) *App {
 	return &App{
 		Service:    Service,

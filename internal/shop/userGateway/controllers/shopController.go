@@ -1,5 +1,7 @@
 package controllers
 
+import "delivery/internal/shop/application/services"
+
 type ShopController struct {
-	service *shop_application_services.ShopService
+	service *services.ShopService
 }

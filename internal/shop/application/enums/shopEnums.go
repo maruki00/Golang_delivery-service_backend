@@ -1,4 +1,4 @@
-package shop_enums
+package enums
 
 const (
 	OPEN  = 1

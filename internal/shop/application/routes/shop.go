@@ -1,4 +1,4 @@
-package shop_application_routes
+package routes
 
 import "github.com/gin-gonic/gin"
 
