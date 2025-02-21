@@ -2,7 +2,7 @@ package controllers
 
 import (
 	"context"
-	"delivery/internal/product/application/services"
+	"delivery/internal/product/app/services"
 	"delivery/internal/product/domian/dtos"
 	"delivery/internal/product/domian/ports"
 	"delivery/internal/product/infrastructure/models"
