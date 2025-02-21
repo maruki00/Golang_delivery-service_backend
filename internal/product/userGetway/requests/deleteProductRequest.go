@@ -1,5 +1,5 @@
 package requests
 
 type DeleteProductRequest struct {
-	Id int `validate: "required" josn: "id"`
+	Id int `validate: "required" josn:"id"`
 }

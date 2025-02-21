@@ -1,16 +1,16 @@
 package routes
 
 import (
+	"delivery/internal/auth/app"
 	"delivery/internal/auth/userGateWay/controllers"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-var AuthRouter = func(router *gin.Engine, db *gorm.DB) {
+var AuthRouter = func(router *gin.Engine, app *app.App) {
 
 	// repo := auth_infra_repository.NewAuthRepository(shared_configs.GetConfig())
-	controller := controllers.NewAuthController(db)
+	controller := controllers.NewAuthController(app)
 
 	prefix := router.Group("/api/auth")
 	_ = prefix.POST("/login", controller.Login)

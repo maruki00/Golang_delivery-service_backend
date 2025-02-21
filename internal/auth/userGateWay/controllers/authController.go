@@ -1,11 +1,8 @@
 package controllers
 
 import (
-	"delivery/internal/auth/app/services"
+	"delivery/internal/auth/app"
 	"delivery/internal/auth/domain/dtos"
-	"delivery/internal/auth/domain/ports"
-	"delivery/internal/auth/infra/repositories"
-	"delivery/internal/auth/userGateWay/adapters/presenters"
 	"delivery/internal/auth/userGateWay/requests"
 	"delivery/pkg/utils"
 	"fmt"
@@ -13,22 +10,15 @@ import (
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator"
-	"gorm.io/gorm"
 )
 
 type AuthController struct {
-	Validate *validator.Validate
-
-	inputPort ports.AuthInputPort
+	app *app.App
 }
 
-func NewAuthController(db *gorm.DB) *AuthController {
-	repo := repositories.NewAuthRepository(db)
-	presenter := &presenters.JsonAuthPresenter{}
-
+func NewAuthController(app *app.App) *AuthController {
 	return &AuthController{
-		Validate:  validator.New(),
-		inputPort: services.NewAuthService(repo, presenter),
+		app: app,
 	}
 }
 
@@ -40,14 +30,14 @@ func (obj AuthController) Login(ctx *gin.Context) {
 		return
 	}
 
-	if err := obj.Validate.Struct(request); err != nil {
+	if err := obj.app.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
 		utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
 
-	result := obj.inputPort.Login(dtos.LoginDTO{
+	result := obj.app.InputPort.Login(dtos.LoginDTO{
 		Login:    request.Login,
 		Password: request.Password,
 	})
@@ -63,14 +53,14 @@ func (obj AuthController) Register(ctx *gin.Context) {
 		return
 	}
 
-	if err := obj.Validate.Struct(request); err != nil {
+	if err := obj.app.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
 		utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
 
-	res := obj.inputPort.Register(dtos.RegisterDTO{
+	res := obj.app.InputPort.Register(dtos.RegisterDTO{
 		FullName:  request.FullName,
 		UserName:  request.UserName,
 		Email:     request.Email,
@@ -90,14 +80,14 @@ func (obj AuthController) TwoFactoryConfirm(ctx *gin.Context) {
 		return
 	}
 
-	if err := obj.Validate.Struct(request); err != nil {
+	if err := obj.app.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
 		utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
 
-	res := obj.inputPort.TwoFactoryConfirm(dtos.TwoFactoryConfirmDTO{
+	res := obj.app.InputPort.TwoFactoryConfirm(dtos.TwoFactoryConfirmDTO{
 		Email: request.Email,
 		Pin:   request.Pin,
 	})
@@ -113,13 +103,13 @@ func (obj *AuthController) Logout(ctx *gin.Context) {
 		return
 	}
 
-	if err := obj.Validate.Struct(request); err != nil {
+	if err := obj.app.Validate.Struct(request); err != nil {
 		validationErrors := err.(validator.ValidationErrors)
 		errorMessage := fmt.Sprintf("Validation failed for field: %s", validationErrors[0].Field())
 		utils.Error(ctx, http.StatusBadRequest, "Bad Request", errorMessage)
 		return
 	}
-	obj.inputPort.Logout(dtos.LogoutDTO{
+	obj.app.InputPort.Logout(dtos.LogoutDTO{
 		Token: request.Token,
 	})
 	utils.Success(ctx, http.StatusNoContent, "Success", nil)
