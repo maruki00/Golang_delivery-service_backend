@@ -1,14 +1,12 @@
-package shop_application_services
+package services
 
-import (
-	shop_domain_contracts "delivery/internal/shop/Domain/Contracts"
-)
+import shop_domain_contracts "delivery/internal/shop/domain/contracts"
 
 type ShopService struct {
 	repo shop_domain_contracts.IShopRepository
 }
 
-func NewShopService(repo shop_domain_contracts.IShopRepository) *ShopService {
+func NewShopService(repo contracts.IShopRepository) *ShopService {
 	return &ShopService{
 		repo: repo,
 	}
