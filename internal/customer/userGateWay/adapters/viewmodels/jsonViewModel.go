@@ -6,16 +6,16 @@ import (
 )
 
 type JsonViewModel struct {
-	Data shared_models.ResponseModel
+	Data *shared_models.ResponseModel
 }
 
-func NewJsonViewModel(data shared_models.ResponseModel) JsonViewModel {
-	return JsonViewModel{
+func NewJsonViewModel(data *shared_models.ResponseModel) *JsonViewModel {
+	return &JsonViewModel{
 		Data: data,
 	}
 }
 
-func (obj JsonViewModel) GetResponse() shared_models.ResponseModel {
+func (obj JsonViewModel) GetResponse() *shared_models.ResponseModel {
 	return obj.Data
 }
 
