@@ -1,0 +1,62 @@
+syntax = "proto3";
+
+package product;
+
+
+option go_package="go/grpc";
+
+
+message Product {
+    optional int32 Id = 1;
+    string Label = 2;
+    float price = 3;
+    float discount = 4;
+    optional string CreateAt = 5;
+    optional string UppdatedAt = 6;
+}
+
+service PersonService {
+    rpc Insert(InsertRequest) returns (InsertResponse); 
+    rpc Search(SearchRequest) returns (SearchResponse); 
+    rpc Update(UpdateRequest) returns (UpdateResponse); 
+    rpc Delete(DeleteRequest) returns (DeleteResponse);
+    rpc GetProduct(GetProductRequest) returns (GetProductResponse); 
+    rpc MultipleProducts(MultipleProductsRequest) returns (MultipleProductsResponse); 
+}
+
+message InsertRequest {
+}
+message SearchRequest {
+}
+message UpdateRequest {
+}
+message DeleteRequest {
+}
+message GetProductRequest {
+}
+message MultipleProductsRequest {
+}
+
+
+message InsertResponse {
+
+}
+message SearchResponse {
+
+}
+message UpdateResponse {
+
+}
+message DeleteResponse {
+
+}
+message GetProductResponse {
+
+}
+message MultipleProductsResponse {
+
+}
+
+
+
+
