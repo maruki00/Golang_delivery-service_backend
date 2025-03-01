@@ -2,11 +2,11 @@ version: "3.8"
 
 services:
   rabbitmq:
-    image: rabbitmq:3.11-management-alpine
-    container_name: rabbitmq_delivery
+    image: rabbitmq:4-management-alpine
+    container_name: rabbitmq_DeliGo
     environment:
-      RABBITMQ_DEFAULT_USER: delivery
-      RABBITMQ_DEFAULT_PASS: delivery
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
     healthcheck:
       test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
       interval: 30s
@@ -16,11 +16,11 @@ services:
       - "5672:5672"
       - "15672:15672"
     networks: 
-      - delivery_network
+      - DeliGo_network
 
   postgres:
     image: postgres:17-alpine
-    container_name: postgres_delivery
+    container_name: postgres_DeliGo
     ports:
       - "5432:5432"
     volumes:
