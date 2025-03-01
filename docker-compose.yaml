@@ -4,6 +4,7 @@ services:
   rabbitmq:
     image: rabbitmq:4-management-alpine
     container_name: rabbitmq_DeliGo
+    restart: 'no'
     environment:
       RABBITMQ_DEFAULT_USER: admin
       RABBITMQ_DEFAULT_PASS: admin
@@ -21,40 +22,43 @@ services:
   postgres:
     image: postgres:17-alpine
     container_name: postgres_DeliGo
+    restart: 'no'
     ports:
       - "5432:5432"
     volumes:
-      - postgres_data:/var/lib/postgresql/data
+      - ./.data/postgres_data:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: delivery
-      POSTGRES_USER: delivery
-      POSTGRES_DB: delivery
+      POSTGRES_PASSWORD: admin
+      POSTGRES_USER: admin
+      POSTGRES_DB: deligo
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      test: ["CMD-SHELL", "pg_isready -U admin -d deligo"]
       interval: 30s
       timeout: 30s
       retries: 3
     networks:
-      - delivery_network
+      - DeliGo_network
   
   pgadmin:
+    container_name: pgadmin_DeliGo
     image: dpage/pgadmin4
-    container_name: pgadmin4_container
-    restart: always
-    ports:
-      - "8888:80"
+    restart: 'no'
     environment:
-      PGADMIN_DEFAULT_EMAIL: admin@local.com
+      PGADMIN_DEFAULT_EMAIL: admin@admin.com
       PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
     volumes:
-      - pgadmin_data:/var/lib/pgadmin
+       - ./.data/pgadmin:/var/lib/pgadmin
+
+    ports:
+      - "5050:80"
     networks:
-      - delivery_network
+      - DeliGo_network
+
 
 networks:
-  delivery_network:
+  DeliGo_network:
     driver: bridge
 
 volumes:
-  postgres_data:
-  pgadmin_data:
+  data:
