@@ -9,8 +9,8 @@ message Product {
   string Label = 2;
   float price = 3;
   float discount = 4;
-  optional google.protobuf.Timestamp CreateAt = 5;
-  optional google.protobuf.Timestamp UppdatedAt = 6;
+  optional string CreateAt = 5;
+  optional string UppdatedAt = 6;
 }
 
 service PersonService {
@@ -34,8 +34,8 @@ message UpdateRequest {
   optional string Label = 2;
   optional float price = 3;
   optional float discount = 4;
-  optional google.protobuf.Timestamp CreateAt = 5;
-  optional google.protobuf.Timestamp UppdatedAt = 6;
+  optional string CreateAt = 5;
+  optional string UppdatedAt = 6;
 }
 message DeleteRequest { string Id = 1; }
 message GetProductRequest { string Id = 1; }

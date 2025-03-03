@@ -2,15 +2,16 @@ syntax = "proto3";
 
 package product;
 
-option go_package = "go/grpc";
+option go_package = "grpc";
 
 message Product {
   optional string Id = 1;
   string Label = 2;
   float price = 3;
   float discount = 4;
-  optional google.protobuf.Timestamp CreateAt = 5;
-  optional google.protobuf.Timestamp UppdatedAt = 6;
+  optional string CreateAt = 5;
+  optional string UppdatedAt = 6;
+  //google.protobuf.Timestamp
 }
 
 service PersonService {
@@ -34,14 +35,21 @@ message UpdateRequest {
   optional string Label = 2;
   optional float price = 3;
   optional float discount = 4;
-  optional google.protobuf.Timestamp CreateAt = 5;
-  optional google.protobuf.Timestamp UppdatedAt = 6;
+  optional string CreateAt = 5;
+  optional string UppdatedAt = 6;
 }
 message DeleteRequest { string Id = 1; }
 message GetProductRequest { string Id = 1; }
 message MultipleProductsRequest {}
 
-message InsertResponse {}
+message InsertResponse {
+  string Id = 1;
+  string Label = 2;
+  float price = 3;
+  float discount = 4;
+  string CreateAt = 5;
+  string UppdatedAt = 6;
+}
 message SearchResponse {}
 message UpdateResponse {}
 message DeleteResponse {}
